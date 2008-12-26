@@ -2,8 +2,10 @@
 #
 # Note: Avoid DEBUG dependent logic; Override local_settings instead.
 
+import os
+
 PROJ_PATH = os.path.abspath(os.path.dirname(__file__))
-PROJ_NAME = os.path.dirname(__file__))
+PROJ_NAME = os.path.basename(os.path.dirname(__file__))
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -103,6 +105,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'django.contrib.comments',
+    #'skel.blog',
 )
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
