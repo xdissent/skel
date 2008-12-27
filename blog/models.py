@@ -39,14 +39,13 @@ class Entry(models.Model):
         return self.title
     
     def save(self):
-        read_more = ' <a class="meta" href="%s">Read more</a>' % self.get_absolute_url()
         matches = re.compile('(?P<summary>.*?)\s*((&lt;)|<)!--\s*more\s*--(>|(&gt;))(?P<the_rest>.*)', re.S).search(self.content)
         if matches is None:
             summary_words = getattr(settings, 'BLOG_SUMMARY_WORD_COUNT', 300)
             self.summary = truncate_html_words(self.content, summary_words)
         else:
             self.summary = matches.groupdict()['summary'] + '...'
-        self.summary = markdown.markdown(self.summary + read_more, ['codehilite'])
+        self.summary = markdown.markdown(self.summary, ['codehilite'])
         self.content_html = matches.groupdict()['summary'] + matches.groupdict()['the_rest']
         self.content_html = markdown.markdown(self.content_html, ['codehilite'])
         super(Entry, self).save()

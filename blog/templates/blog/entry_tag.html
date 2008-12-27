@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+
+
+{% block title %}Entries Tagged "{{ tag.name }}" - {{ block.super }}{% endblock %}
+
+
+{% load blog_tags %}
+
+
+{% block blog-content %}
+    {% for entry in object_list %}
+        {% with "h2" as hlevel %}
+        {% include "blog/entry.html" %}
+        {% endwith %}
+    {% endfor %}
+{% endblock %}

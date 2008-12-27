@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Blog - {{ block.super }}{% endblock %}
+
+{% comment %}
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/blog.css" type="text/css" media="screen, projection" />
+{% endblock %}
+{% endcomment %}
+
+{% block content %}
+<div class="hfeed grid_12 alpha omega">
+<p class="heading"><a href="{% url blog-latest %}">Blog</a></p>
+{% block blog-content %}
+{% endblock %}
+</div>
+{% endblock %}

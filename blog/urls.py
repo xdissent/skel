@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-from blog.models import Entry
+from skel.blog.models import Entry
 
 info_dict = {
     'queryset': Entry.objects.all(),

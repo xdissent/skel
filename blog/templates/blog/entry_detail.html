@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+
+
+{% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
+
+{% block blog-content %}
+    {% with object as entry %}
+    {% with 1 as show_detail %}
+    {% with "h1" as hlevel %}
+    {% include "blog/entry.html" %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+{% endblock %}

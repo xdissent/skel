@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+
+
+{% block title %}Archive - {{ block.super }}{% endblock %}
+
+
+{% load blog_tags %}
+
+
+{% block blog-content %}
+    {% for entry in latest %}
+        {% with "h2" as hlevel %}
+        {% include "blog/entry.html" %}
+        {% endwith %}
+    {% empty %}
+        <p>No entries.</p>
+    {% endfor %}
+{% endblock %}
