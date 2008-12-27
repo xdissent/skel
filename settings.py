@@ -80,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = PROJ_NAME + 'urls'
+ROOT_URLCONF = PROJ_NAME + '.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -105,7 +105,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'django.contrib.comments',
-    #'skel.blog',
+    'tagging',
+    'skel.blog',
 )
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'

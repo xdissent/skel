@@ -9,35 +9,24 @@
         <link rel="stylesheet" href="{{ MEDIA_URL }}css/960.css" type="text/css" media="screen, projection" />
         <link rel="stylesheet" href="{{ MEDIA_URL }}css/base.css" type="text/css" media="screen, projection" />
         {% endblock %}
+        {% block js %}
+        {% endblock %}
     </head>
     <body>
         <div id="wrapper" class="container_12">
             <div id="header" class="grid_12">
                 {% block header %}
-                <p class="title">Skel Django Project</p>
+                <p class="title">Skel</p>
                 {% include "navigation.html" %}
+                {% endblock %}
             </div>
-            <div id="sidebar" class="grid_2">
-                {%}
-            </div>
-            <div id="content" class="grid_7">
-            {% block content %}{% endblock %}
-            </div>
-            <div id="bolt-bar" class="grid_3">
-                <div>
-                    <h3>Links</h3>
-                    <ul>
-                        <li><a href="#">Myspace</a></li>
-                        <li><a href="#">Myspace</a></li>
-                        <li><a href="#">Myspace</a></li>
-                        <li><a href="#">Myspace</a></li>
-                        <li><a href="#">Myspace</a></li>
-                    </ul>
-                </div>
-                <div class="bolts"></div>
+            <div id="content" class="grid_12">
+            {% block content %}
+            {% endblock %}
             </div>
             <div id="footer" class="grid_12">
             {% block footer %}
+                <p>&copy; {% now "Y" %} Hartzog Creative</p>
             {% endblock %}
             </div>
             <div class="clear"></div>
