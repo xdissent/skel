@@ -21,6 +21,7 @@ class EntryAdmin(admin.ModelAdmin):
                 'summary',
                 'content_html',
                 'slug',
+                'published',
             )
         }),
     )

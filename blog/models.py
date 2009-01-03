@@ -19,7 +19,7 @@ class Entry(models.Model):
     content = models.TextField(help_text='Use Markdown syntax.')
     summary = models.TextField(blank=True)
     updated = models.DateTimeField(auto_now=True)
-    published = models.DateTimeField(auto_now_add=True)
+    published = models.DateTimeField(default=datetime.datetime.now)
     author = models.ForeignKey(User)
     tags = TagField()
     content_html = models.TextField(blank=True)
@@ -38,7 +38,7 @@ class Entry(models.Model):
     def __unicode__(self):
         return self.title
     
-    def save(self):
+    def save(self, *args, **kwargs):
         matches = re.compile('(?P<summary>.*?)\s*((&lt;)|<)!--\s*more\s*--(>|(&gt;))(?P<the_rest>.*)', re.S).search(self.content)
         if matches is None:
             summary_words = getattr(settings, 'BLOG_SUMMARY_WORD_COUNT', 300)
@@ -48,7 +48,7 @@ class Entry(models.Model):
         self.summary = markdown.markdown(self.summary, ['codehilite'])
         self.content_html = matches.groupdict()['summary'] + matches.groupdict()['the_rest']
         self.content_html = markdown.markdown(self.content_html, ['codehilite'])
-        super(Entry, self).save()
+        super(Entry, self).save(*args, **kwargs)
     
     @models.permalink
     def get_absolute_url(self):

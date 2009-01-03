@@ -1,17 +1,15 @@
 {% extends "blog/base.html" %}
 
 
-{% block title %}Archive - {{ block.super }}{% endblock %}
+{% block title %}Latest Entries - {{ block.super }}{% endblock %}
 
-
-{% load blog_tags %}
-
+{% block blog-title %}
+    <h1><a href="{% url blog-latest %}">Latest Entries</a></h1>
+{% endblock %}
 
 {% block blog-content %}
     {% for entry in latest %}
-        {% with "h2" as hlevel %}
         {% include "blog/entry.html" %}
-        {% endwith %}
     {% empty %}
         <p>No entries.</p>
     {% endfor %}

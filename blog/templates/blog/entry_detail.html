@@ -6,9 +6,7 @@
 {% block blog-content %}
     {% with object as entry %}
     {% with 1 as show_detail %}
-    {% with "h1" as hlevel %}
-    {% include "blog/entry.html" %}
-    {% endwith %}
+        {% include "blog/entry.html" %}
     {% endwith %}
     {% endwith %}
 {% endblock %}
