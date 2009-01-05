@@ -11,15 +11,14 @@
             Author: <span class="author vcard"><span class="fn"><a class="url" href="#">{{ entry.author }}</a></span></span> 
             <abbr class="published" title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"d.m.Y @ H:i a" }}</abbr>
         </p>
-            Keywords:
-            <ul>
-            {% for tag in tags %}
-                <li>
-                    <a href="{% url blog-tag-detail tag.name %}" reg="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
-                </li>
-            {% endfor %}
-            </ul>
-        </p>
+        <h3>Keywords:</h3>
+        <ul>
+        {% for tag in tags %}
+            <li>
+                <a href="{% url blog-tag-detail tag.name %}" rel="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
     </div>
     
     {% if not show_detail %}

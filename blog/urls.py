@@ -10,6 +10,7 @@ info_dict = {
 tag_dict = {
     'queryset_or_model': info_dict['queryset'],
     'template_name': 'blog/entry_tag.html',
+    'allow_empty': True,
 }
 
 urlpatterns = patterns('django.views.generic.date_based',

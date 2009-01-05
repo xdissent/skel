@@ -1,4 +1,4 @@
-{% load comments tagging_tags blog_tags %}
+{% load comments blog_tags %}
 
 {% get_comment_count for entry as comment_count %}
 <div id="comments">
@@ -8,16 +8,12 @@
     {% get_comment_list for entry as comment_list %}
 
     {% for comment in comment_list %}
-        {% if comment.user_id %}
-            <div class="comment-hartzog"><span>Hartzog</span></div>
-        {% else %}
-            <div class="comment-number"><span>{{ forloop.counter|stringformat:"02d" }}</span></div>
-        {% endif %}
+        <div class="comment-number"><span>{{ forloop.counter|stringformat:"02d" }}</span></div>
     
         <div class="comment-gravatar grid_1 alpha">
-            <img src="http://www.gravatar.com/avatar/{{ comment.email|md5 }}?s=50&d=monsterid" />
+            <img src="http://www.gravatar.com/avatar/{{ comment.email|md5 }}?s=48&d=monsterid" />
         </div>
-        <div class="grid_7 omega comment">
+        <div class="comment grid_11 omega">
             <span class="comment-name">{{ comment.name }}</span>
             <span class="comment-date">
                 {{ comment.submit_date|date:"F jS, Y \a\t g:i A" }}
@@ -25,9 +21,14 @@
             {{ comment.comment|safe }}
         </div>
     {% endfor %}
+{% else %}
+    <p class="comments-header">No comments on "{{ entry.title }}"</p>
 {% endif %}
 
+{% if entry.comments_enabled %}
     <p class="comments-footer">Leave a Comment</p>
     {% render_comment_form for entry %}
-
+{% else %}
+    <p class="comments-footer">Comments are disabled for this entry.</p>
+{% endif %}
 </div>

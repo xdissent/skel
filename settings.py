@@ -107,9 +107,14 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'tagging',
     'skel.blog',
+    'skel.accounts',
+    'portfolio',
+    'profiles',
 )
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
+AUTH_PROFILE_MODULE = 'accounts.userprofile'
 
 #leave at end of file
 try:
