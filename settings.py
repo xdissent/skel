@@ -106,8 +106,8 @@ INSTALLED_APPS = (
     'django.contrib.markup',
     'django.contrib.comments',
     'tagging',
-    'skel.blog',
-    'skel.accounts',
+    'blog',
+    'accounts',
     'portfolio',
     'profiles',
 )
