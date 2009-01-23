@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from blog.models import Entry
+from skel.blog.models import Entry
 
 class EntryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}

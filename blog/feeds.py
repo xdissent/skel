@@ -1,5 +1,5 @@
 from django.contrib.syndication.feeds import Feed
-from blog.models import Entry
+from skel.blog.models import Entry
 import datetime
 
 class EntryFeed(Feed):

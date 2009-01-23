@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-from auth.models import UserProfile
+from skel.auth.models import UserProfile
 
 class UserProfileInline(admin.TabularInline):
     model = UserProfile

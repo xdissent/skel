@@ -26,7 +26,7 @@ MANAGERS = ADMINS
 FORCE_SCRIPT_NAME = ''
 
 DATABASE_ENGINE = 'postgres_psycopg2'
-DATABASE_NAME = 'db36218_'
+DATABASE_NAME = 'db36218_XXX'
 DATABASE_USER = 'db36218'
 DATABASE_PASSWORD = 'kKZ5Dv7g'
 DATABASE_HOST = 'internal-db.s36218.gridserver.com'
@@ -82,12 +82,18 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = PROJ_NAME + '.urls'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = [
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJ_PATH, 'templates'),
-)
+]
+
+try:
+	from skel import __path__ as skel_path
+	TEMPLATE_DIRS.append(os.path.join(skel_path[0], 'templates'))
+except ImportError:
+	pass
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',
@@ -105,16 +111,17 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'django.contrib.comments',
+    'template_utils',
     'tagging',
     'blog',
-    'accounts',
+    'auth',
     'portfolio',
     'profiles',
 )
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
-AUTH_PROFILE_MODULE = 'accounts.userprofile'
+AUTH_PROFILE_MODULE = 'auth.userprofile'
 
 #leave at end of file
 try:
