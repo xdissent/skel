@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Users - {{ block.super }}{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/accounts.css" type="text/css" media="screen, projection" />
+{% endblock %}
+
+{% block content %}
+    <div class="grid_12 alpha omega">
+    
+    {% block user-title %}
+        <h1><a href="{% url blog-latest %}">Accounts</a></h1>
+    {% endblock %}
+    
+    {% block accounts-content %}
+    {% endblock %}
+    
+    </div>
+{% endblock %}
