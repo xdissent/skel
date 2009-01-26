@@ -1,0 +1,38 @@
+{% load comments tagging_tags %}
+
+{% get_comment_count for entry as comment_count %}
+{% tags_for_object entry as tags %}
+<div class="hentry">
+    <h2 class="entry-title">
+        <a href="{{ entry.get_absolute_url }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a>
+    </h2>
+    <div class="meta">
+        <p>
+            Author: <span class="author vcard"><span class="fn"><a class="url" href="#">{{ entry.author }}</a></span></span> 
+            <abbr class="published" title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"d.m.Y @ H:i a" }}</abbr>
+        </p>
+        <h3>Keywords:</h3>
+        <ul>
+        {% for tag in tags %}
+            <li>
+                <a href="{% url blog-tag-detail tag.name %}" rel="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    
+    {% if not show_detail %}
+        <div class="entry-content">
+            {{ entry.summary|safe }}
+        </div>
+        <p class="meta"><a href="{{ entry.get_absolute_url }}#comments">Comments ({{ comment_count }})</a></p>
+        
+    {% else %}
+        <div class="entry-content">
+            {{ entry.content_html|safe }}
+        </div>
+        {% include "blog/share.html" %}
+        {% include "blog/comments.html" %}
+        
+    {% endif %}
+</div>
