@@ -1,0 +1,10 @@
+{% extends "portfolio/base.html" %}
+
+
+{% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
+
+{% block portfolio-content %}
+    {% with object as project %}
+    {% include "portfolio/project.html" %}
+    {% endwith %}
+{% endblock %}
