@@ -113,15 +113,17 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'template_utils',
     'tagging',
-    'blog',
-    'auth',
-    'portfolio',
     'profiles',
+    'skel.blog',
+    'skel.accounts',
+    'skel.portfolio',
 )
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
-AUTH_PROFILE_MODULE = 'auth.userprofile'
+AUTH_PROFILE_MODULE = 'accounts.userprofile'
+
+PORTFOLIO_PROJECT_THUMB_SIZE = (100, 100)
 
 #leave at end of file
 try:

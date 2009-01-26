@@ -9,6 +9,8 @@ from django.contrib.comments.signals import comment_was_posted
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
 
+BLOG_MORE_RE = re.compile('(?P<summary>.*?)\s*((&lt;)|<)!--\s*more\s*--(>|(&gt;))(?P<the_rest>.*)', re.S)
+
 class PublicEntryManager(models.Manager):
     def get_query_set(self):
         return super(PublicEntryManager, self).get_query_set().filter(
@@ -39,7 +41,7 @@ class Entry(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
-        matches = re.compile('(?P<summary>.*?)\s*((&lt;)|<)!--\s*more\s*--(>|(&gt;))(?P<the_rest>.*)', re.S).search(self.content)
+        matches = BLOG_MORE_RE.search(self.content)
         if matches is None:
             summary_words = getattr(settings, 'BLOG_SUMMARY_WORD_COUNT', 300)
             self.summary = truncate_html_words(self.content, summary_words)

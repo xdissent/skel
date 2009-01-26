@@ -5,12 +5,12 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/(.*)', admin.site.root),
     url(r'^blog/', include('skel.blog.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),
-    url(r'^portfolio/', include('portfolio.urls')),
-    url(r'^users/', include('skel.auth.urls')),
+    url(r'^portfolio/', include('skel.portfolio.urls')),
+    url(r'^users/', include('skel.accounts.urls')),
 )
 
 if settings.DEBUG:
