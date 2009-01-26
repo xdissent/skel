@@ -97,10 +97,10 @@ class SectionMembership(models.Model):
 
 class Image(models.Model):
     title = models.CharField(max_length=255)
-    original = models.ImageField(upload_to='portfolio/projects', height_field='original_height', width_field='original_width')
+    original = models.ImageField(upload_to='img/portfolio/projects', height_field='original_height', width_field='original_width')
     original_width = models.IntegerField(editable=False)
     original_height = models.IntegerField(editable=False)
-    thumb = models.ImageField(editable=False, upload_to='portfolio/projects/thumbs', height_field='thumb_height', width_field='thumb_width')
+    thumb = models.ImageField(editable=False, upload_to='img/portfolio/projects/thumbs', height_field='thumb_height', width_field='thumb_width')
     thumb_width = models.IntegerField(editable=False)
     thumb_height = models.IntegerField(editable=False)
     
