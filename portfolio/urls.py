@@ -19,6 +19,11 @@ tag_dict = {
 }
 
 urlpatterns = patterns('django.views.generic.list_detail',
+    url(r'^$',
+        'object_list',
+        dict(queryset=section_dict['queryset']),
+        name='portfolio-home'
+    ),
     url(r'^(?P<slug>[-\w]+)/$',
         'object_detail',
         project_dict,

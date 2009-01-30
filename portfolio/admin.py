@@ -1,7 +1,7 @@
 from django.contrib import admin
+from skel.core.admin import ModelAdmin
 from django.conf import settings
 from skel.portfolio.models import Project, Client, Section, SectionMembership, Testimonial, Image, ImageOwnership
-
 
 class ClientAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
@@ -66,7 +66,7 @@ class ImageInline(admin.TabularInline):
     extra = 1
 
 
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         (None, {
@@ -93,14 +93,8 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ('published', 'title', 'public')
     list_filter = ('public', 'sites', 'client')
     search_fields = ['title', 'content']
-    inlines = [TestimonialInline, SectionInline, ImageInline]
-    
-    def queryset(self, request):
-        qs = self.model.admin_manager.get_query_set()
-        ordering = self.ordering or ()
-        if ordering:
-            qs = qs.order_by(*ordering)
-        return qs
+    inlines = [TestimonialInline, SectionInline, ImageInline]    
+    model_admin_manager = Project.admin_manager
     
     def get_form(self, request, obj=None, **kwargs):
         form = super(ProjectAdmin, self).get_form(request, obj, **kwargs)

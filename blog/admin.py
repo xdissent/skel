@@ -28,13 +28,7 @@ class EntryAdmin(admin.ModelAdmin):
     list_display = ('published', 'title', 'author', 'public',)
     list_filter = ('author', 'public', 'sites',)
     search_fields = ['title', 'content',]
-    
-    def queryset(self, request):
-        qs = self.model.admin_manager.get_query_set()
-        ordering = self.ordering or ()
-        if ordering:
-            qs = qs.order_by(*ordering)
-        return qs
+    model_admin_manager = Entry.admin_manager
     
     def get_form(self, request, obj=None, **kwargs):
         form = super(EntryAdmin, self).get_form(request, obj, **kwargs)
