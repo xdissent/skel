@@ -7,6 +7,7 @@ startup commands for terminal
 env vars
 ignore files
 terminal home/end
+export/import sites
 
 for django:
 
