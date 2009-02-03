@@ -3,6 +3,8 @@
 import sys
 import optparse
 import re
+import subprocess
+from random import choice
 from paver.defaults import *
 
 PROJECT_FILES = [
@@ -71,7 +73,6 @@ def main(args=None):
             if not activate_this.exists():
                 parser.error('VENV must point to a virtualenv if it exists.')
             execfile(activate_this, dict(__file__=activate_this))
-            print 'activated venv at %s' % activate_this
         elif venv_path.exists():
             parser.error('VENV must point to a virtualenv if it exists.')
         else:
@@ -92,6 +93,23 @@ def main(args=None):
     local_settings_contents = local_settings_file.text()
     local_settings_contents = re.sub(r"(?<=VIRTUAL_ENVIRONMENT_PATH = ').*'", venv_path.abspath() + "'", local_settings_contents)
     local_settings_file.write_text(local_settings_contents)
+    
+    settings_file = project_path.joinpath('settings.py')
+    settings_contents = settings_file.text()
+    secret_key = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
+    settings_contents = re.sub(r"(?<=SECRET_KEY = ').*'", secret_key + "'", settings_contents)
+    settings_file.write_text(settings_contents)
+    
+    # TODO: install reqs even if no venv set? maybe don't need to cause skel and deps are already installed?
+    if venv_path:
+        # easy_install pip
+        easy_install_path = venv_path.joinpath('bin/easy_install')
+        if easy_install_path.exists():
+            subprocess.call([easy_install_path, 'pip'])
+        # copy skel to venv
+        new_skel_path = venv_path.joinpath('lib/python%s/site-packages/skel' % sys.version[:3])
+        skel_path.copytree(new_skel_path)
+        #pip install -r requirements.txt
 
 if __name__ == '__main__':
     sys.exit(main())
