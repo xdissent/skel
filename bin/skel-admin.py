@@ -11,6 +11,7 @@ PROJECT_FILES = [
     '__init__.py',
     'local_settings.py',
     'manage.py',
+    'requirements.txt',
     'settings_dev.py',
     'settings.py',
     'static',
@@ -109,7 +110,9 @@ def main(args=None):
         # copy skel to venv
         new_skel_path = venv_path.joinpath('lib/python%s/site-packages/skel' % sys.version[:3])
         skel_path.copytree(new_skel_path)
-        #pip install -r requirements.txt
+        pip_path = venv_path.joinpath('bin/pip')
+        req_path = project_path.joinpath('requirements.txt')
+        subprocess.call([pip_path, 'install', '-r', req_path])
 
 if __name__ == '__main__':
     sys.exit(main())
