@@ -5,30 +5,47 @@ select line like textmate
 python clips
 startup commands for terminal
 env vars
+ignore files
 terminal home/end
 
 for django:
 
 paver bootstrap script:
     skel/bin/skel-admin.py
-        startproject <projectname> --venv [path, default=./<projectname>/.virtualenv]
+        startproject <projectname> --venv [path, default=./<projectname>/.virtualenv] --dev [default off]
             creates ./<projectname>/
                         local_settings.py
                         settings.py
                         settings_dev.py
-                        settings_prod.py
-                        manage.py
+                        manage.py (with new venv path to activate)
                         urls.py
+                        templates/
+                            base.html
+                            navigation.html
+                        static/
+                            css/
+                                960.css
+                                base.css
+                                reset.css
+                                text.css
+                            img/
+                                12_col_vertical.gif
+                                12_col.gif
+                                16_col.gif
+                            js/
+                        requirements.txt
                         svn-ignores file
-                        --venv dir
-            calls skel/bin/skel-venv.py from --venv dir
-
-packaging paver script:
-    automatic freeze to frozen.txt
-    parse frozen into requirements.txt based on VENV_IGNORE_REQS
+            exec pip install -E <venv dir> -r <requirements.txt>
+            
 
 paver setup.py script:
     parse requirements.txt into SKEL_REQS
     call paver.virtual.bootstrap(script_name='skel/bin/skel-venv.py', packages_to_install=SKEL_REQS)
     add packages_to_install options to paver.virtual.bootstrap() from requirements.txt
     links skel-admin.py into python /bin folder
+    
+
+#requirements    
+-e svn+http://code.djangoproject.com/svn/django/trunk#egg=Django
+-e svn+http://django-tagging.googlecode.com/svn/trunk#egg=Tagging
+-e svn+http://django-template-utils.googlecode.com/svn/trunk#egg=Template_utils
