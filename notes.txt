@@ -8,6 +8,7 @@ env vars
 ignore files
 terminal home/end
 export/import sites
+alias coda='open -a /Applications/Coda.app'
 
 for django:
 

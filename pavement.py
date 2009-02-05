@@ -1,15 +1,28 @@
 README = path('README.txt').text()
+VERSION = '0.1'
+
+PACKAGE_DATA = setuputils.find_package_data()
 
 options(
     setup=Bunch(
-        name='skel',
-        packages=['skel'],
-        package_dir={'': '..'},
-        version='0.1',
+        name='hartzog-skel',
+        version=VERSION,
+        description='The Hartzog Creative Skel Framework for Django',
+        long_description = README,
         author='Greg Thornton',
         author_email='xdissent@gmail.com',
-        long_description = README,
-        url='http://hartzogcreative.com'
+        url='http://hartzogcreative.com/projects/skel/',
+        download_url='http://hartzogcreative.com/projects/skel/download/v%s/' % VERSION,
+        classifiers=[
+            'Development Status :: 2 - Pre-Alpha',
+            'Environment :: Web Environment',
+            'Framework :: Django',
+            'Intended Audience :: Developers',
+            'License :: OSI Approved :: BSD License',
+            'Operating System :: OS Independent',
+            'Programming Language :: Python',
+            'Topic :: Utilities',
+        ],
     )
 )
 
