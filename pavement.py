@@ -1,3 +1,5 @@
+import os
+
 README = path('README.txt').text()
 VERSION = '0.1'
 
@@ -10,6 +12,11 @@ PACKAGES = [
     'skel.core',
     'skel.portfolio',
 ]
+
+SCRIPTS = [
+    'skel/bin/skel-admin.py',
+]
+
 
 options(
     setup=Bunch(
@@ -36,7 +43,26 @@ options(
     )
 )
 
+
 @task
-@needs(['generate_setup', 'minilib', 'setuptools.command.sdist'])
+@needs(['clean', 'generate_setup', 'minilib', 'setuptools.command.sdist'])
 def sdist():
     pass
+    
+    
+@task
+@needs(['distutils.command.clean'])
+def clean():
+    remove = [
+        'paver-minilib.zip',
+        'setup.py',
+        'dist',
+        'hartzog_skel.egg-info',
+    ]
+    for fp in remove:
+        fp = path(fp)
+        if fp.exists():
+            try:
+                fp.remove()
+            except OSError:
+                fp.rmtree()
