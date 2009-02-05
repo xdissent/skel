@@ -1,0 +1,6 @@
+-e svn+http://code.djangoproject.com/svn/django/trunk#egg=Django
+-e svn+http://django-tagging.googlecode.com/svn/trunk#egg=Tagging
+-e svn+http://django-template-utils.googlecode.com/svn/trunk#egg=Template_utils
+-e svn+http://django-profiles.googlecode.com/svn/trunk#egg=Profiles
+http://effbot.org/downloads/Imaging-1.1.6.tar.gz
+markdown

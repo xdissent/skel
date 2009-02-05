@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Skel - The Hartzog Creative Framework{% endblock %}</title>
+        {% block css %}
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/reset.css" type="text/css" media="screen, projection" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/text.css" type="text/css" media="screen, projection" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/960.css" type="text/css" media="screen, projection" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/base.css" type="text/css" media="screen, projection" />
+        {% endblock %}
+        {% block js %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="wrapper" class="container_12">
+            <div id="header" class="grid_12">
+                {% block header %}
+                <p class="title">Skel</p>
+                {% include "navigation.html" %}
+                {% endblock %}
+            </div>
+            <div id="content" class="grid_12">
+            {% block content %}
+            {% endblock %}
+            </div>
+            <div id="footer" class="grid_12">
+            {% block footer %}
+                <p>&copy; {% now "Y" %} Hartzog Creative</p>
+            {% endblock %}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </body>
+</html>

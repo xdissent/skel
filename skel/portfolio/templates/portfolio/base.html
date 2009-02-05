@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolio - {{ block.super }}{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/portfolio.css" type="text/css" media="screen, projection" />
+{% endblock %}
+
+{% block content %}
+    <div class="hfeed grid_12 alpha omega">
+    
+    {% block portfolio-title %}
+        <h1><a href="#">Portfolio</a></h1>
+    {% endblock %}
+    
+    {% block portfolio-content %}
+    {% endblock %}
+    
+    </div>
+{% endblock %}
