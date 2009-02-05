@@ -3,6 +3,14 @@ VERSION = '0.1'
 
 PACKAGE_DATA = setuputils.find_package_data()
 
+PACKAGES = [
+    'skel',
+    'skel.accounts',
+    'skel.blog',
+    'skel.core',
+    'skel.portfolio',
+]
+
 options(
     setup=Bunch(
         name='hartzog-skel',
@@ -13,6 +21,8 @@ options(
         author_email='xdissent@gmail.com',
         url='http://hartzogcreative.com/projects/skel/',
         download_url='http://hartzogcreative.com/projects/skel/download/v%s/' % VERSION,
+        packages=PACKAGES,
+        package_data=PACKAGE_DATA,
         classifiers=[
             'Development Status :: 2 - Pre-Alpha',
             'Environment :: Web Environment',
