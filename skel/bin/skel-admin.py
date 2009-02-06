@@ -11,7 +11,6 @@ PROJECT_FILES = [
     '__init__.py',
     'local_settings.py',
     'manage.py',
-    'requirements.txt',
     'settings_dev.py',
     'settings.py',
     'static',
@@ -62,7 +61,7 @@ def main(args=None):
     
     try:
         import skel
-        skel_path = path(skel.__path__)
+        skel_path = path(skel.__path__[0])
     except ImportError:
         skel_path = path(__file__).abspath().parent.parent
 
@@ -111,7 +110,7 @@ def main(args=None):
         new_skel_path = venv_path.joinpath('lib/python%s/site-packages/skel' % sys.version[:3])
         skel_path.copytree(new_skel_path)
         pip_path = venv_path.joinpath('bin/pip')
-        req_path = project_path.joinpath('requirements.txt')
+        req_path = skel_path.joinpath('../requirements.txt')
         subprocess.call([pip_path, 'install', '-r', req_path])
 
 if __name__ == '__main__':

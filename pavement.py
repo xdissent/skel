@@ -17,6 +17,13 @@ SCRIPTS = [
     'skel/bin/skel-admin.py',
 ]
 
+DATA_FILES = [
+    ('', [
+        'requirements.txt',
+        'notes.txt',
+        'README.txt',
+    ]),
+]
 
 options(
     setup=Bunch(
@@ -30,6 +37,9 @@ options(
         download_url='http://hartzogcreative.com/projects/skel/download/v%s/' % VERSION,
         packages=PACKAGES,
         package_data=PACKAGE_DATA,
+        scripts=SCRIPTS,
+        data_files=DATA_FILES,
+        install_requires=['pip',],
         classifiers=[
             'Development Status :: 2 - Pre-Alpha',
             'Environment :: Web Environment',
@@ -49,7 +59,7 @@ options(
 def sdist():
     pass
     
-    
+
 @task
 @needs(['distutils.command.clean'])
 def clean():

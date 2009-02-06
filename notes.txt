@@ -1,3 +1,7 @@
+random:
+
+virtualenv push/pop
+
 for coda:
 
 markdown preview window
