@@ -1,6 +1,6 @@
 import os
 
-VIRTUAL_ENVIRONMENT_PATH = '/Users/xdissent/Code/virtualenvs/skel'
+VIRTUAL_ENVIRONMENT_PATH = '/Users/xdissent/.virtualenvs/hartzog-skel'
 
 PROJ_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJ_NAME = os.path.basename(os.path.dirname(__file__))
