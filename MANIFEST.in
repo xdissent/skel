@@ -1,3 +1,4 @@
 include setup.py
 include paver-minilib.zip
 include *.txt
+include pavement.py
