@@ -1,10 +1,13 @@
 from paver.easy import *
 from paver.tasks import consume_args
+import paver.doctools
 import paver.setuputils
-import paver.svn
-import paramiko
+import paver.misctasks
+
+paver.setuputils.install_distutils_tasks()
 
 import os
+from setuptools import find_packages
 
 PROJECT_FILES = [
     '__init__.py',
@@ -24,8 +27,40 @@ SVN_SSH_ROOT = os.environ.get('SKEL_SSH_ROOT', '/home/36218/data/svn/')
 ENVIRONMENTS_DIR = os.environ.get('SKEL_ENVIRONMENTS_DIR', False)
 if not ENVIRONMENTS_DIR:
     ENVIRONMENTS_DIR = os.environ.get('WORKON_HOME', False)
+    
+PACKAGE_DATA = paver.setuputils.find_package_data()
+#print PACKAGE_DATA
+PACKAGES = sorted(PACKAGE_DATA.keys())
+PACKAGES = find_packages()
+print PACKAGES
+
+DATA_FILES = [
+    ('skel/core/management', ['pavement.py']),
+]
 
 options(
+    setup=Bunch(
+        name='Skel',
+        version='0.1',
+        description='Hartzog Creative Skel Framework for Django',
+        author='Greg Thornton',
+        author_email='xdissent@gmail.com',
+        packages=PACKAGES,
+        package_data={
+            'skel.core.management': ['pavement.py'],
+        },
+        zip_safe=False,
+        entry_points = {
+            'console_scripts': [
+                'skel-admin.py = skel.core.management:launch_paver',
+            ],
+        },
+        include_package_data=True,
+        data_files=DATA_FILES,
+    ),
+    minilib=Bunch( 
+        extra_files=['doctools', 'setuputils']
+    ), 
     startproject=Bunch(
         projects_dir=PROJECTS_DIR,
         svn_url_root=SVN_URL_ROOT,
@@ -36,7 +71,12 @@ options(
         svn_dev_branch='xdissent'
     )
 )
-    
+
+
+@task
+def copyfiles():
+    pass
+
 
 @task
 @cmdopts([
@@ -74,7 +114,7 @@ def startproject(options):
     if 'no-svn' not in options.startproject:
         try:
             info('Checking for project name collision at %s' % svn_url)
-            paver.svn.info(svn_url)
+            sh('svn ls %s' % svn_url)
         except BuildFailure:
             pass
         else:
@@ -100,6 +140,13 @@ def startproject(options):
     if not easy_install_path.exists():
         raise BuildFailure('Virtualenv at %s does not contain easy_install' % venv_path)
     
+    try:
+        import skel
+    except ImportError:
+        print "*** STILL CANT IMPORT"
+    else:
+        print "*** IMPORTED"
+        
     # TODO: figure out skel_path
     skel_path = path('~/Sites/hartzog-skel/skel/').expand()
     
@@ -139,7 +186,7 @@ def startproject(options):
         svn_dev_branch_url = svn_url.joinpath('branches', options.svn_dev_branch)
         sh('svn mkdir %s -m "creating development branch (%s)"' % (svn_dev_branch_url, svn_dev_branch_url))
         
-        paver.svn.checkout(svn_dev_branch_url, project_path)
+        sh('svn co %s %s' % (svn_dev_branch_url, project_path))
         # TODO: set svnignores
     
     # TODO: fix into pkg_resources instead of skel_path
