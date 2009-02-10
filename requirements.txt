@@ -4,6 +4,5 @@
 -e svn+http://django-profiles.googlecode.com/svn/trunk#egg=Profiles
 http://effbot.org/downloads/Imaging-1.1.6.tar.gz
 markdown
-paver
 docutils
 Pygments
