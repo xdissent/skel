@@ -114,7 +114,7 @@ INSTALLED_APPS = (
     'template_utils',
     'tagging',
     'profiles',
-    'skel.core',
+    #'skel.core',
     'skel.blog',
     'skel.accounts',
     'skel.portfolio',

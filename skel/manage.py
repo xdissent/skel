@@ -18,18 +18,18 @@ except:
     print "Unexpected error:", sys.exc_info()[0]
     raise
 
-from django.core.management import setup_environ
-from paver.runtime import *
+from django.core.management import execute_manager
 
 if __name__ == "__main__":
-    setup_environ(settings)
-    project_path = path(settings.__file__).parent
-    pavement_file = path.joinpath(project_path, 'pavement.py')
-    if not pavement_file.exists():
-        import sys
-        sys.stderr.write("Error: Can't find the file 'pavement.py' in the directory containing %r.\n" % __file__)
-        sys.exit(1)
-    
-    from skel.core.management import ManagementUtility
-    utility = ManagementUtility(pavement_file.text())
-    utility.execute()
+    execute_manager(settings)
+#     setup_environ(settings)
+#     project_path = path(settings.__file__).parent
+#     pavement_file = path.joinpath(project_path, 'pavement.py')
+#     if not pavement_file.exists():
+#         import sys
+#         sys.stderr.write("Error: Can't find the file 'pavement.py' in the directory containing %r.\n" % __file__)
+#         sys.exit(1)
+#     
+#     from skel.core.management import ManagementUtility
+#     utility = ManagementUtility()
+#     utility.execute()
