@@ -9,6 +9,9 @@ class EntryAdmin(admin.ModelAdmin):
             'fields': (
                 'title', 
                 'content',
+                'content_markup',
+                'summary',
+                'summary_markup',
                 'tags',
                 'author',
                 'public',
@@ -18,14 +21,12 @@ class EntryAdmin(admin.ModelAdmin):
         ('Advanced options', {
             'classes': ('collapse',),
             'fields': (
-                'summary',
-                'content_html',
                 'slug',
                 'published',
             )
         }),
     )
-    list_display = ('published', 'title', 'author', 'public',)
+    list_display = ('published', 'title', 'author', 'content_markup', 'public',)
     list_filter = ('author', 'public', 'sites',)
     search_fields = ['title', 'content',]
     model_admin_manager = Entry.admin_manager
