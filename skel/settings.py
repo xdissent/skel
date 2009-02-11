@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'skel.blog',
     'skel.accounts',
     'skel.portfolio',
+    'skel.lastfm',
 )
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'

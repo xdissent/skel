@@ -1,5 +1,4 @@
 from django.contrib import admin
-from skel.core.admin import ModelAdmin
 from django.conf import settings
 from skel.portfolio.models import Project, Client, Section, SectionMembership, Testimonial, Image, ImageOwnership
 
@@ -66,7 +65,7 @@ class ImageInline(admin.TabularInline):
     extra = 1
 
 
-class ProjectAdmin(ModelAdmin):
+class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         (None, {

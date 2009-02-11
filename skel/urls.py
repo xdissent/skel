@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^portfolio/', include('skel.portfolio.urls')),
     url(r'^users/', include('skel.accounts.urls')),
+    url(r'^markupeditor/', include('skel.markupeditor.urls')),
 )
 
 if settings.DEBUG:
