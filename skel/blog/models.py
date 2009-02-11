@@ -9,6 +9,8 @@ from django.contrib.comments.signals import comment_was_posted
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
 
+from skel.markupeditor.fields import MarkupEditorField
+
 BLOG_MORE_RE = re.compile('(?P<summary>.*?)\s*((&lt;)|<)!--\s*more\s*--(>|(&gt;))(?P<the_rest>.*)', re.S)
 
 class PublicEntryManager(models.Manager):
@@ -18,13 +20,12 @@ class PublicEntryManager(models.Manager):
 
 class Entry(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField(help_text='Use Markdown syntax.')
-    summary = models.TextField(blank=True)
+    content = MarkupEditorField()
+    summary = MarkupEditorField(blank=True)
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=datetime.datetime.now)
     author = models.ForeignKey(User)
     tags = TagField()
-    content_html = models.TextField(blank=True)
     public = models.BooleanField(default=True)
     slug = models.SlugField(unique_for_date='published')
     sites = models.ManyToManyField(Site)
@@ -40,17 +41,17 @@ class Entry(models.Model):
     def __unicode__(self):
         return self.title
     
-    def save(self, *args, **kwargs):
-        matches = BLOG_MORE_RE.search(self.content)
-        if matches is None:
-            summary_words = getattr(settings, 'BLOG_SUMMARY_WORD_COUNT', 300)
-            self.summary = truncate_html_words(self.content, summary_words)
-        else:
-            self.summary = matches.groupdict()['summary'] + '...'
-        self.summary = markdown.markdown(self.summary, ['codehilite'])
-        self.content_html = matches.groupdict()['summary'] + matches.groupdict()['the_rest']
-        self.content_html = markdown.markdown(self.content_html, ['codehilite'])
-        super(Entry, self).save(*args, **kwargs)
+#     def save(self, *args, **kwargs):
+#         matches = BLOG_MORE_RE.search(self.content)
+#         if matches is None:
+#             summary_words = getattr(settings, 'BLOG_SUMMARY_WORD_COUNT', 300)
+#             self.summary = truncate_html_words(self.content, summary_words)
+#         else:
+#             self.summary = matches.groupdict()['summary'] + '...'
+#         self.summary = markdown.markdown(self.summary, ['codehilite'])
+#         self.content_html = matches.groupdict()['summary'] + matches.groupdict()['the_rest']
+#         self.content_html = markdown.markdown(self.content_html, ['codehilite'])
+#         super(Entry, self).save(*args, **kwargs)
     
     @models.permalink
     def get_absolute_url(self):
