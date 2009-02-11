@@ -68,7 +68,12 @@ options(
         environment=False,
         svn_ssh_host=SVN_SSH_HOST,
         svn_ssh_root=SVN_SSH_ROOT,
-        svn_dev_branch='xdissent'
+        svn_dev_branch='xdissent',
+        
+        no_coda=False,
+        no_svn=False,
+        no_requirements=False,
+        
     )
 )
 
@@ -111,7 +116,7 @@ def startproject(options):
     svn_url_root = path(options.svn_url_root)
     svn_url = path.joinpath(svn_url_root, project_name)
     
-    if 'no-svn' not in options.startproject:
+    if not options.no_svn:
         try:
             info('Checking for project name collision at %s' % svn_url)
             sh('svn ls %s' % svn_url)
@@ -148,9 +153,9 @@ def startproject(options):
         print "*** IMPORTED"
         
     # TODO: figure out skel_path
-    skel_path = path('~/Sites/hartzog-skel/skel/').expand()
+    skel_path = path('~/Sites/skel-trunk/skel/').expand()
     
-    if 'no-requirements' not in options.startproject:
+    if not options.no_requirements:
     
         info('Easy installing PIP to process requirements.txt')
         sh('%s pip' % easy_install_path)
@@ -171,7 +176,7 @@ def startproject(options):
         sh('%s install -r %s' % (pip_path, requirements_path))
         
         
-    if 'no-svn' not in options.startproject:
+    if not options.no_svn:
         svn_ssh_root = path(options.svn_ssh_root)
         svn_ssh_path = svn_ssh_root.joinpath(project_name)
         
