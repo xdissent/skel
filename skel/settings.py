@@ -25,7 +25,7 @@ MANAGERS = ADMINS
 # Necessary for (mt) Django GridContainer
 FORCE_SCRIPT_NAME = ''
 
-DATABASE_ENGINE = 'postgres_psycopg2'
+DATABASE_ENGINE = 'postgresql_psycopg2'
 DATABASE_NAME = 'db36218_XXX'
 DATABASE_USER = 'db36218'
 DATABASE_PASSWORD = 'kKZ5Dv7g'
