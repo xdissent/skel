@@ -3,9 +3,9 @@ from django.db import models
 
 class Thumbnail(models.Model):
     title = models.CharField(max_length=255)
-    thumbnail = models.ImageField(upload_to='img/thumbnails/', blank=True, width_field='width', height_field='height')
-    width = models.PositiveIntegerField(blank=True)
-    height = models.PositiveIntegerField(blank=True)
+    thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, width_field='width', height_field='height')
+    width = models.PositiveIntegerField(blank=True, null=True, editable=False)
+    height = models.PositiveIntegerField(blank=True, null=True, editable=False)
 
     @property
     def url(self):

@@ -4,7 +4,7 @@ from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from django.db.models.fields.files import ImageFieldFile, FileDescriptor
 from django.core.files.uploadedfile import UploadedFile, SimpleUploadedFile
-from skel.superimage import SuperImage
+from skel.superimage import SuperImage, SuperImageThumbnailPlugin
 
 
 # TODO: get media and html from all plugins somehow. attrs?
@@ -14,12 +14,12 @@ class SuperImageWidget(forms.FileInput):
             'js/jquery-1.3.1.js',
             'js/jquery.ui.all.js',
             'js/jquery.jcrop.min.js',
-            #'js/superimagewidget.js',
+            'js/superimage.js',
         )
         css = {
             'screen': (
                 'css/theme/ui.all.css',
-                'css/superimagewidget.css',
+                'css/superimage.css',
                 'css/jcrop.css',
             )
         }
@@ -77,7 +77,7 @@ class SuperImageField(models.ImageField):
     
     def __init__(self, *args, **kwargs):
         super(SuperImageField, self).__init__(*args, **kwargs)
-        plugins_classes = kwargs.pop('plugins', (SuperImageThumbnailPlugin,))
+        plugin_classes = kwargs.pop('plugins', (SuperImageThumbnailPlugin,))
         self.plugins = [plugin(self) for plugin in plugin_classes]
     
     def contribute_to_class(self, cls, name):

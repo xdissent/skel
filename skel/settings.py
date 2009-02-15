@@ -119,6 +119,8 @@ INSTALLED_APPS = (
     'skel.accounts',
     'skel.portfolio',
     'skel.lastfm',
+    'skel.superimage',
+    'skel.quotes',
 )
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'

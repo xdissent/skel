@@ -2,15 +2,17 @@ import os
 from PIL import Image
 from StringIO import StringIO
 from django.core.files.base import ContentFile
-from django.db import models
+from skel.superimage.models import Thumbnail
 
 
 def extract_prefix(prefix, data):
     extracted = {}
     for name in data.keys():
         if name.startswith(prefix):
-            ending = name.replace(self.prefix, '')
-            extracted[ending] = data[ending]
+            ending = name.replace(prefix, '')
+            extracted[ending] = data.getlist(name)
+            if len(extracted[ending]) <= 1:
+                extracted[ending] = data.get(name)
     return extracted
     
 
@@ -25,7 +27,7 @@ class SuperImagePlugin(object):
     def __init__(self, field):
         self.field = field
 
-    def contribute_to_class(self, field, model, name):
+    def contribute_to_class(self, model, name):
         pass
         
     def apply_to_instance(self, instance, superimage):
@@ -35,7 +37,7 @@ class SuperImagePlugin(object):
         pass
     
     # TODO: implement
-    def render(self, name, value, attrs=None)
+    def render(self, name, value, attrs=None):
         pass
     
     # TODO: implement    
@@ -44,18 +46,20 @@ class SuperImagePlugin(object):
          return None 
 
             
-class SuperThumbnailPlugin(SuperImagePlugin):
+class SuperImageThumbnailPlugin(SuperImagePlugin):
     """Creates, stores, and manages thumbnails for a SuperImageField"""
     def __init__(self, *args, **kwargs):
-        super(SuperImageCropPlugin, self).__init__(*args, **kwargs)
-        self.prefix = '%s_thumbnail_' % self.field.name
-        self.delete = []
-        self.create = []
-        self.change = []
+        super(SuperImageThumbnailPlugin, self).__init__(*args, **kwargs)
+
     
     def extract_data(self, superimage):
-        data = extract_prefix(self.prefix, superimage.data)
-        for name in data.keys()
+        prefix = '%s_thumbnail_' % self.field.name
+        data = extract_prefix(prefix, superimage.data)
+        self.create = {}
+        self.change = {}
+        self.delete = data.pop('delete', [])
+        
+        for name in data.keys():
             varname, id = name.split('_', 1)
             val = data[name]
             if val is not None and val != '':
@@ -67,35 +71,64 @@ class SuperThumbnailPlugin(SuperImagePlugin):
                     if id not in self.change:
                         self.change[id] = {}
                     self.change[id][varname] = val
-        if 'delete' in data:
-            self.delete = data['delete']
+
+    
+    def crop(self, superimage, box):
+        superfile = superimage.file
+        superfile.seek(0)
+        img = Image.open(superimage.file)
+        if img.mode not in ('L', 'RGB'):
+            img = img.convert('RGB')                            
+        fp = StringIO()
+        thumb = img.crop(box)
+        thumb.save(fp, img.format, quality=128)
+        return ContentFile(fp.getvalue())
                 
     def apply_to_instance(self, instance, superimage):
-        from skel.superimage.models import Thumbnail
         self.extract_data(superimage)
         thumbnails = getattr(instance, '%s_thumbnails' % self.field.name)
-        for title, file in self.create:
-            thumb = Thumbnail(title=title)
-            thumb.thumbnail.save(self.image.file.name, file, save=False)
+        for id, obj in self.create.iteritems():
+            thumb = thumbnails.create(title=obj['title'])
+            thumb.thumbnail.field.upload_to = os.path.join(self.field.upload_to, thumb.thumbnail.field.upload_to)
+            box = (
+                int(obj['x1']),
+                int(obj['y1']),
+                int(obj['x2']),
+                int(obj['y2']),
+            )
+            file = self.crop(superimage, box)
+            thumb.thumbnail.save(superimage.file.name, file, save=False)
             thumb.save()
-            thumbnails.add(thumb)
-        for id, title in self.change:
-            thumb = Thumbnail.objects.get(pk=int(id))
-            thumb.title = title
-            # TODO: recrop
+        for id, obj in self.change.iteritems():
+            thumb = thumbnails.get(pk=int(id))
+            thumb.title = obj['title']
+            try:
+                box = (
+                    int(obj['x1']),
+                    int(obj['y1']),
+                    int(obj['x2']),
+                    int(obj['y2']),
+                )
+            except KeyError:
+                pass
+            else:
+                file = self.crop(superimage, box)
+                thumb.thumbnail.save(superimage.file.name, file, save=False)
             thumb.save()
         for id in self.delete:
-            thumb = Thumbnail.objects.get(pk=int(id))
+            thumb = thumbnails.get(pk=int(id))
             thumb.delete()
+        
             
     def reset(self, instance, superimage):
-        thumbnails = getattr(instance, '%s_thumbnails' % self.field.name)
-        for thumbnail in thumbnail.all():
-            thumbnail.delete()
+        if instance.pk:
+            thumbnails = getattr(instance, '%s_thumbnails' % self.field.name)
+            for thumbnail in thumbnails.all():
+                thumbnail.delete()
             
-    def contribute_to_class(self, field, cls, name):
-        thumbnails_field = models.ManyToManyField(Thumbnail, blank=True, editable=False)
-        thumbnails_field.creation_counter = field.creation_counter
-        if isinstance(field.upload_to, basestring):
-            thumbnails_field.upload_to = os.path.join(field.upload_to, 'thumbnails')
-        cls.add_to_class('%s_thumbnails' % name, thumbnails_field)
+    def contribute_to_class(self, model, name):
+        from django.db import models
+        thumbnails_field = models.ManyToManyField(Thumbnail, blank=True, 
+                                                  editable=False)
+        thumbnails_field.creation_counter = self.field.creation_counter
+        model.add_to_class('%s_thumbnails' % name, thumbnails_field)

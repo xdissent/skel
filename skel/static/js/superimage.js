@@ -5,7 +5,8 @@ $.widget('ui.superimage', {
 
     _new_thumb_counter: 0,
     
-    _current_thumb: false,
+    
+    _current_thumb: false,    
     
     
     _init: function() {
@@ -14,9 +15,9 @@ $.widget('ui.superimage', {
     
     
     _edit_thumb: function(thumb_container) {
-        var $tc = $(thumb_container);
-        $tc.find('.ui-superimage-thumbnail-coords').show();
-        $tc.find('input[disabled]').removeAttr('disabled');
+        var self = this;
+        thumb_container.find('input[disabled]').not('[name*=delete]').removeAttr('disabled');
+        self._current_thumb = thumb_container;
     },
     
 
@@ -24,7 +25,7 @@ $.widget('ui.superimage', {
         var self = this;
         
         $new = self.$widget.find('.ui-superimage-thumbnail-template').clone();
-        $new.find('.ui-superimage-thumbnail-coords').show().find('input').attr({enabled: true});
+        $new.find('.ui-superimage-thumbnail-coords').show().find('input');
         $new.removeClass('ui-superimage-thumbnail-template').remove();
         $new.find('[id$=_template]').each(function() {
             var $this = $(this);
@@ -39,20 +40,22 @@ $.widget('ui.superimage', {
         $new.find('[for$=_template]').each(function() {
             var $this = $(this);
             var new_for = $this.attr('for').replace('_template', '_new' + self._new_thumb_counter);
-            $this.attr('for', new_for});
+            $this.attr('for', new_for);
         });
         
         $new.find('.ui-superimage-thumbnail-edit-delete .delete').toggle(function() {
             $(this).text('Undelete');
+            $(this).closest('.ui-superimage-thumbnail-container').find('input').attr({disabled: true});
             return false;
         }, function() {
             $(this).text('Delete');
+            $(this).closest('.ui-superimage-thumbnail-container').find('input').removeAttr('disabled');
             return false;
         });
         
         $new.find('.ui-superimage-thumbnail-edit-delete .edit').toggle(function() {
             $(this).text('Done Editing');
-            self._current_thumb = $(this).closest('.ui-superimage-thumbnail-container');
+            self._edit_thumb($(this).closest('.ui-superimage-thumbnail-container'));
             return false;
         }, function() {
             // deactivate fields etc
@@ -64,6 +67,10 @@ $.widget('ui.superimage', {
         self.$widget.find('.ui-superimage-thumbnails > div:first-child').append($new);
         
         self._new_thumb_counter++;
+        
+        $new.find('.ui-superimage-thumbnail-edit-delete .edit').click();
+        
+        $new.find('input[name*=_title]').focus();
     },
 
     
@@ -107,7 +114,7 @@ $.widget('ui.superimage', {
         
         self.$widget.find('.ui-superimage-thumbnail-edit-delete .edit').toggle(function() {
             $(this).text('Done Editing')
-            self._current_thumb = $(this).closest('.ui-superimage-thumbnail-container');
+            self._edit_thumb($(this).closest('.ui-superimage-thumbnail-container'));
             return false;
         }, function() {
             $(this).text('Edit');
@@ -124,8 +131,9 @@ $.widget('ui.superimage', {
     
     _update_coords: function(c) {
         var self = this;
-        
+                    console.log(self._current_thumb);
         if (self._current_thumb) {
+            console.log('updating');
             $coords = self._current_thumb.find('.ui-superimage-thumbnail-coords');
 
             $.each({
@@ -136,7 +144,7 @@ $.widget('ui.superimage', {
                  w: c.w,
                  h: c.h,
             }, function (name, val) {
-                $(self._current_thumb.find('[name*=crop_' + name + ']').val(val))
+                $(self._current_thumb.find('[name*=thumbnail_' + name + ']').val(val))
             });
         }
     }

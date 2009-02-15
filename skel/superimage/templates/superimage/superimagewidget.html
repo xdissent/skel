@@ -25,28 +25,35 @@
                     <div class="ui-superimage-thumbnail-container ui-helper-clearfix">
                         <div class="ui-superimage-thumbnail-data">
                             <p>
-                                <label for="{{ attrs.id }}_crop_title_{{ forloop.counter }}">Title:</label>
-                                <input type="text" name="{{ name }}_crop_title_{{ forloop.counter }}" id="{{ attrs.id }}_crop_title_{{ forloop.counter }}" value="{{ thumb.title }}" />
+                                <label for="{{ attrs.id }}_thumbnail_title_{{ forloop.counter }}">Title:</label>
+                                <input type="text" name="{{ name }}_thumbnail_title_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_title_{{ forloop.counter }}" value="{{ thumb.title }}" />
                             </p>
             
 
                             
-                            <p class="ui-superimage-thumbnail-coords">
+                            <div class="ui-superimage-thumbnail-coords">
 
-                                <label>Coords:</label>
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_x1_{{ forloop.counter }}" id="{{ attrs.id }}_crop_x1_{{ forloop.counter }}" disabled="true" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_y1_{{ forloop.counter }}" id="{{ attrs.id }}_crop_y1_{{ forloop.counter }}" disabled="true" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_x2_{{ forloop.counter }}" id="{{ attrs.id }}_crop_x2_{{ forloop.counter }}" disabled="true" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_y2_{{ forloop.counter }}" id="{{ attrs.id }}_crop_y2_{{ forloop.counter }}" disabled="true" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_w_{{ forloop.counter }}" id="{{ attrs.id }}_crop_w_{{ forloop.counter }}" disabled="true" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_h_{{ forloop.counter }}" id="{{ attrs.id }}_crop_h_{{ forloop.counter }}" disabled="true" />
-                            </p>
+                                <p>
+                                    <label>Coords:</label>
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x1_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_x1_{{ forloop.counter }}" readonly="readonly" disabled="disabled"/>
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y1_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_y1_{{ forloop.counter }}" readonly="readonly" disabled="disabled" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x2_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_x2_{{ forloop.counter }}" readonly="readonly" disabled="disabled" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y2_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_y2_{{ forloop.counter }}" readonly="readonly" disabled="disabled" />
+                                </p>
+
+                                <p>
+                                    <label>Dimensions:</label>
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_w_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_w_{{ forloop.counter }}" readonly="readonly" disabled="disabled" value="{{ thumb.width }}" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_h_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_h_{{ forloop.counter }}" readonly="readonly" disabled="disabled" value="{{ thumb.height }}" />
+                                </p>
+
+                            </div>
                             
                             
                             <p class="ui-superimage-thumbnail-edit-delete ui-helper-clearfix">
                                 <button class="edit">Edit</button>
                                 <button class="delete">Delete</button>
-                                <input type="hidden" name="{{ name }}_deletes" value="{{ thumb.id }}" disabled="disabled" />
+                                <input type="hidden" name="{{ name }}_thumbnail_delete" value="{{ thumb.id }}" disabled="disabled" />
                             </p>
                             
                             
@@ -60,21 +67,29 @@
                     <div class="ui-superimage-thumbnail-container ui-helper-clearfix ui-superimage-thumbnail-template">
                         <div class="ui-superimage-thumbnail-data">
                             <p>
-                                <label for="{{ attrs.id }}_crop_title_template">Title:</label>
-                                <input type="text" name="{{ name }}_crop_title_template" id="{{ attrs.id }}_crop_title_template" />
+                                <label for="{{ attrs.id }}_thumbnail_title_template">Title:</label>
+                                <input type="text" name="{{ name }}_thumbnail_title_template" id="{{ attrs.id }}_thumbnail_title_template" disabled="disabled" value="untitled" />
                             </p>
             
 
                             
-                            <p class="ui-superimage-thumbnail-coords">
-                                <label>Coords:</label>
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_x1_template" id="{{ attrs.id }}_crop_x1_template" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_y1_template" id="{{ attrs.id }}_crop_y1_template" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_x2_template" id="{{ attrs.id }}_crop_x2_template" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_y2_template" id="{{ attrs.id }}_crop_y2_template" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_w_template" id="{{ attrs.id }}_crop_w_template" />
-                                <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_crop_h_template" id="{{ attrs.id }}_crop_h_template" />
-                            </p>
+                            <div class="ui-superimage-thumbnail-coords">
+                            
+                                <p>
+                                    <label>Coords:</label>
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x1_template" id="{{ attrs.id }}_thumbnail_x1_template" disabled="disabled" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y1_template" id="{{ attrs.id }}_thumbnail_y1_template" disabled="disabled" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x2_template" id="{{ attrs.id }}_thumbnail_x2_template" disabled="disabled" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y2_template" id="{{ attrs.id }}_thumbnail_y2_template" disabled="disabled" />
+                                </p>
+                                <p>
+                                    <label>Dimensions:</label>
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_w_template" id="{{ attrs.id }}_thumbnail_w_template" disabled="disabled" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_h_template" id="{{ attrs.id }}_thumbnail_h_template" disabled="disabled" />
+
+                                </p>                                
+                                
+                            </div>
                             
                             <p class="ui-superimage-thumbnail-edit-delete ui-helper-clearfix">
                                 <button class="edit">Edit</button>
