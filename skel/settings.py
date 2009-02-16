@@ -26,7 +26,7 @@ MANAGERS = ADMINS
 FORCE_SCRIPT_NAME = ''
 
 DATABASE_ENGINE = 'postgresql_psycopg2'
-DATABASE_NAME = 'db36218_XXX'
+DATABASE_NAME = 'db36218_skel'
 DATABASE_USER = 'db36218'
 DATABASE_PASSWORD = 'kKZ5Dv7g'
 DATABASE_HOST = 'internal-db.s36218.gridserver.com'
@@ -89,12 +89,6 @@ TEMPLATE_DIRS = [
     os.path.join(PROJ_PATH, 'templates'),
 ]
 
-try:
-	from skel import __path__ as skel_path
-	TEMPLATE_DIRS.append(os.path.join(skel_path[0], 'templates'))
-except ImportError:
-	pass
-
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',
     'django.core.context_processors.debug',
@@ -127,8 +121,6 @@ INSTALLED_APPS = (
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
-
-PORTFOLIO_PROJECT_THUMB_SIZE = (100, 100)
 
 #leave at end of file
 try:
