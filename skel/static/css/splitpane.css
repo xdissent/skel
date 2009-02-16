@@ -1,0 +1,4 @@
+.ui-tabs .ui-tabs-panel > div {
+    overflow: auto;
+    height: 100%;
+}
