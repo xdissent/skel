@@ -26,7 +26,7 @@
                         <div class="ui-superimage-thumbnail-data">
                             <p>
                                 <label for="{{ attrs.id }}_thumbnail_title_{{ forloop.counter }}">Title:</label>
-                                <input type="text" name="{{ name }}_thumbnail_title_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_title_{{ forloop.counter }}" value="{{ thumb.title }}" />
+                                <input type="text" name="{{ name }}_thumbnail_title_{{ thumb.id }}" id="{{ attrs.id }}_thumbnail_title_{{ thumb.id }}" value="{{ thumb.title }}" />
                             </p>
             
 
@@ -35,16 +35,16 @@
 
                                 <p>
                                     <label>Coords:</label>
-                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x1_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_x1_{{ forloop.counter }}" readonly="readonly" disabled="disabled"/>
-                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y1_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_y1_{{ forloop.counter }}" readonly="readonly" disabled="disabled" />
-                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x2_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_x2_{{ forloop.counter }}" readonly="readonly" disabled="disabled" />
-                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y2_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_y2_{{ forloop.counter }}" readonly="readonly" disabled="disabled" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x1_{{ thumb.id }}" id="{{ attrs.id }}_thumbnail_x1_{{ thumb.id }}" readonly="readonly" disabled="disabled" value="{{ thumb.x1 }}" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y1_{{ thumb.id }}" id="{{ attrs.id }}_thumbnail_y1_{{ thumb.id }}" readonly="readonly" disabled="disabled" value="{{ thumb.y1 }}" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_x2_{{ thumb.id }}" id="{{ attrs.id }}_thumbnail_x2_{{ thumb.id }}" readonly="readonly" disabled="disabled" value="{{ thumb.x2 }}" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_y2_{{ thumb.id }}" id="{{ attrs.id }}_thumbnail_y2_{{ thumb.id }}" readonly="readonly" disabled="disabled" value="{{ thumb.y2 }}" />
                                 </p>
 
                                 <p>
                                     <label>Dimensions:</label>
-                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_w_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_w_{{ forloop.counter }}" readonly="readonly" disabled="disabled" value="{{ thumb.width }}" />
-                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_h_{{ forloop.counter }}" id="{{ attrs.id }}_thumbnail_h_{{ forloop.counter }}" readonly="readonly" disabled="disabled" value="{{ thumb.height }}" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_w_{{ thumb.id }}" id="{{ attrs.id }}_thumbnail_w_{{ thumb.id }}"  disabled="disabled" value="{{ thumb.width }}" />
+                                    <input class="ui-superimage-thumbnail-coord" type="text" name="{{ name }}_thumbnail_h_{{ thumb.id }}" id="{{ attrs.id }}_thumbnail_h_{{ thumb.id }}"  disabled="disabled" value="{{ thumb.height }}" />
                                 </p>
 
                             </div>

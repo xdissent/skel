@@ -5,10 +5,10 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-from django.core.files.base import ContentFile
 from tagging.fields import TagField
-from PIL import Image as PILImage
-from StringIO import StringIO
+
+from skel.markupeditor.fields import MarkupEditorField
+from skel.superimage.fields import SuperImageField
 
 
 class Client(models.Model):
@@ -47,9 +47,8 @@ class Project(models.Model):
     url = models.URLField(blank=True, verify_exists=True)
     published = models.DateTimeField(default=datetime.datetime.now)
     tags = TagField()
-    content = models.TextField(help_text='Use Markdown syntax.')
-    content_html = models.TextField(blank=True)
-    images = models.ManyToManyField('Image', through='ImageOwnership')
+    images = models.ManyToManyField('Image')
+    content = MarkupEditorField()
     public = models.BooleanField(default=True)
     slug = models.SlugField(unique=True)
     sites = models.ManyToManyField(Site)
@@ -63,10 +62,6 @@ class Project(models.Model):
     def __unicode__(self):
         return self.title
     
-    def save(self, *args, **kwargs):
-        self.content_html = markdown.markdown(self.content, ['codehilite'])
-        super(Project, self).save(*args, **kwargs)
-    
     @models.permalink
     def get_absolute_url(self):
         return ('portfolio-project-detail', None, {'slug': self.slug})
@@ -75,7 +70,7 @@ class Project(models.Model):
 class Section(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    projects = models.ManyToManyField(Project, through='SectionMembership')
+    projects = models.ManyToManyField(Project)
     order = models.PositiveIntegerField(blank=True)
     
     class Meta:
@@ -87,40 +82,13 @@ class Section(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('portfolio-section-detail', None, {'slug': self.slug})
-    
-    
-class SectionMembership(models.Model):
-    section = models.ForeignKey(Section)
-    project = models.ForeignKey(Project)
-    order = models.PositiveSmallIntegerField(blank=True)
 
 
 class Image(models.Model):
     title = models.CharField(max_length=255)
-    original = models.ImageField(upload_to='img/portfolio/projects', height_field='original_height', width_field='original_width')
-    original_width = models.IntegerField(editable=False)
-    original_height = models.IntegerField(editable=False)
-    thumb = models.ImageField(editable=False, upload_to='img/portfolio/projects/thumbs', height_field='thumb_height', width_field='thumb_width')
-    thumb_width = models.IntegerField(editable=False)
-    thumb_height = models.IntegerField(editable=False)
-    
-    def save(self, *args, **kwargs):
-        thumb_size = getattr(settings, 'PORTFOLIO_PROJECT_THUMB_SIZE', (100, 100))
-        image = PILImage.open(self.original.path)
-        if image.mode not in ('L', 'RGB'):
-            image = image.convert('RGB')
-        image.thumbnail(thumb_size, PILImage.ANTIALIAS)
-        fp = StringIO()
-        image.save(fp, image.format)
-        cf = ContentFile(fp.getvalue())
-        self.thumb.save(name=self.original.name, content=cf, save=False)
-        super(Image, self).save(*args, **kwargs)
+    image = SuperImageField(upload_to='img/portfolio/projects', height_field='height', width_field='width')
+    width = models.IntegerField(blank=True, null=True, editable=False)
+    height = models.IntegerField(blank=True, null=True, editable=False)
     
     def __unicode__(self):
-        return '%s - %s' % (self.title, self.original.name)
-    
-    
-class ImageOwnership(models.Model):
-    image = models.ForeignKey(Image)
-    project = models.ForeignKey(Project)
-    order = models.PositiveSmallIntegerField(blank=True)
+        return '%s - %s' % (self.title, self.image.name)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from skel.portfolio.models import Project, Client, Section, SectionMembership, Testimonial, Image, ImageOwnership
+from skel.portfolio.models import Project, Client, Section, Testimonial, Image
 
 class ClientAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
@@ -18,11 +18,6 @@ class ClientAdmin(admin.ModelAdmin):
             ),
         }),
     )
-    
-    
-class SectionInline(admin.TabularInline):
-    model = SectionMembership
-    extra = 1
 
 
 class SectionAdmin(admin.ModelAdmin):
@@ -41,7 +36,6 @@ class SectionAdmin(admin.ModelAdmin):
             ),
         }),
     )
-    inlines = [SectionInline]
 
 
 class ImageAdmin(admin.ModelAdmin):
@@ -49,7 +43,7 @@ class ImageAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'title',
-                'original',
+                'image',
             ),
         }),
     )
@@ -61,7 +55,7 @@ class TestimonialInline(admin.TabularInline):
     
 
 class ImageInline(admin.TabularInline):
-    model = ImageOwnership
+    model = Image
     extra = 1
 
 
@@ -78,12 +72,12 @@ class ProjectAdmin(admin.ModelAdmin):
                 'client',
                 'role',
                 'url',
+                'images',
             ),
         }),
         ('Advanced options', {
             'classes': ('collapse',),
             'fields': (
-                'content_html',
                 'slug',
                 'published',
             ),
@@ -92,7 +86,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ('published', 'title', 'public')
     list_filter = ('public', 'sites', 'client')
     search_fields = ['title', 'content']
-    inlines = [TestimonialInline, SectionInline, ImageInline]    
+    inlines = [TestimonialInline,]    
     model_admin_manager = Project.admin_manager
     
     def get_form(self, request, obj=None, **kwargs):

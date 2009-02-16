@@ -36,6 +36,8 @@ class SuperImageWidget(forms.FileInput):
         if files.get(name, None):
             return super(SuperImageWidget, self).value_from_datadict(data, files, name)
         file = super(SuperImageWidget, self).value_from_datadict(data, files, name)
+        
+        # TODO: determine when to send null for inline editing
         return SuperImage(file, name, data)
 
         

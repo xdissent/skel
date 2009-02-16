@@ -16,7 +16,17 @@ $.widget('ui.superimage', {
     
     _edit_thumb: function(thumb_container) {
         var self = this;
+        
+        // turn off current edit
+        if (self._current_thumb) {
+            self._current_thumb.find('.edit').click();
+        }
+        // turn on form field so changes count
         thumb_container.find('input[disabled]').not('[name*=delete]').removeAttr('disabled');
+        // if there's a thumb image, hide it
+        // focus the title
+        // animate selection to current coords
+        // move slider to width and height
         self._current_thumb = thumb_container;
     },
     
@@ -120,6 +130,12 @@ $.widget('ui.superimage', {
             $(this).text('Edit');
             self._current_thumb = false;
             return false;
+        });
+        
+        self.$widget.children(':first').resizable({
+            maxWidth: self.$widget.width(),
+            minWidth: self.$widget.width(),
+            minHeight: self.$widget.height(),
         });
     },
     

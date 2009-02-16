@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'skel.accounts',
     'skel.portfolio',
     'skel.lastfm',
+    'skel.markupeditor',
     'skel.superimage',
     'skel.quotes',
 )

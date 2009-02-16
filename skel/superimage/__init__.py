@@ -73,14 +73,14 @@ class SuperImageThumbnailPlugin(SuperImagePlugin):
                     self.change[id][varname] = val
 
     
-    def crop(self, superimage, box):
+    def crop(self, superimage, box, size):
         superfile = superimage.file
         superfile.seek(0)
         img = Image.open(superimage.file)
         if img.mode not in ('L', 'RGB'):
             img = img.convert('RGB')                            
         fp = StringIO()
-        thumb = img.crop(box)
+        thumb = img.crop(box).resize(size, Image.ANTIALIAS)
         thumb.save(fp, img.format, quality=128)
         return ContentFile(fp.getvalue())
                 
@@ -96,8 +96,13 @@ class SuperImageThumbnailPlugin(SuperImagePlugin):
                 int(obj['x2']),
                 int(obj['y2']),
             )
-            file = self.crop(superimage, box)
+            size = (
+                int(obj['w']),
+                int(obj['h']),
+            )
+            file = self.crop(superimage, box, size)
             thumb.thumbnail.save(superimage.file.name, file, save=False)
+            thumb.x1, thumb.y1, thumb.x2, thumb.y2 = box
             thumb.save()
         for id, obj in self.change.iteritems():
             thumb = thumbnails.get(pk=int(id))
@@ -109,10 +114,14 @@ class SuperImageThumbnailPlugin(SuperImagePlugin):
                     int(obj['x2']),
                     int(obj['y2']),
                 )
+                size = (
+                    int(obj['w']),
+                    int(obj['h']),
+                )
             except KeyError:
                 pass
             else:
-                file = self.crop(superimage, box)
+                file = self.crop(superimage, box, size)
                 thumb.thumbnail.save(superimage.file.name, file, save=False)
             thumb.save()
         for id in self.delete:
