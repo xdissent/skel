@@ -1,3 +1,7 @@
+random:
+
+virtualenv push/pop
+
 for coda:
 
 markdown preview window
@@ -8,8 +12,13 @@ env vars
 ignore files
 terminal home/end
 export/import sites
+alias coda='open -a /Applications/Coda.app'
+todo pane (from things?)
 
 for django:
+
+pavement.py:
+    import django.settings for installed apps with skel? won't work for core?
 
 paver bootstrap script:
     skel/bin/skel-admin.py

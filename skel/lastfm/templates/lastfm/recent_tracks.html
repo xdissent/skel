@@ -1,0 +1,13 @@
+<ul class="lastfm xoxo">
+{% for track in tracks %}
+    {% ifchanged %}
+    <li class="artist">
+        <a href="{{ track.summary }}" title="{{ track.artist }} on Last.Fm">{{ track.artist }}</a>
+    </li>
+    {% endifchanged %}    
+    <li class="song">
+        <abbr class="grid_1 alpha">{{ track.updated|date:"g:i" }}</abbr>
+        <a title="{{ track.title }} by {{ track.artist }} on Last.Fm" href="{{ track.link }}" class="grid_2 omega">{{ track.title }}</a>
+    </li>
+{% endfor %}
+</ul>
