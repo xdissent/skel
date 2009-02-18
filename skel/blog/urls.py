@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+from tagging.views import tagged_object_list
 from skel.blog.models import Entry
 
 info_dict = {
@@ -9,8 +10,13 @@ info_dict = {
 
 tag_dict = {
     'queryset_or_model': info_dict['queryset'],
-    'template_name': 'blog/entry_tag.html',
+    'template_name': 'blog/entry_tag_detail.html',
     'allow_empty': True,
+}
+
+info_dict = {
+    'queryset': Entry.objects.all(),
+    'date_field': 'published',
 }
 
 urlpatterns = patterns('django.views.generic.date_based',
@@ -46,10 +52,16 @@ urlpatterns = patterns('django.views.generic.date_based',
     ),
 )
 
-urlpatterns += patterns('tagging.views',
+urlpatterns += patterns('',
     url(r'^tag/(?P<tag>[^/]+)/$',
-        'tagged_object_list',
+        tagged_object_list,
         tag_dict,
         name='blog-entry-tag-detail'
+    ),
+    
+    url(r'^category/(?P<slug>[^/]+)/$',
+        'django.views.generic.simple.direct_to_template',
+        {'template_name': 'nothing.html'},
+        name='blog-entry-category-detail'
     ),
 )

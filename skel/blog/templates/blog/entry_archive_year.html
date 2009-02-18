@@ -14,6 +14,7 @@
             <a href="{% url blog-entry-month year entry.published|date:"b" %}">{{ entry.published|date:"F" }}</a>
         </h2>
         {% endifchanged %}
+        <h3><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h3>
         {% include "blog/entry.html" %}
     {% empty %}
         <p>No entries for {{ year }}.</p>

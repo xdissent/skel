@@ -4,8 +4,10 @@
 
 <ul>
 {% for entry in latest_entries %}
-    <li><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
-    <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|naturalday:"M j" }}</abbr>
+    <li>
+        <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
+        <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|naturalday:"M j" }}</abbr>
+    </li>
 {% endfor %}
 </ul>
-<p class="more"><a href="{% url blog-latest %}">Read more</a></p>
+<p class="more"><a href="{% url blog-entry-latest %}">Read more</a></p>

@@ -3,6 +3,10 @@
 
 {% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
 
+{% block blog-title %}
+    <h1><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h1>
+{% endblock %}
+
 {% block blog-content %}
     {% with object as entry %}
     {% with 1 as show_detail %}
