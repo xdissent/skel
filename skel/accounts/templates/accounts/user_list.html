@@ -1,0 +1,17 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Users - {{ block.super }}{% endblock %}
+
+{% block accounts-title %}
+    <h1><a href="{% url user-list %}">Users</a></h1>
+{% endblock %}
+
+{% block accounts-content %}
+{% for user in object_list %}
+    <h3><a href="{{ user.get_profile.get_absolute_url }}">{{ user.username }}</a></h3>
+{% if user.get_full_name %}
+    <p>Full Name: {{ user.get_full_name }}</p>
+{% endif %}
+    <p>Homepage: <a href="{{ user.get_profile.url }}" rel="no-follow">{{ user.get_profile.url }}</a></p>
+{% endfor %}
+{% endblock %}
