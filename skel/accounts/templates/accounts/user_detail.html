@@ -1,14 +1,21 @@
 {% extends "accounts/base.html" %}
 
-
 {% block title %}{{ object.username }} - {{ block.super }}{% endblock %}
 
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/pygments.css" type="text/css" media="screen, projection" />
+{% endblock %}
+
+{% block accounts-title %}
+    <h1><a href="{{ user.get_profile.url }}" rel="no-follow">{{ user }}</a></h1>
+{% endblock %}
+
 {% block accounts-content %}
-    {% with object as user %}
-        {% with user.get_profile as profile %}
-        <p>{{ user }}</p>
-        <p>{{ profile.url }}</p>
-        <p>{{ profile.bio }}</p>
-        {% endwith %}
-    {% endwith %}
+{% if user.get_full_name %}
+    <p>Full Name: {{ user.get_full_name }}</p>
+{% endif %}
+    <p>Homepage: <a href="{{ user.get_profile.url }}" rel="no-follow" >{{ user.get_profile.url }}</a></p>
+    
+    {{ user.get_profile.bio_rendered }}
 {% endblock %}
