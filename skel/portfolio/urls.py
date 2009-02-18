@@ -9,7 +9,7 @@ project_dict = {
 
 tag_dict = {
     'queryset_or_model': project_dict['queryset'],
-    'template_name': 'portfolio/project_tag.html',
+    'template_name': 'portfolio/project_tag_detail.html',
     'allow_empty': True,
 }
 
