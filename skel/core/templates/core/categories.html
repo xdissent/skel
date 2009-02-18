@@ -1,0 +1,12 @@
+{% load generic_content %}
+
+{# TODO: write a template tag for categories #}
+{% get_latest_objects core.category 5 as categories %}
+
+<ul>
+{% for category in categories %}
+    <li>
+        <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+    </li>
+{% endfor %}
+</ul>

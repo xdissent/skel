@@ -4,7 +4,7 @@
 {% block title %}Projects Tagged "{{ tag.name }}" - {{ block.super }}{% endblock %}
 
 {% block portfolio-title %}
-    <h1><a href="{% url portfolio-project-tag-detail tag %}">Projects Tagged "{{ tag.name }}"</a></h1>
+    <h1><a href="{% url portfolio-project-tag-detail tag %}" title="Projects Tagged {{ tag.name }}">Projects Tagged "{{ tag.name }}"</a></h1>
 {% endblock %}
 
 {% block portfolio-content %}

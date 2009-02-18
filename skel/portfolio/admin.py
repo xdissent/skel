@@ -54,7 +54,7 @@ class ProjectAdmin(admin.ModelAdmin):
         }),
     )
     list_display = ('published', 'title', 'client', 'public')
-    list_filter = ('public', 'sites', 'client')
+    list_filter = ('public', 'sites', 'client', 'categories', 'tags')
     search_fields = ['title', 'description']
     inlines = [TestimonialInline,]    
     model_admin_manager = Project.admin_manager

@@ -36,5 +36,4 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^static/(?P<path>.*)$', static_server,
             {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
-        url(r'^style/$', 'django.views.generic.simple.direct_to_template', {'template': 'style.html'}),
     )

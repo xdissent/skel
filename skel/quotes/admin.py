@@ -4,6 +4,7 @@ from models import Quote
 
 
 class QuoteAdmin(admin.ModelAdmin):
-    pass
+    model_admin_manager = Quote.admin_manager
+    
     
 admin.site.register(Quote, QuoteAdmin)
