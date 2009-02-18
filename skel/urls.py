@@ -21,6 +21,7 @@ urlpatterns = patterns('',
 
 )
 
+# TODO: change this to some other test
 if settings.DEBUG:
     from django.views.static import serve
     from django.http import Http404, HttpResponseNotFound

@@ -7,3 +7,4 @@ markdown
 docutils
 Pygments
 feedparser
+python-memcached
