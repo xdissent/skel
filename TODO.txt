@@ -3,3 +3,5 @@ Make markupeditor.js work better in tabular inlines.
 Add default thumbnail capability to superimage.
 
 Add MarkupEditorField to django.contrib.comments?
+
+Finish adding feeds.

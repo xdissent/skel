@@ -8,14 +8,24 @@
 {% endblock %}
 
 {% block accounts-title %}
+{% if user.get_profile.url %}
     <h1><a href="{{ user.get_profile.url }}" rel="no-follow">{{ user }}</a></h1>
+{% else %}
+    <h1>{{ user }}</h1>
+{% endif %}
 {% endblock %}
 
+
 {% block accounts-content %}
+
 {% if user.get_full_name %}
     <p>Full Name: {{ user.get_full_name }}</p>
 {% endif %}
+
+{% if user.get_profile.url %}
     <p>Homepage: <a href="{{ user.get_profile.url }}" rel="no-follow" >{{ user.get_profile.url }}</a></p>
+{% endif %}
+
     
-    {{ user.get_profile.bio_rendered }}
+{{ user.get_profile.bio_rendered }}
 {% endblock %}
