@@ -1,15 +1,10 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-from skel.portfolio.models import Project, Section
+from tagging.views import tagged_object_list
+from skel.portfolio.models import Project
 
 project_dict = {
     'queryset': Project.objects.all(),
-    'slug_field': 'slug',
-}
-
-section_dict = {
-    'queryset': Section.objects.all(),
-    'slug_field': 'slug',
 }
 
 tag_dict = {
@@ -18,28 +13,39 @@ tag_dict = {
     'allow_empty': True,
 }
 
+category_dict = {
+    'queryset': Project.objects.all(),
+    'slug_field': 'slug',
+}
+
 urlpatterns = patterns('django.views.generic.list_detail',
     url(r'^$',
         'object_list',
-        dict(queryset=section_dict['queryset']),
-        name='portfolio-home'
+        project_dict,
+        name='portfolio-project-list'
+    ),
+    url(r'^(?P<slug>[-\w]+)/$',
+        'object_detail',
+        dict(project_dict, slug_field='slug'),
+        name='portfolio-project-detail'
     ),
     url(r'^(?P<slug>[-\w]+)/$',
         'object_detail',
         project_dict,
-        name='portfolio-project-detail'
-    ),
-    url(r'^section/(?P<slug>[-\w]+)/$',
-        'object_detail',
-        section_dict,
-        name='portfolio-section-detail'
+        name='portfolio-project-section-detail'
     ),
 )
 
-urlpatterns += patterns('tagging.views',
+urlpatterns += patterns('',
     url(r'^tag/(?P<tag>[^/]+)/$',
-        'tagged_object_list',
+        tagged_object_list,
         tag_dict,
-        name='portfolio-tag-detail'
+        name='portfolio-project-tag-detail'
+    ),
+    url(r'^category/(?P<slug>[^/]+)/$',
+        'django.views.generic.simple.direct_to_template',
+        {'template_name': 'nothing.html'},
+        name='portfolio-project-category-detail'
     ),
 )
+

@@ -9,7 +9,7 @@
     <ul>
     {% for tag in tags %}
         <li>
-            <a href="{% url portfolio-tag-detail tag.name %}" rel="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+            <a href="{% url portfolio-tag-detail tag.name %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
         </li>
     {% endfor %}
     </ul>

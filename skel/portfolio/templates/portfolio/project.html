@@ -1,52 +1,69 @@
 {% load tagging_tags %}
 {% tags_for_object project as tags %}
 
-<h2>
-    <a href="{{ project.get_absolute_url }}" rel="bookmark" title="{{ project.title }}">{{ project.title }}</a>
-</h2>
-
-<div class="meta">
-    <h3>Tags:</h3>
-    <ul>
-    {% for tag in tags %}
-        <li>
-            <a href="{% url portfolio-tag-detail tag.name %}" rel="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-</div>
-
-<div>
-    {% for image in project.images.all %}
-    <img src="{{ image.image.url }}" alt="{{ image.title }}" />
-    {% endfor %}
-</div>
-
-<div>
-    <h3>Project Summary</h3>
-    {% if project.client %}
-        {% if project.client.url %}
-        <p class="meta">Client: <a href="{{ project.client.url }}">{{ project.client.name }}</a></p>
-        {% else %}
-        <p class="meta">Client: {{ project.client.name }}</p>
-        {% endif %}
-    {% endif %}
-    
-    {% if project.role %}
-        <p class="meta">Role: {{ project.role }}</p>
-    {% endif %}
-    
-    {{ project.description_rendered|safe }}
+<p>
 
     {% if project.url %}
-        <p><a href="{{ project.url }}">Launch Site</a></p>
+        Project URL: <a href="{{ project.url }}" title="{{ project.title }}">{{ project.url }}</a>
+        <br />
     {% endif %}
     
+    {% if tags %}
+        Tags:
+        {% for tag in tags %}
+            <a href="{% url portfolio-project-tag-detail tag.name %}" rel="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+        {% endfor %}
+        <br />
+    {% endif %}
+    
+    {% if project.categories.all %}
+        Categories:
+        {% for category in project.categories.all %}
+            <a href="{% url portfolio-project-category-detail category.slug %}" rel="tag">{{ category.title }}</a>{% if not forloop.last %},{% endif %}
+        {% endfor %}
+        <br />
+    {% endif %}
+    
+    {% if project.client %}
+        {% if project.client.url %}
+        Client: <a href="{{ project.client.url }}">{{ project.client.name }}</a>
+        {% else %}
+        Client: {{ project.client.name }}
+        {% endif %}
+        <br />
+    {% endif %}
+
+
+    {% if project.role %}
+        Role: {{ project.role }}
+        <br />
+    {% endif %}
+
+</p>
+
+{% if not show_detail %}
+    {{ project.summary_rendered }}
+    
+{% else %}
+    {{ project.description_rendered }}
+    
+    
     {% if project.testimonial_set.all %}
-        <h3>Client Testimonials</h3>
+        <h2>Client Testimonials</h2>
         {% for t in project.testimonial_set.all %}
             <p>{{ t.quote }}</p>
-            <p class="meta">-- {% if t.quotee %}{{ t.quotee }}{% if t.client %},{% endif %}{% endif %} {% if t.client %}<a href="{{ t.client.url }}">{{ t.client.name }}</a>{% endif %}</p>
+            <p>
+                -- {% if t.quotee %}{{ t.quotee }}{% if t.client %},{% endif %}{% endif %} 
+                   {% if t.client %}<a href="{{ t.client.url }}" title="{{ t.client.name }}">
+                                    {{ t.client.name }}</a>{% endif %}
+            </p>
         {% endfor %}
     {% endif %}
-</div>
+    
+    <div>
+    {% for image in project.images.all %}
+        <img src="{{ image.image.url }}" alt="{{ image.title }}" />
+    {% endfor %}
+    </div>
+    
+{% endif %}

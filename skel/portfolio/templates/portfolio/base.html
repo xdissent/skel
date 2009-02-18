@@ -3,20 +3,19 @@
 {% block title %}Portfolio - {{ block.super }}{% endblock %}
 
 {% block css %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/portfolio.css" type="text/css" media="screen, projection" />
+{{ block.super }}
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/pygments.css" type="text/css" media="screen, projection" />
 {% endblock %}
 
 {% block content %}
-    <div class="hfeed grid_12 alpha omega">
+<div id="content" class="grid_9">
     
     {% block portfolio-title %}
-        <h1><a href="#">Portfolio</a></h1>
+        <h1><a href="{% url portfolio-project-list %}" title="Portfolio">Portfolio</a></h1>
     {% endblock %}
     
     {% block portfolio-content %}
     {% endblock %}
     
-    </div>
+</div>
 {% endblock %}

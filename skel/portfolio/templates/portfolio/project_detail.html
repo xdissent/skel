@@ -3,8 +3,14 @@
 
 {% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
 
+{% block project-title %}
+    <h1><a href="{{ object.get_absolute_url }}" title="{{ object.title }}">{{ object.title }}</a></h1>
+{% endblock %}
+
 {% block portfolio-content %}
     {% with object as project %}
-    {% include "portfolio/project.html" %}
+    {% with 1 as show_detail %}
+        {% include "portfolio/project.html" %}
+    {% endwith %}
     {% endwith %}
 {% endblock %}

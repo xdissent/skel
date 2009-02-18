@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from skel.portfolio.models import Project, Client, Section, Testimonial, Image
+from skel.portfolio.models import Project, Client, Testimonial
 
 class ClientAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
@@ -20,25 +20,6 @@ class ClientAdmin(admin.ModelAdmin):
     )
 
 
-class SectionAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
-    fieldsets = (
-        (None, {
-            'fields': (
-                'title',
-                'order',
-            ),
-        }),
-        ('Advanced options', {
-            'classes': ('collapse',),
-            'fields': (
-                'slug',
-            ),
-        }),
-    )
-
-
-
 class TestimonialInline(admin.TabularInline):
     model = Testimonial
     extra = 1
@@ -50,14 +31,17 @@ class ProjectAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'title', 
-                'description',
-                'description_markup',
                 'tags',
+                'categories',
                 'public',
                 'sites',
                 'client',
                 'role',
                 'url',
+                'description',
+                'description_markup',
+                'summary',
+                'summary_markup',
                 'images',
             ),
         }),
@@ -83,4 +67,3 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Client, ClientAdmin)
-admin.site.register(Section, SectionAdmin)

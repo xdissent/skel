@@ -7,6 +7,7 @@ class UserProfileInline(admin.StackedInline):
     model = UserProfile
     fk_name = 'user'
     max_num = 1
+    model_admin_manager = UserProfile.admin_manager
 
 class SkelUserAdmin(UserAdmin):
     inlines = [UserProfileInline, ]
