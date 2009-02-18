@@ -8,7 +8,7 @@
     </h2>
     <div class="meta">
         <p>
-            Author: <span class="author vcard"><span class="fn"><a class="url" href="{% url user-detail entry.author %}">{{ entry.author }}</a></span></span> 
+            Author: <span class="author vcard"><span class="fn"><a class="url" href="{% url accounts-user-detail entry.author %}">{{ entry.author }}</a></span></span> 
             <abbr class="published" title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"d.m.Y @ H:i a" }}</abbr>
         </p>
         <h3>Keywords:</h3>

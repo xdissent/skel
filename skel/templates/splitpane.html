@@ -3,14 +3,29 @@
 
 {% block js %}
 {{ block.super }}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.3.1.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ui.all.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/splitpane.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.ui.all.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.splitpane.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.crop.js"></script>
 <script type="text/javascript">
     $(function(){
+        $('#example1 img').crop();
         $('#example1').splitpane();
         $('#example2').children().tabs();
-        $('#example2').splitpane();
+        $('#example2').splitpane({
+            resize: function(e, ui) {
+                ui.element.find('.hz-splitpane-pane > .ui-tabs')
+                    .add('.hz-splitpane-pane > .ui-tabs > .ui-tabs-panel')
+                    .each(function() {
+                        var $this = $(this);
+                        var height = $this.parent().height() - $this.position().top;
+                        var padding = $(this).outerHeight() - $(this).height();
+                        $(this).height(height - padding);
+                        // resize tab container
+                    
+                    });
+            }
+        }).find('.ui-tabs > .ui-tabs-panel > div').css({height: '100%', overflow: 'auto'});
     });
 </script>
 {% endblock %}
@@ -18,15 +33,15 @@
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/theme/ui.all.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/splitpane.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/hartzog/hz.splitpane.css" type="text/css" media="screen, projection" />
 {% endblock %}
 
 {% block content %}
 <div id="example1">
 
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    
+    <div></div>
 </div>
 
 <div id="example2">
@@ -68,7 +83,9 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
         <div id="example2-split2-panel3">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <div>
+                <img src="{{ MEDIA_URL }}img/sample.jpg" alt="Sample Image" />
+            </div>
         </div>
     </div>
 </div>

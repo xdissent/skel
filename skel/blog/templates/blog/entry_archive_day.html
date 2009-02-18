@@ -4,7 +4,7 @@
 {% block title %}{{ day|date:"l F jS, Y" }} Archive - {{ block.super }}{% endblock %}
 
 {% block blog-title %}
-    <h1><a href="{% url blog-day day|date:"Y" day|date:"b" day|date:"d" %}">{{ day|date:"l F jS, Y" }} Archive</a></h1>
+    <h1><a href="{% url blog-entry-day day|date:"Y" day|date:"b" day|date:"d" %}">{{ day|date:"l F jS, Y" }} Archive</a></h1>
 {% endblock %}
 
 {% block blog-content %}

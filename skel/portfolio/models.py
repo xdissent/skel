@@ -6,9 +6,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
-
 from skel.markupeditor.fields import MarkupEditorField
-from skel.superimage.fields import SuperImageField
+from skel.core.models import Image
 
 
 class Client(models.Model):
@@ -27,7 +26,7 @@ class Client(models.Model):
 class Testimonial(models.Model):
     quotee = models.CharField(max_length=255)
     quote = models.TextField()
-    client = models.ForeignKey(Client, blank=True)
+    client = models.ForeignKey(Client, blank=True, null=True)
     project = models.ForeignKey('Project', blank=True)
 
     def __unicode__(self):
@@ -42,13 +41,13 @@ class PublicProjectManager(models.Manager):
 
 class Project(models.Model):
     title = models.CharField(max_length=255)
-    client = models.ForeignKey(Client, blank=True)
+    client = models.ForeignKey(Client, blank=True, null=True)
     role = models.CharField(max_length=255, blank=True)
     url = models.URLField(blank=True, verify_exists=True)
     published = models.DateTimeField(default=datetime.datetime.now)
     tags = TagField()
-    images = models.ManyToManyField('Image')
-    content = MarkupEditorField()
+    images = models.ManyToManyField(Image, blank=True, null=True)
+    description = MarkupEditorField()
     public = models.BooleanField(default=True)
     slug = models.SlugField(unique=True)
     sites = models.ManyToManyField(Site)
@@ -82,13 +81,3 @@ class Section(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('portfolio-section-detail', None, {'slug': self.slug})
-
-
-class Image(models.Model):
-    title = models.CharField(max_length=255)
-    image = SuperImageField(upload_to='img/portfolio/projects', height_field='height', width_field='width')
-    width = models.IntegerField(blank=True, null=True, editable=False)
-    height = models.IntegerField(blank=True, null=True, editable=False)
-    
-    def __unicode__(self):
-        return '%s - %s' % (self.title, self.image.name)

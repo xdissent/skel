@@ -8,14 +8,17 @@ class EntryAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'title', 
-                'content',
-                'content_markup',
+                'public',
+                'author',
+                'categories',
+                'tags',
+                'sites',
+                'images',
                 'summary',
                 'summary_markup',
-                'tags',
-                'author',
-                'public',
-                'sites',
+                'body',
+                'body_markup',
+                
             )
         }),
         ('Advanced options', {
@@ -26,9 +29,9 @@ class EntryAdmin(admin.ModelAdmin):
             )
         }),
     )
-    list_display = ('published', 'title', 'author', 'content_markup', 'public',)
-    list_filter = ('author', 'public', 'sites',)
-    search_fields = ['title', 'content',]
+    list_display = ('published', 'title', 'author', 'body_markup', 'public',)
+    list_filter = ('author', 'public', 'sites', 'categories', 'tags')
+    search_fields = ['title', 'body', 'summary']
     model_admin_manager = Entry.admin_manager
     
     def get_form(self, request, obj=None, **kwargs):

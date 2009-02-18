@@ -13,12 +13,12 @@ urlpatterns = patterns('',
         r'^/?$',
         object_list,
         dict(info_dict, template_name='accounts/user_list.html'),
-        name='user-list'
+        name='accounts-user-list'
     ),
 
     url(r'^(?P<user>.*)/$',
         user_view,
         dict(info_dict, template_name='accounts/user_detail.html'),
-        name='user-detail'
+        name='accounts-user-detail'
     ),
 )

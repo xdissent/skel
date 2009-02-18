@@ -4,7 +4,7 @@
 {% block title %}Entries Tagged "{{ tag.name }}" - {{ block.super }}{% endblock %}
 
 {% block blog-title %}
-    <h1><a href="{% url blog-tag-detail tag %}">Entries Tagged "{{ tag.name }}"</a></h1>
+    <h1><a href="{% url blog-entry-tag-detail tag %}">Entries Tagged "{{ tag.name }}"</a></h1>
 {% endblock %}
 
 {% block blog-content %}

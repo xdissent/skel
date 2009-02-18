@@ -38,24 +38,9 @@ class SectionAdmin(admin.ModelAdmin):
     )
 
 
-class ImageAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {
-            'fields': (
-                'title',
-                'image',
-            ),
-        }),
-    )
-    
 
 class TestimonialInline(admin.TabularInline):
     model = Testimonial
-    extra = 1
-    
-
-class ImageInline(admin.TabularInline):
-    model = Image
     extra = 1
 
 
@@ -65,7 +50,8 @@ class ProjectAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'title', 
-                'content',
+                'description',
+                'description_markup',
                 'tags',
                 'public',
                 'sites',
@@ -83,9 +69,9 @@ class ProjectAdmin(admin.ModelAdmin):
             ),
         }),
     )
-    list_display = ('published', 'title', 'public')
+    list_display = ('published', 'title', 'client', 'public')
     list_filter = ('public', 'sites', 'client')
-    search_fields = ['title', 'content']
+    search_fields = ['title', 'description']
     inlines = [TestimonialInline,]    
     model_admin_manager = Project.admin_manager
     
@@ -98,4 +84,3 @@ class ProjectAdmin(admin.ModelAdmin):
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Section, SectionAdmin)
-admin.site.register(Image, ImageAdmin)

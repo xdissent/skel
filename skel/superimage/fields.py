@@ -11,16 +11,15 @@ from skel.superimage import SuperImage, SuperImageThumbnailPlugin
 class SuperImageWidget(forms.FileInput):
     class Media:
         js = (
-            'js/jquery-1.3.1.js',
-            'js/jquery.ui.all.js',
+            'js/jquery/jquery.js',
+            'js/jquery/jquery.ui.all.js',
             'js/jquery.jcrop.min.js',
-            'js/superimage.js',
+            'js/hartzog/hz.superimage.js',
+            'js/admin/superimagewidget.js',
         )
         css = {
             'screen': (
                 'css/theme/ui.all.css',
-                'css/superimage.css',
-                'css/jcrop.css',
             )
         }
     

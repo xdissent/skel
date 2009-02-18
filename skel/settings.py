@@ -111,10 +111,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'django.contrib.comments',
+    'django.contrib.humanize',
     'template_utils',
     'tagging',
     'profiles',
-    #'skel.core',
+    'skel.core',
     'skel.blog',
     'skel.accounts',
     'skel.portfolio',
@@ -128,7 +129,9 @@ CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
 
-PORTFOLIO_PROJECT_THUMB_SIZE = (100, 100)
+# Close comments after 60 days
+BLOG_AUTO_CLOSE_COMMENTS = 60
+
 
 #leave at end of file
 try:
