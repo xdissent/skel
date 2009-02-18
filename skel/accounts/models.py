@@ -2,12 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from skel.core.models import PublicSitesObjectManager
 from skel.markupeditor.fields import MarkupEditorField
 
-class PublicUserProfileManager(models.Manager):
-    def get_query_set(self):
-        return super(PublicUserProfileManager, self).get_query_set().filter(
-        public__exact=True, sites__id__exact=settings.SITE_ID)
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -15,7 +12,7 @@ class UserProfile(models.Model):
     bio = MarkupEditorField(blank=True)
     public = models.BooleanField(default=True)
     sites = models.ManyToManyField(Site)
-    objects = PublicUserProfileManager()
+    objects = PublicSitesObjectManager()
     admin_manager = models.Manager()
         
     class Meta:

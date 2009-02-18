@@ -8,14 +8,8 @@ from django.utils.text import truncate_html_words
 from django.contrib.comments.signals import comment_was_posted
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
+from skel.core.models import Image, Category, PublicSitesObjectManager
 from skel.markupeditor.fields import MarkupEditorField
-from skel.core.models import Image, Category
-
-
-class PublicEntryManager(models.Manager):
-    def get_query_set(self):
-        return super(PublicEntryManager, self).get_query_set().filter(
-        public__exact=True, sites__id__exact=settings.SITE_ID)
 
 
 class Entry(models.Model):
@@ -31,7 +25,7 @@ class Entry(models.Model):
     images = models.ManyToManyField(Image, blank=True, null=True)
     summary = MarkupEditorField(blank=True)
     body = MarkupEditorField()
-    objects = PublicEntryManager()
+    objects = PublicSitesObjectManager()
     admin_manager = models.Manager()
     
     class Meta:

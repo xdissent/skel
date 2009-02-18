@@ -4,7 +4,7 @@
 {% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
 
 {% block blog-title %}
-    <h1><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h1>
+    <h1><a href="{{ object.get_absolute_url }}" title="{{ object.title }}">{{ object.title }}</a></h1>
 {% endblock %}
 
 {% block blog-content %}

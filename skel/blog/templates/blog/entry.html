@@ -9,7 +9,7 @@
         <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"F jS Y<\b\r />g:i a"|safe }}</abbr><br />
         Tags:
     {% for tag in tags %}
-        <a href="{% url blog-entry-tag-detail tag.name %}" rel="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+        <a href="{% url blog-entry-tag-detail tag.name %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
     {% endfor %}
     
     {% if entry.categories.all %}

@@ -2,20 +2,21 @@
 # TODO: Combine Image and Category Managers and export to other apps
 
 from django.db import models
+from django.conf import settings
 from skel.superimage.fields import SuperImageField
 from skel.markupeditor.fields import MarkupEditorField
 
 
-class PublicImageManager(models.Manager):
+class PublicObjectManager(models.Manager):
     def get_query_set(self):
-        return super(PublicImageManager, self).get_query_set().filter(
+        return super(PublicObjectManager, self).get_query_set().filter(
         public__exact=True)
         
 
-class PublicCategoryManager(models.Manager):
+class PublicSitesObjectManager(models.Manager):
     def get_query_set(self):
-        return super(PublicCategoryManager, self).get_query_set().filter(
-        public__exact=True)
+        return super(PublicSitesObjectManager, self).get_query_set().filter(
+        public__exact=True, sites__id__exact=settings.SITE_ID)
         
 
 # TODO: Figure out to change filename through M2M field
@@ -30,7 +31,7 @@ class Image(models.Model):
     width = models.IntegerField(blank=True, null=True, editable=False)
     height = models.IntegerField(blank=True, null=True, editable=False)
     public = models.BooleanField(default=True)
-    objects = PublicImageManager()
+    objects = PublicObjectManager()
     admin_manager = models.Manager()
     
     def __unicode__(self):
@@ -46,7 +47,7 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     description = MarkupEditorField(blank=True)
     public = models.BooleanField(default=True)
-    objects = PublicCategoryManager()
+    objects = PublicObjectManager()
     admin_manager = models.Manager()
     
     class Meta:
