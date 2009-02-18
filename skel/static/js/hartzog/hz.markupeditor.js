@@ -51,7 +51,7 @@ $.widget('hz.markupeditor', {
         });
         
         self.edit_pane.append(this.element);
-        this.element.css({width: '100%', height: '100%' })
+        this.element.css({width: '100%', height: '100%', resize: 'none' })
             .wrap('<div class="ui-tabs-panel ui-widget-content ui-corner-bottom" style="padding-top: 0px" />');
         
 
