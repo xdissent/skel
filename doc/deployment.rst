@@ -48,6 +48,8 @@ Skel Setup Deploy
   
 * Add ``/static/`` URL rewrite to ``/home/36218/containers/django/project_name/static/`` in ``/home/36218/containers/django/mt_runtime/mt_lighttpd.conf``.
 
+* Change ``/media/`` URL filesystem path to ``/home/36218/containers/django/mt_virtualenvs/project_name/src/django/django/contrib/admin/media`` in ``/home/36218/containers/django/mt_runtime/mt_lighttpd.conf``.
+
 
 Skel Clean Deploy
 -----------------
