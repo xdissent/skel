@@ -4,11 +4,12 @@
 {% block title %}{{ month|date:"F Y" }} Archive - {{ block.super }}{% endblock %}
 
 {% block blog-title %}
-    <h1><a href="{% url blog-month month|date:"Y" month|date:"b" %}">{{ month|date:"F Y" }} Archive</a></h1>
+    <h1><a href="{% url blog-entry-month month|date:"Y" month|date:"b" %}">{{ month|date:"F Y" }} Archive</a></h1>
 {% endblock %}
 
 {% block blog-content %}
     {% for entry in object_list %}
+        <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
         {% include "blog/entry.html" %}
     {% empty %}
         <p>No entries for {{ month|date:"F Y" }}.</p>

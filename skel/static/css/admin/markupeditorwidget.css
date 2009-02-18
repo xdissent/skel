@@ -1,0 +1,12 @@
+.hz-markupeditor textarea {
+    font-family: monospace;
+}
+
+form .aligned .hz-markupeditor {
+    clear: both;
+}
+
+form .aligned .hz-markupeditor ul, form .aligned .hz-markupeditor p {
+    padding-left:0;
+    margin-left:0;
+}

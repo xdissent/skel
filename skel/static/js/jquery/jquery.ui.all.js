@@ -444,7 +444,11 @@ $.ui.mouse = {
 			}, this.options.delay);
 		}
 
+
+
 		if (this._mouseDistanceMet(event) && this._mouseDelayMet(event)) {
+					        console.log('here3');
+
 			this._mouseStarted = (this._mouseStart(event) !== false);
 			if (!this._mouseStarted) {
 				event.preventDefault();

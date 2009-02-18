@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from skel.accounts.models import UserProfile
 
-class UserProfileInline(admin.TabularInline):
+class UserProfileInline(admin.StackedInline):
     model = UserProfile
     fk_name = 'user'
     max_num = 1

@@ -1,27 +1,24 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.views.generic.list_detail import object_list, object_detail
+from django.views.generic.list_detail import object_list
+from skel.accounts.views import user_detail
 
 info_dict = {
     'queryset': User.objects.all(),
 }
-
-def user_view(*args, **kwargs):
-    pk = User.objects.get(username=kwargs.pop('user')).pk
-    return object_detail(object_id=pk, *args, **kwargs)
 
 urlpatterns = patterns('',
     url(
         r'^/?$',
         object_list,
         dict(info_dict, template_name='accounts/user_list.html'),
-        name='user-list'
+        name='accounts-user-list'
     ),
 
     url(r'^(?P<user>.*)/$',
-        user_view,
+        user_detail,
         dict(info_dict, template_name='accounts/user_detail.html'),
-        name='user-detail'
+        name='accounts-user-detail'
     ),
 )

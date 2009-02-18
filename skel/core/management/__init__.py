@@ -22,8 +22,8 @@
 #         #call_task(self.argv[1])            
 #         super(ManagementUtility, self).execute()
 
-from pkg_resources import resource_filename
+#from pkg_resources import resource_filename
 
-def launch_paver():
-    pavement_path = resource_filename('', 'pavement.py')
-    print 'launching pavement.py at %s' % pavement_path
+#def launch_paver():
+#    pavement_path = resource_filename('', 'pavement.py')
+#    print 'launching pavement.py at %s' % pavement_path

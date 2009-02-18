@@ -1,5 +1,6 @@
+
 body{
-    font: 12px/18px Helvetica,Arial,'Liberation Sans',FreeSans,sans-serif;
+    font: 12px/18px Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
 }
 
 h1 {
@@ -24,21 +25,40 @@ h5 {
     font-size: 1em;
 }
 
-h6 {
-    font-size:12px;
-}
-
 p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{
     margin-bottom:18px;
 }
 
-input[type=text] {
-    font-size: 11px;
-    line-height: 14px;
-    border: 1px solid #BBBBBB;
-    height: 14px;
+a {
+    color: #555;
 }
 
 .container_12 { 
     background: transparent url(../img/12_col_vertical.gif) top left repeat-y;
+}
+
+.title {
+    font-size: 2em;
+    line-height: 1.5em;
+    margin-bottom: 0;
+    font-weight: bold;
+    color: #417378;
+}
+
+.title a {
+    color: #417378;
+}
+
+.tagline {
+}
+
+.navigation {
+    margin-top: 1.5em;
+    float: right;
+    list-style: none;
+}
+
+.navigation li {
+    float: left;
+    margin-left: 1em;
 }

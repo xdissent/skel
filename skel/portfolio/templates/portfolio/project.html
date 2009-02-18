@@ -4,6 +4,7 @@
 <h2>
     <a href="{{ project.get_absolute_url }}" rel="bookmark" title="{{ project.title }}">{{ project.title }}</a>
 </h2>
+
 <div class="meta">
     <h3>Tags:</h3>
     <ul>
@@ -14,11 +15,13 @@
     {% endfor %}
     </ul>
 </div>
+
 <div>
     {% for image in project.images.all %}
-    <img src="{{ image.thumb.url }}" alt="{{ image.title }}" />
+    <img src="{{ image.image.url }}" alt="{{ image.title }}" />
     {% endfor %}
 </div>
+
 <div>
     <h3>Project Summary</h3>
     {% if project.client %}
@@ -28,11 +31,12 @@
         <p class="meta">Client: {{ project.client.name }}</p>
         {% endif %}
     {% endif %}
+    
     {% if project.role %}
         <p class="meta">Role: {{ project.role }}</p>
     {% endif %}
     
-    {{ project.content_html|safe }}
+    {{ project.description_rendered|safe }}
 
     {% if project.url %}
         <p><a href="{{ project.url }}">Launch Site</a></p>

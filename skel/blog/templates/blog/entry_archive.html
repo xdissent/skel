@@ -4,11 +4,12 @@
 {% block title %}Latest Entries - {{ block.super }}{% endblock %}
 
 {% block blog-title %}
-    <h1><a href="{% url blog-latest %}">Latest Entries</a></h1>
+    <h1><a href="{% url blog-entry-latest %}">Latest Entries</a></h1>
 {% endblock %}
 
 {% block blog-content %}
     {% for entry in latest %}
+        <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
         {% include "blog/entry.html" %}
     {% empty %}
         <p>No entries.</p>

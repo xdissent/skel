@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+
+{% block title %} Hartzog Crop - {{ block.super }}{% endblock %}
+
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.ui.all.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.crop.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#example1').crop({
+            select: function(e, ui) {
+                $('#example1_x1').val(ui.coords[0]);
+                $('#example1_y1').val(ui.coords[1]);
+                $('#example1_x2').val(ui.coords[2]);
+                $('#example1_y2').val(ui.coords[3]);
+                $('#example1_w').val(ui.coords[2] - ui.coords[0]);
+                $('#example1_h').val(ui.coords[3] - ui.coords[1]);
+            }
+        });
+        
+        $('#example2').crop({
+            originalSize: [640, 480],
+            select: function(e, ui) {
+                $('#example2_x1').val(ui.coords[0]);
+                $('#example2_y1').val(ui.coords[1]);
+                $('#example2_x2').val(ui.coords[2]);
+                $('#example2_y2').val(ui.coords[3]);
+                $('#example2_w').val(ui.coords[2] - ui.coords[0]);
+                $('#example2_h').val(ui.coords[3] - ui.coords[1]);
+            }
+        });
+        
+        $('#example2_button').click(function () {
+            $('img').crop('select', [0, 0, 100, 100]);
+            return false;
+        });
+    });
+</script>
+{% endblock %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/theme/ui.all.css" type="text/css" media="screen, projection" />
+<style type="text/css">
+    #example2 {
+        width: 320px;
+        height: 240px;
+    }
+</style>
+{{ block.super }}
+
+{% endblock %}
+
+
+{% block content %}
+<div>
+
+    <img src="{{ MEDIA_URL }}img/sample.jpg" alt="Sample Image" id="example1" />
+
+</div>
+<div>
+    <input type="text" id="example1_x1" value=0 />
+    <input type="text" id="example1_y1" value=0 />
+    <input type="text" id="example1_x2" value=0 />
+    <input type="text" id="example1_y2" value=0 /><br />
+    <input type="text" id="example1_w" value=0 />
+    <input type="text" id="example1_h" value=0 />
+</div>
+
+<div>
+
+    <img src="{{ MEDIA_URL }}img/sample.jpg" alt="Sample Image" id="example2" />
+
+</div>
+<div>
+    <input type="text" id="example2_x1" value=0 />
+    <input type="text" id="example2_y1" value=0 />
+    <input type="text" id="example2_x2" value=0 />
+    <input type="text" id="example2_y2" value=0 /><br />
+    <input type="text" id="example2_w" value=0 />
+    <input type="text" id="example2_h" value=0 />
+</div>
+<div>
+    <button id="example2_button">Click</button>
+</div>
+{% endblock %}

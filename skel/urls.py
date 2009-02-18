@@ -12,6 +12,13 @@ urlpatterns = patterns('',
     url(r'^portfolio/', include('skel.portfolio.urls')),
     url(r'^users/', include('skel.accounts.urls')),
     url(r'^markupeditor/', include('skel.markupeditor.urls')),
+    url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'home.html'}, name='home'),
+    
+    url(r'^markupeditordemo/$', 'django.views.generic.simple.direct_to_template', {'template': 'markupeditor.html'}),
+    url(r'^superimage/$', 'django.views.generic.simple.direct_to_template', {'template': 'superimage.html'}),
+    url(r'^splitpane/$', 'django.views.generic.simple.direct_to_template', {'template': 'splitpane.html'}),
+    url(r'^crop/$', 'django.views.generic.simple.direct_to_template', {'template': 'crop.html'}),
+
 )
 
 # TODO: change this to some other test

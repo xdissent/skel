@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Skel - The Hartzog Creative Framework{% endblock %}</title>
+        <title>{% block title %}Hartzog Skel - The Hartzog Creative Django Framework{% endblock %}</title>
         {% block css %}
         <link rel="stylesheet" href="{{ MEDIA_URL }}css/reset.css" type="text/css" media="screen, projection" />
         <link rel="stylesheet" href="{{ MEDIA_URL }}css/text.css" type="text/css" media="screen, projection" />
@@ -15,15 +15,37 @@
     <body>
         <div id="wrapper" class="container_12">
             <div id="header" class="grid_12">
-                {% block header %}
-                <p class="title">Skel</p>
-                {% include "navigation.html" %}
-                {% endblock %}
-            </div>
-            <div id="content" class="grid_12">
-            {% block content %}
+            
+            {% block header %}
+                <div class="grid_6 alpha">
+                    <p class="title"><a href="{% url home %}" title="Hartzog Skel Home">Hartzog Skel</a></p>
+                    <p class="tagline">The Hartzog Creative Django Framework</p>
+                </div>
+                
+                <div class="grid_6 omega">
+                    {% include "navigation.html" %}
+                </div>    
             {% endblock %}
+            
             </div>
+            
+            {% block topbar %}
+            {% endblock %}
+            
+            {% block content %}
+                <div id="content" class="grid_9">
+                </div>
+            {% endblock %}
+            
+            {% block sidebar %}
+                <div id="sidebar" class="grid_3">
+                    {% include "sidebar.html" %}
+                </div>
+            {% endblock %}
+            
+            {% block bottombar %}
+            {% endblock %}
+            
             <div id="footer" class="grid_12">
             {% block footer %}
                 <p>&copy; {% now "Y" %} Hartzog Creative</p>

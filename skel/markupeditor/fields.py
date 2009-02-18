@@ -36,9 +36,7 @@ class MarkupEditorCreator(object):
         
 
 class MarkupEditorField(models.TextField):
-    """
-    A field that stores a Markup Editor.
-    """
+    """A field that stores a Markup Editor"""
     def contribute_to_class(self, cls, name):
 
         choices = get_choices()
@@ -58,16 +56,25 @@ class MarkupEditorField(models.TextField):
         defaults.update(kwargs)
         return super(MarkupEditorField, self).formfield(**defaults)
 
+
 class MarkupEditorWidget(forms.Textarea):
+    """The widget that turns into a Markup Editor instance"""
+    def __init__(self, attrs=None):
+        self.attrs = {'class': 'hz-markupedit'}
+        #super(MarkupEditorWidget, self).__init__(attrs=attrs)
+        
     class Media:
         css = {
             'all': (
                 'css/theme/ui.all.css',
-                'css/markupeditor.css',
+                'css/admin/markupeditorwidget.css',
             )
         }
         js = (
-            'js/jquery-1.3.1.js',
-            'js/jquery.ui.all.js',
-            'js/markupeditor.js',
+            'js/jquery/jquery.js',
+            'js/jquery/jquery.ui.all.js',
+            'js/hartzog/hz.splitpane.js',
+            'js/hartzog/hz.markupeditor.js',
+            'js/admin/markupeditorwidget.js',
         )
+        
