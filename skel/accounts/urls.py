@@ -16,7 +16,7 @@ urlpatterns = patterns('',
         name='accounts-user-list'
     ),
 
-    url(r'^(?P<user>.*)/$',
+    url(r'^(?P<username>\w+)/$',
         user_detail,
         dict(info_dict, template_name='accounts/user_detail.html'),
         name='accounts-user-detail'
