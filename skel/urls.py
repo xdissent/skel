@@ -1,9 +1,11 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
-from skel.core.urls import urlpatterns
+from skel.core.urls import urlpatterns as core_urls
 
 admin.autodiscover()
+
+urlpatterns = core_urls
 
 urlpatterns += patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

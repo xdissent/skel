@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %} "{{ object }}" Tag - {{ block.super }}{% endblock %}
+{% block title %} {{ object.title }} Category - {{ block.super }}{% endblock %}
 
 
 {% block content %}
@@ -13,7 +13,7 @@
 {% endif %}
 
 {% if object.entry_set.all %}
-<h1><a href="{% url blog-entry-tag-detail object %}" title="Blog Entries tagged {{ object }}">Entries tagged "{{ object }}"</a></h1>
+<h1><a href="{% url blog-entry-category-detail object.slug %}" title="Blog Entries in {{ object.title }} category">Entries in "{{ object.title }}" category</a></h1>
 
 {% for entry in object.entry_set.all %}
     <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
