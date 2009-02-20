@@ -1,12 +1,16 @@
-{% load generic_content %}
+{% load core_tags %}
 
 {# TODO: write a template tag for categories #}
-{% get_latest_objects core.category 5 as categories %}
+{% get_all_objects core.category as categories %}
 
-<ul>
-{% for category in categories %}
-    <li>
-        <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
-    </li>
-{% endfor %}
-</ul>
+{% if categories %}
+    <ul>
+    {% for category in categories %}
+        <li>
+            <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p class="more">No categories</p>
+{% endif %}

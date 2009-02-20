@@ -1,7 +1,13 @@
-Make markupeditor.js work better in tabular inlines.
+done: Make markupeditor.js work better in tabular inlines
 
-Add default thumbnail capability to superimage.
+TODO: Add default thumbnail capability to superimage
 
-Add MarkupEditorField to django.contrib.comments?
+TODO: Add MarkupEditorField to django.contrib.comments?
 
-Finish adding feeds.
+TODO: Finish adding feeds
+
+TODO: Add Sitemap
+
+done: Add {% empty %} clause to sidebar inclusions
+
+TODO: Add Hints tab to hz.markupeditor.js

@@ -1,0 +1,15 @@
+{% load core_tags %}
+
+{% get_all_objects tagging.tag as tags %}
+
+{% if tags %}
+    <ul>
+    {% for tag in tags %}
+        <li>
+            <a href="{% url tag-detail tag %}">{{ tag.name }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p class="more">No tags</p>
+{% endif %}

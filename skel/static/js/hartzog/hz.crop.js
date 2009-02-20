@@ -200,6 +200,20 @@ $.widget('hz.crop', $.extend({}, $.ui.mouse, {
     },
     
     
+    // TODO: Call this from this.select
+    update: function() {
+        var self = this;
+        if (!self._isSelected()) return;
+        self._updateScreenCoords();
+        self.selection.css({
+            left: self._screenCoords[0],
+            top: self._screenCoords[1],
+            width: self._screenCoords[2] - self._screenCoords[0],
+            height: self._screenCoords[3] - self._screenCoords[1],
+        });
+    },
+    
+    
     _isSelected: function() {
         return !this.selection.is(':hidden');
     },

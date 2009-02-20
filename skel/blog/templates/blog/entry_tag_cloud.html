@@ -1,7 +1,13 @@
 {% load tagging_tags %}
+
 {% tags_for_model blog.entry as tags %}
-<ul>
-    {% for tag in tags %}
-    <li><a href="{% url blog-entry-tag-detail tag %}">{{ tag.name }}</a></li>
-    {% endfor %}
-</ul>
+
+{% if tags %}
+    <ul>
+        {% for tag in tags %}
+        <li><a href="{% url blog-entry-tag-detail tag %}">{{ tag.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="more">No tags</p>
+{% endif %}

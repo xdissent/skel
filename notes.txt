@@ -16,6 +16,7 @@ alias coda='open -a /Applications/Coda.app'
 todo pane (from things?)
 install cmd+` shortcut for ``select next tab``
 adds background option for remote shell?
+Highlight TODO's
 
 for django:
 

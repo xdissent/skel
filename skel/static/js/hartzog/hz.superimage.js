@@ -1,107 +1,187 @@
-
 (function($) {
 
 $.widget('hz.superimage', {
     
     _init: function() {
-        this._setup_image(true);
-    },
-    
-    _setup_image: function(init) {
         var self = this, o = this.options;
         
-        self.id_prefix = this.element.attr('id') + '-' + self.widgetBaseClass;
         
-        self.original_size = [this.element.width(), this.element.height()];
-        console.log(self.original_size);
-        self.original_size = [640, 480];
-                
-        self.$widget = self.element.wrap('<div class="ui-superimage-widget"></div>').parent();
+        // TODO: Perhaps this should be 
+        self.idPrefix = self.element.attr('id');
         
-        self.$original = $('<div class="' + self.widgetBaseClass + '-original"><ul><li><a href="#' + self.id_prefix +
-            '-current" class="' + self.widgetBaseClass + '-current-tab" title="Current Image"><span>Current</span></a></li>' +
-            '<li><a href="#' + self.id_prefix + '-upload" class="' + self.widgetBaseClass + '-upload-tab" title="Upload">' +
-            '<span>Upload</span></a></li>' + '</ul>'+
-            '<div id="' + self.id_prefix + '-current" class="' + self.widgetBaseClass + '-current"></div>' +
-            '<div id="' + self.id_prefix + '-upload" class="' + self.widgetBaseClass + '-upload"><p>upload</p></div>' +
-        '</div>');
-        self.$plugins = $('<div class="' + self.widgetBaseClass + '-plugins"><ul></ul></div>');
-
-        self.$widget.append(self.$original);
-        self.$widget.append(self.$plugins);
+        self.fileInput = o.fileInput || 
+                self.element.siblings('input[type=file]');
+        
+        self.widget = self.element.wrap('<div />').parent()
+            .addClass(self.widgetBaseClass + ' ' + 'ui-widget');
             
-        self.$original.find('.ui-superimage-current').append(this.element);
-        this.element.css({width: '100%'});
+        self.sourcePane = $('<div><ul /></div>')
+            .addClass(self.widgetBaseClass + '-source-pane')
+            .appendTo(self.widget)
+            .tabs();
+            
+        $(['Current', 'Upload']).each(function() {
+            var label = this, name = this.toLowerCase(),
+                anchor = '#' + self.idPrefix + '-' + name;
+            self.sourcePane.tabs('add', anchor, label);
+            self[name + 'Tab'] = self.sourcePane.find(anchor);
+            $('<div />').css({overflow: 'auto', height: '100%'})
+                .appendTo(self[name + 'Tab']);
+        });
+        
+        this.element.css({
+                    width: '100%', 
+                    //height: '100%',
+                    display: 'block',
+                    margin: 0,
+                    padding: 0,
+                })
+            .appendTo(self.currentTab.children());
+            // TODO: Add button to toggle off css width or maybe \
+            // explicitly set to o.originalSize for "fullsize" mode
+            
+        self.pluginPane = $('<div><ul /></div>')
+            .addClass(self.widgetBaseClass + '-plugin-pane')
+            .appendTo(self.widget)
+            .tabs();
+            
+            
+        $(o.plugins).each(function() {
+            var plugin = this, id = '#' + self.idPrefix + '-' + this.id;
+            
+            self.pluginPane.tabs('add', id, this.label)
+                .find('a[href=' + id + ']')
+                .click(function() {
+                        if (self.currentPlugin && 
+                                self.currentPlugin != self.plugin) {
+                            self.currentPlugin.deactivate(self);
+                            plugin.activate(self);
+                        }
+                        self.currentPlugin = plugin;
+                        return false;
+                    });
+            plugin.init(self.widget.find(id), self.element, o.originalSize);
+        });
+        
+        // Activate first plugin since its tab won't get clicked
+        o.plugins[0].activate(self);
+        self.currentPlugin = o.plugins[0];
+        
 
-
-    
-        self.$widget.splitpane({
+        // TODO: implement split option
+        self.widget.splitpane({
+            // TODO: Move this into hz.splitpane.js. It needs to be called.
             resize: function(e, ui) {
-                self._trigger('resize', null, self._ui());
-            },
+                ui.element.find('.hz-splitpane-pane > .ui-tabs')
+                    .add('.hz-splitpane-pane > .ui-tabs > .ui-tabs-panel')
+                    .each(function() {
+                            var $this = $(this),
+                                height = $this.parent().height() -
+                                        $this.position().top,
+                                padding = $(this).outerHeight() - 
+                                        $(this).height();
+                            $(this).height(height - padding);                    
+                        });
+                    
+                if (self.currentPlugin && self.currentPlugin.resize) {
+                    self.currentPlugin.resize();
+                }
+            }
         });
-        
-        $.each(o.plugins, function() {
-            self.$plugins.find('ul').append(
-                '<li><a href="#' + self.id_prefix  + '-' + this.id + 
-                '" class="' + self.widgetBaseClass + '-' + this.id + '-tab" title="' + 
-                this.label + '"><span>' + this.label + '</span></a></li>'
-            ).after(
-                '<div id="' + self.id_prefix  + '-' + this.id + '"></div>'
-            );
-            this._init(self._ui());
-        });
-        self._trigger('plugin_init', null, self._ui());
-        
-        self.$original.tabs();
-        self.$plugins.tabs();
-        
+                
     },
-        
+    
     _ui: function() {
         return {
-            widget: this.$widget,
             element: this.element,
-            id_prefix: this.id_prefix,
-            prefix: this.widgetBaseClass,
-            original_size: this.original_size,
+            originalSize: this.options.originalSize,
         };
     }    
 });
 
 
-var thumbnail = {
-    id:     'thumbnail',
-    label:  'Thumbnails',
-    _init:  function(ui) {
+// Plugin prototype
+$.hz.superimage.plugin = function(name, prototype) {
+    $.hz.superimage.plugins = $.hz.superimage.plugins || {};
+    $.hz.superimage.plugins[name] = function(element, panel, options) {
+        this.element = element;
+        this.name = name;
+        this.panel = panel;
+        this.options = $.extend({}, options);
+    }
+    $.hz.superimage.plugins[name].prototype = 
+            $.extend($.hz.superimage.plugin, prototype);
+}
+
+$.hz.superimage.plugin.prototype = {
+    id: 'pluginPrototype',
+    label: 'Default Prototype for Plugins',
     
-        $(ui.element).wrap('<div></div>').crop({ original_size: ui.original_size });
-        var image = ui.element;
-        ui.widget.bind('resize', function(e, ui) {
-            image.crop('resize');
-        });
+    init: function() {
+        console.log('default init');
     },
 };
 
+
+
+
+$.hz.superimage.plugins.thumbnail = 
+
+/*
+var thumbnail = {
+    id:     'thumbnail',
+    label:  'Thumbnails',
+    init:  function(panel, image, size) {
+        var self = this;
+        
+        self.container = $('<div />')
+            .css({overflow: 'auto', height: '100%'})
+            .appendTo(panel);
+            
+        
+        self.fields = $(['x1', 'y1', 'x2', 'y2', 'w', 'h', 'title'])
+            .each(function() {
+                    $('<input />')
+                        .attr({
+                                type: 'text',
+                                name: this,
+                            })
+                        .appendTo(self.container);
+                });
+            
+        self.resize = function() {
+            if (image.crop) {
+                image.crop('update');
+            }
+        };
+        
+        console.log('init');
+    },
+    
+    _addThumbnail: function() {
+        
+    },
+    
+    activate: function(inst) {
+        console.log('activate');
+        //inst.bind('resize', this.resizeHandler);
+    },
+    deactivate: function(inst) {
+        console.log('deactivate');
+        //inst.unbind('resize', this.resizeHandler);
+    },
+};
+*/
+
+
 $.extend($.hz.superimage, {
-    getter: '',
     version: '0.1',
     eventPrefix: 'superimage',
     defaults: {
-        plugins: [
-            thumbnail,
-            {   id:     'resize',
-                label:  'Resize',
-                _init:  function(superimage) {
-                },
-            },
-        ]
+        originalSize: false,
+        plugins: ['thumbnail', 'resize'],
     }
 });
 
-
-$(function() {
-    $('.hz-superimage').superimage();
-});
 
 })(jQuery);
