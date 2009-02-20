@@ -13,6 +13,7 @@
         $('#example1').splitpane();
         $('#example2').children().tabs();
         $('#example2').splitpane({
+            // fix for ui-tabs in panes
             resize: function(e, ui) {
                 ui.element.find('.hz-splitpane-pane > .ui-tabs')
                     .add('.hz-splitpane-pane > .ui-tabs > .ui-tabs-panel')
@@ -33,10 +34,11 @@
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/theme/ui.all.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/hartzog/hz.splitpane.css" type="text/css" media="screen, projection" />
 {% endblock %}
 
 {% block content %}
+<div class="grid_9">
+
 <div id="example1">
 
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -90,5 +92,5 @@
     </div>
 </div>
 
-
+</div>
 {% endblock %}

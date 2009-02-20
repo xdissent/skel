@@ -1,3 +1,4 @@
+// TODO: Add stretch selector as option
 
 (function($) {
 

@@ -2,12 +2,16 @@
 
 {% get_latest_objects blog.entry 8 as latest_entries %}
 
-<ul>
-{% for entry in latest_entries %}
-    <li>
-        <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
-        <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|naturalday:"M j" }}</abbr>
-    </li>
-{% endfor %}
-</ul>
-<p class="more"><a href="{% url blog-entry-latest %}">Read more</a></p>
+{% if latest_entries %}
+    <ul>
+    {% for entry in latest_entries %}
+        <li>
+            <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
+            <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|naturalday:"M j" }}</abbr>
+        </li>
+    {% endfor %}
+    </ul>
+    <p class="more"><a href="{% url blog-entry-latest %}">Read more</a></p>
+{% else %}
+    <p class="more">No entries</p>
+{% endif %}

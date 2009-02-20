@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{% block title %} Tags - {{ block.super }}{% endblock %}
+
+
+{% block content %}
+{% with params.tag as tag %}
+
+<div class="grid_9">
+
+{% load tagging_tags %}
+
+
+{% tagged_objects tag in blog.entry as entries %}
+
+<h1><a href="{% url blog-entry-tag-detail tag %}" title="Blog Entries tagged {{ tag }}">Entries tagged "{{ tag }}"</a></h1>
+
+{% for entry in entries %}
+    <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
+    {% include "blog/entry.html" %}
+{% endfor %}
+
+
+
+{% tagged_objects tag in portfolio.project as projects %}
+
+<h1><a href="{% url portfolio-project-tag-detail tag %}" title="Projects tagged {{ tag }}">Projects tagged "{{ tag }}"</a></h1>
+
+{% for project in projects %}
+    <h2><a href="{{ project.get_absolute_url }}" title="{{ project.title }}">{{ project.title }}</a></h2>
+    {% include "portfolio/project.html" %}
+{% endfor %}
+
+</div>
+
+{% endwith %}
+{% endblock %}
+
+
+{% block sidebar %}
+    {{ block.super }}
+{% endblock %}

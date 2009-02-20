@@ -103,6 +103,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.markup',
     'django.contrib.comments',
     'django.contrib.humanize',
@@ -122,6 +123,8 @@ INSTALLED_APPS = (
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
+
+FORCE_LOWERCASE_TAGS = True
 
 BLOG_AUTO_CLOSE_COMMENTS = 60
 

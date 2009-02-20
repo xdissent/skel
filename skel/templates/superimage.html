@@ -6,14 +6,19 @@
 
 {% block js %}
 {{ block.super }}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.3.1.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ui.all.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/splitpane.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/hz.crop.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/superimage.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.ui.all.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.splitpane.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.crop.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.superimage.js"></script>
 <script type="text/javascript">
     $(function(){
-        $('#example1').superimage();
+/*
+        $('#example1').superimage({
+            originalSize: [640, 480],
+        });
+*/
+
     });
 </script>
 {% endblock %}
@@ -22,14 +27,11 @@
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/theme/ui.all.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/jcrop.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/splitpane.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/superimage.css" type="text/css" media="screen, projection" />
 {% endblock %}
 
 
 {% block content %}
-<div>
+<div class="grid_9">
     <img src="{{ MEDIA_URL }}img/sample.jpg" alt="sample image" id="example1" />
 </div>
 {% endblock %}

@@ -1,11 +1,12 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
+from skel.core.urls import urlpatterns
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+urlpatterns += patterns('',
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/(.*)', admin.site.root),
     url(r'^blog/', include('skel.blog.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),

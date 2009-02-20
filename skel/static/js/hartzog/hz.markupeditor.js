@@ -17,12 +17,12 @@ $.widget('hz.markupeditor', {
         self.idPrefix = self.element.attr('id');
         
         self.widget = self.element.wrap('<div />').parent()
-            .addClass(self.widgetBaseClass + ' ' + 'ui-widget ');
+            .addClass(self.widgetBaseClass + ' ' + 'ui-widget');
             
     
         // Setup edit pane
         
-        self.edit_pane = $('<div><ul></ul></div>')
+        self.editPane = $('<div><ul /></div>')
             .addClass(self.widgetBaseClass + '-edit-pane')
             .appendTo(self.widget)
             .tabs();
@@ -30,14 +30,14 @@ $.widget('hz.markupeditor', {
         $(o.markups).each(function() {
             var markup = this, id = '#' + self.idPrefix + '-' + this.id;
             
-            self.edit_pane.tabs('add', id, this.label)
+            self.editPane.tabs('add', id, this.label)
                 .find('a[href=' + id + ']')
                 .click(function() {
                         self.markup(markup);
                         return false;
                     });
                         
-            var toolbar = self.edit_pane.find(id).addClass('hz-markupeditor-toolbar ui-helper-clearfix');
+            var toolbar = self.editPane.find(id).addClass('hz-markupeditor-toolbar ui-helper-clearfix');
             $(this.buttons).each(function() {
                 var cmd = this;
                 $('<a href="#" class="ui-corner-all"><span class="ui-icon ui-icon-' + cmd + '">' + cmd + '</span></a>')
@@ -50,14 +50,14 @@ $.widget('hz.markupeditor', {
             
         });
         
-        self.edit_pane.append(this.element);
+        self.editPane.append(this.element);
         this.element.css({width: '100%', height: '100%', resize: 'none' })
             .wrap('<div class="ui-tabs-panel ui-widget-content ui-corner-bottom" style="padding-top: 0px" />');
         
 
         // Setup preview pane
         
-        self.preview_pane = $('<div><ul></ul></div>')
+        self.previewPane = $('<div><ul /></div>')
             .addClass(self.widgetBaseClass + '-preview-pane')
             .appendTo(self.widget)
             .tabs({
@@ -66,19 +66,21 @@ $.widget('hz.markupeditor', {
                     }
                 });
             
+        // TODO: double check var declarations. This one had semicolon on 1st line.
         $(['Preview', 'Source']).each(function() {
-            var label = this, name = this.toLowerCase();
+            var label = this, name = this.toLowerCase(),
                 anchor = '#' + self.idPrefix + '-' + name;
-            self.preview_pane.tabs('add', anchor, label);
-            self[name + '_tab'] = self.preview_pane.find(anchor);
+            self.previewPane.tabs('add', anchor, label);
+            self[name + 'Tab'] = self.previewPane.find(anchor);
             // Add wrapper to contain scrollers for large content
             $('<div />').css({overflow: 'auto', height: '100%'})
-                .appendTo(self[name + '_tab']);
+                .appendTo(self[name + 'Tab']);
         });
-        self.source_tab.children().append('<pre><code></code></pre>');
+        self.sourceTab.children().append('<pre><code></code></pre>');
         
         
         if (o.split) {
+            // TODO: Move this into hz.splitpane.js
             // Create splitpane with trickery to get tabs to scale automatically
             self.widget.splitpane({
                 resize: function(e, ui) {
@@ -95,9 +97,12 @@ $.widget('hz.markupeditor', {
             
             });
         } else {
-            self.edit_pane.add(self.preview_pane).resizable({
+            self.editPane.add(self.previewPane).resizable({
+
+
                 minWidth: self.widget.width(),
                 maxWidth: self.widget.width(),
+                // TODO: Move this into hz.splitpane.js
                 resize: function(e, ui) {
                     ui.element.find('.ui-tabs')
                         .add('.ui-tabs > .ui-tabs-panel')
@@ -157,16 +162,16 @@ $.widget('hz.markupeditor', {
         var self = this;
                                 
         if (!self.currentMarkup) {
-            self.preview_tab.children().html(self.element.val());
-            self.source_tab.find('code').text(self.element.val());
+            self.previewTab.children().html(self.element.val());
+            self.sourceTab.find('code').text(self.element.val());
             return;
         }
                 
         $.post(self.currentMarkup.url, {
                 content: self.element.val()
             }, function(data) {
-                self.preview_tab.children().html(data);
-                self.source_tab.find('code').text(data);
+                self.previewTab.children().html(data);
+                self.sourceTab.find('code').text(data);
         });
     },
     
@@ -176,7 +181,7 @@ $.widget('hz.markupeditor', {
         // internally exposed setter to change by markup instance
         // if markup is string, markup = _lookupmarkup(markup)
         this.currentMarkup = markup;
-        this.edit_pane.tabs('select', '#' + this.idPrefix + '-' + markup.id);
+        this.editPane.tabs('select', '#' + this.idPrefix + '-' + markup.id);
         this.preview();
         this._trigger('select', null, this._ui());
     },
