@@ -1,43 +1,63 @@
 {% extends "base.html" %}
 
 
-{% block title %} Tags - {{ block.super }}{% endblock %}
+{% block title %} "{{ object }}" Tag - {{ block.super }}{% endblock %}
 
 
 {% block content %}
-{% with params.tag as tag %}
 
+{% if object.entry_set.all and object.project_set.all %}
+<div class="grid_6">
+{% else %}
 <div class="grid_9">
+{% endif %}
 
-{% load tagging_tags %}
+{% if object.entry_set.all %}
+<h1><a href="{% url blog-entry-tag-detail object %}" title="Blog Entries tagged {{ object }}">Entries tagged "{{ object }}"</a></h1>
 
-
-{% tagged_objects tag in blog.entry as entries %}
-
-<h1><a href="{% url blog-entry-tag-detail tag %}" title="Blog Entries tagged {{ tag }}">Entries tagged "{{ tag }}"</a></h1>
-
-{% for entry in entries %}
+{% for entry in object.entry_set.all %}
     <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
     {% include "blog/entry.html" %}
 {% endfor %}
+{% endif %}
 
 
+{% if object.entry_set.all and object.project_set.all %}
+</div><div class="grid_6">
+{% endif %}
 
-{% tagged_objects tag in portfolio.project as projects %}
 
-<h1><a href="{% url portfolio-project-tag-detail tag %}" title="Projects tagged {{ tag }}">Projects tagged "{{ tag }}"</a></h1>
+{% if object.project_set.all %}
+<h1><a href="{% url portfolio-project-category-detail object.slug %}" title="Projects in {{ object.title }} category">Projects in "{{ object.title }}" category</a></h1>
 
-{% for project in projects %}
+{% for project in object.project_set.all %}
     <h2><a href="{{ project.get_absolute_url }}" title="{{ project.title }}">{{ project.title }}</a></h2>
     {% include "portfolio/project.html" %}
 {% endfor %}
+{% endif %}
 
 </div>
 
-{% endwith %}
 {% endblock %}
 
 
 {% block sidebar %}
-    {{ block.super }}
+
+{% if object.entry_set.all and object.project_set.all %}
+{% else %}
+    {{ block.super}}
+{% endif %}
+
+{% endblock %}
+
+
+{% block bottombar %}
+
+{% if object.entry_set.all and object.project_set.all %}
+    <div id="bottombar" class="grid_12">
+        {% include "bottombar.html" %}
+    </div>
+{% else %}
+{% endif %}
+
 {% endblock %}
