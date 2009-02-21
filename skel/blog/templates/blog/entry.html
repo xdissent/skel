@@ -16,7 +16,7 @@
         <br />
         Categories:
         {% for category in entry.categories.all %}
-            <a href="{% url blog-entry-category-detail category.slug %}" rel="tag">{{ category.title }}</a>{% if not forloop.last %},{% endif %}
+            <a href="{% url blog-entry-category-detail category.slug %}" rel="tag">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
         {% endfor %}
     {% endif %}
     </p>

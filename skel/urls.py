@@ -1,9 +1,11 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
-from skel.core.urls import urlpatterns
+from skel.core.urls import urlpatterns as core_urls
 
 admin.autodiscover()
+
+urlpatterns = core_urls
 
 urlpatterns += patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -13,6 +15,7 @@ urlpatterns += patterns('',
     url(r'^portfolio/', include('skel.portfolio.urls')),
     url(r'^users/', include('skel.accounts.urls')),
     url(r'^markupeditor/', include('skel.markupeditor.urls')),
+    url(r'^category/', include('skel.categories.urls')),
     url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'home.html'}, name='home'),
     
     url(r'^markupeditordemo/$', 'django.views.generic.simple.direct_to_template', {'template': 'markupeditor.html'}),

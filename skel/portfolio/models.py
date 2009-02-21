@@ -7,7 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
 from skel.markupeditor.fields import MarkupEditorField
-from skel.core.models import Image, Category, PublicSitesObjectManager
+from skel.core.models import Image, PublicSitesObjectManager
+from skel import categories
+
 
 
 class Client(models.Model):
@@ -43,7 +45,6 @@ class Project(models.Model):
     published = models.DateTimeField(default=datetime.datetime.now)
     sites = models.ManyToManyField(Site)
     tags = TagField()
-    categories = models.ManyToManyField(Category, blank=True, null=True)
     images = models.ManyToManyField(Image, blank=True, null=True)
     description = MarkupEditorField()
     summary = MarkupEditorField()
@@ -60,3 +61,5 @@ class Project(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('portfolio-project-detail', None, {'slug': self.slug})
+
+categories.register(Project)

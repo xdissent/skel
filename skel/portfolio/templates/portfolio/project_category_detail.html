@@ -1,0 +1,16 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}Projects in {{ category.name }} Category - {{ block.super }}{% endblock %}
+
+{% block portfolio-title %}
+    <h1><a href="{% url portfolio-project-category-detail category.slug %}" title="Projects in {{ category.name }} Category">Projects in {{ category.name }} Category</a></h1>
+{% endblock %}
+
+{% block portfolio-content %}
+    {% for project in object_list %}
+        <h2><a href="{{ project.get_absolute_url }}" title="{{ project.title }}">{{ project.title }}</a></h2>
+        {% include "portfolio/project.html" %}
+    {% empty %}
+        <p>No projects in in {{ category.name }} Category.</p>
+    {% endfor %}
+{% endblock %}

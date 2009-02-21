@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+
+{% block title %} "{{ object }}" Tag - {{ block.super }}{% endblock %}
+
+
+{% block content %}
+
+{% load tagging_tags %}
+{% with object as tag %}
+
+{% tagged_objects tag in blog.entry as entries %}
+{% tagged_objects tag in portfolio.project as projects %}
+
+
+{% if entries and projects %}
+<div class="grid_6">
+{% else %}
+<div class="grid_9">
+{% endif %}
+
+
+{% if entries %}
+    <h1><a href="{% url blog-entry-tag-detail tag %}" title="Blog Entries tagged {{ tag }}">Entries tagged "{{ tag }}"</a></h1>
+    
+    {% for entry in entries|slice:":5" %}
+        <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
+        {% include "blog/entry.html" %}
+    {% endfor %}
+    
+    {% if entries|slice:":6"|length_is:"6" %}
+        <p><a href="{% url blog-entry-category-detail tag %}" title="More Entries tagged {{ tag }}">More Entries tagged "{{ object.name }}"</a></p>
+    {% endif %}
+{% endif %}
+
+
+
+{% if entries and projects %}
+</div><div class="grid_6">
+{% endif %}
+
+
+
+{% if projects %}
+    <h1><a href="{% url portfolio-project-tag-detail tag %}" title="Projects tagged {{ tag }}">Projects tagged "{{ tag }}"</a></h1>
+    
+    {% for project in projects|slice:":5" %}
+        <h2><a href="{{ project.get_absolute_url }}" title="{{ project.title }}">{{ project.title }}</a></h2>
+        {% include "portfolio/project.html" %}
+    {% endfor %}
+
+    {% if projects|slice:":6"|length_is:"6" %}
+        <p><a href="{% url portfolio-project-tag-detail tag %}" title="More Projects tagged {{ tag }}">More Projects tagged "{{ object.name }}"</a></p>
+    {% endif %}
+{% endif %}
+
+
+</div>
+
+{% endwith %}
+{% endblock %}
+
+
+
+
+{% block sidebar %}
+
+{% load tagging_tags %}
+{% tagged_objects object in blog.entry as entries %}
+{% tagged_objects object in portfolio.project as projects %}
+
+{% if entries and projects %}
+{% else %}
+    {{ block.super}}
+{% endif %}
+
+{% endblock %}
+
+
+
+{% block bottombar %}
+
+{% load tagging_tags %}
+{% tagged_objects object in blog.entry as entries %}
+{% tagged_objects object in portfolio.project as projects %}
+
+{% if entries and projects %}
+    <div id="bottombar" class="grid_12">
+        {% include "bottombar.html" %}
+    </div>
+{% else %}
+{% endif %}
+
+{% endblock %}

@@ -19,7 +19,7 @@
     {% if project.categories.all %}
         Categories:
         {% for category in project.categories.all %}
-            <a href="{% url portfolio-project-category-detail category.slug %}" rel="tag">{{ category.title }}</a>{% if not forloop.last %},{% endif %}
+            <a href="{% url portfolio-project-category-detail category.slug %}" rel="tag">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
         {% endfor %}
         <br />
     {% endif %}
