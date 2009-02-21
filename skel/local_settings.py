@@ -1,6 +1,6 @@
 import os
 
-VIRTUAL_ENVIRONMENT_PATH = '/Users/xdissent/.virtualenvs/skel-trunk'
+VIRTUAL_ENVIRONMENT_PATH = '/home/36218/containers/django/mt_virtualenvs/hartzog_skel'
 
 PROJ_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJ_NAME = os.path.basename(os.path.dirname(__file__))
