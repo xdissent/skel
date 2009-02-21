@@ -2,6 +2,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from tagging.views import tagged_object_list
 from skel.portfolio.models import Project
+from skel.categories.views import category_object_list
 
 project_dict = {
     'queryset': Project.objects.all(),
@@ -15,7 +16,7 @@ tag_dict = {
 
 category_dict = {
     'queryset': Project.objects.all(),
-    'slug_field': 'slug',
+    'template_name': 'portfolio/project_category_detail.html',
 }
 
 urlpatterns = patterns('django.views.generic.list_detail',
@@ -43,8 +44,8 @@ urlpatterns += patterns('',
         name='portfolio-project-tag-detail'
     ),
     url(r'^category/(?P<slug>[^/]+)/$',
-        'django.views.generic.simple.direct_to_template',
-        {'template_name': 'nothing.html'},
+        category_object_list,
+        category_dict,
         name='portfolio-project-category-detail'
     ),
 )

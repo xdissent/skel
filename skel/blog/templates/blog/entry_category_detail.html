@@ -1,10 +1,10 @@
 {% extends "blog/base.html" %}
 
 
-{% block title %}Entries in {{ category.title }} Category - {{ block.super }}{% endblock %}
+{% block title %}Entries in {{ category.name }} Category - {{ block.super }}{% endblock %}
 
 {% block blog-title %}
-    <h1><a href="{% url blog-entry-category-detail object.slug %}" title="Entries in {{ category.title }} Category">Entries in {{ category.title }} Category</a></h1>
+    <h1><a href="{% url blog-entry-category-detail category.slug %}" title="Entries in {{ category.name }} Category">Entries in {{ category.name }} Category</a></h1>
 {% endblock %}
 
 {% block blog-content %}
@@ -12,6 +12,6 @@
         <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
         {% include "blog/entry.html" %}
     {% empty %}
-        <p>No entries in in {{ category.title }} Category.</p>
+        <p>No entries in in {{ category.name }} Category.</p>
     {% endfor %}
 {% endblock %}

@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from tagging.views import tagged_object_list
 from skel.blog.models import Entry
-from skel.core.views import category_object_list
+from skel.categories.views import category_object_list
 
 entry_dict = {
     'queryset': Entry.objects.all(),
@@ -26,7 +26,7 @@ urlpatterns = patterns('django.views.generic.date_based',
     url(
         r'^/?$',
         'archive_index',
-        info_dict,
+        entry_dict,
         name='blog-entry-latest'
     ),
 

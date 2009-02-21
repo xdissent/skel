@@ -8,15 +8,14 @@ from django.utils.text import truncate_html_words
 from django.contrib.comments.signals import comment_was_posted
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
-from skel.core.models import Image, Category, PublicSitesObjectManager
+from skel.core.models import Image, PublicSitesObjectManager
 from skel.markupeditor.fields import MarkupEditorField
-
+from skel import categories
 
 class Entry(models.Model):
     title = models.CharField(max_length=255)
     public = models.BooleanField(default=True)
     author = models.ForeignKey(User)
-    categories = models.ManyToManyField(Category, blank=True, null=True)
     tags = TagField(blank=True)
     slug = models.SlugField(unique_for_date='published')
     sites = models.ManyToManyField(Site)
@@ -70,3 +69,5 @@ def moderate_comment(sender, comment, request, **kwargs):
 
 comment_was_posted.connect(format_comment)
 comment_was_posted.connect(moderate_comment)
+
+categories.register(Entry)

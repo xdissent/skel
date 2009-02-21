@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from skel.core.models import Image, Category
+from skel.core.models import Image
 
 
 class ImageAdmin(admin.ModelAdmin):
@@ -14,26 +14,6 @@ class ImageAdmin(admin.ModelAdmin):
         }),
     )
     model_admin_manager = Image.admin_manager
-    
-    
-class CategoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
-    fieldsets = (
-        (None, {
-            'fields': (
-                'title',
-                'description',
-                'public',
-            ),
-        }),
-        ('Advanced options', {
-            'classes': ('collapse',),
-            'fields': (
-                'slug',
-            )
-        }),
-    )
-    model_admin_manager = Category.admin_manager
 
 
 class ImageInline(admin.StackedInline):
@@ -42,4 +22,3 @@ class ImageInline(admin.StackedInline):
 
 
 admin.site.register(Image, ImageAdmin)
-admin.site.register(Category, CategoryAdmin)

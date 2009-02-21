@@ -1,5 +1,5 @@
-# TODO: Integrate django.contrib.sites into Image and Category & Managers
-# TODO: Combine Image and Category Managers and export to other apps
+# TODO: Integrate django.contrib.sites into Image Managers
+# done: Combine Image and Category Managers and export to other apps
 
 from django.db import models
 from django.conf import settings
@@ -40,28 +40,3 @@ class Image(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return self.image.url
-
-
-class Category(models.Model):
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
-    description = MarkupEditorField(blank=True)
-    public = models.BooleanField(default=True)
-    objects = PublicObjectManager()
-    admin_manager = models.Manager()
-    
-    class Meta:
-        db_table = 'core_categories'
-        verbose_name_plural = 'categories'
-
-    def __unicode__(self):
-        return u'%s' % (self.title)
-        
-    @models.permalink
-    def get_absolute_url(self):
-        return ('category-detail', None, {
-            'year': self.published.year,
-            'month': self.published.strftime('%b').lower(),
-            'day': self.published.strftime('%d'),
-            'slug': self.slug,
-        })
