@@ -78,6 +78,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.http.SetRemoteAddrFromForwardedFor',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 ROOT_URLCONF = PROJ_NAME + '.urls'
@@ -107,6 +108,7 @@ INSTALLED_APPS = (
     'django.contrib.markup',
     'django.contrib.comments',
     'django.contrib.humanize',
+    'django.contrib.flatpages',
     'template_utils',
     'tagging',
     'profiles',

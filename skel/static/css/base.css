@@ -30,7 +30,7 @@ p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{
 }
 
 a {
-    color: #555;
+    color: #333;
 }
 
 .ccontainer_12 { 
@@ -42,11 +42,11 @@ a {
     line-height: 1.5em;
     margin-bottom: 0;
     font-weight: bold;
-    color: #417378;
+    color: #c02a37;
 }
 
 .title a {
-    color: #417378;
+    color: #c02a37;
 }
 
 .tagline {
@@ -61,4 +61,16 @@ a {
 .navigation li {
     float: left;
     margin-left: 1em;
+}
+
+form.comments label {
+    width: 160px;
+    display: block;
+    float: left;
+}
+
+img.gravatar {
+    display: block;
+    margin: 0;
+    padding: 0;
 }

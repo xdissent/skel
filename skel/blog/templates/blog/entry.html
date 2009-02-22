@@ -22,11 +22,11 @@
     </p>
 
 {% if not show_detail %}
-    {{ entry.summary_rendered }}
+    {{ entry.summary_rendered|safe }}
     <p class="meta"><a href="{{ entry.get_absolute_url }}#comments">Comments ({{ comment_count }})</a></p>
     
 {% else %}
-    {{ entry.body_rendered }}
+    {{ entry.body_rendered|safe }}
     {% include "blog/comments.html" %}    
     
 {% endif %}
