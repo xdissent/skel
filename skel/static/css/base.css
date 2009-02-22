@@ -30,10 +30,10 @@ p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{
 }
 
 a {
-    color: #555;
+    color: #333;
 }
 
-.container_12 { 
+.ccontainer_12 { 
     background: transparent url(../img/12_col_vertical.gif) top left repeat-y;
 }
 
@@ -42,11 +42,11 @@ a {
     line-height: 1.5em;
     margin-bottom: 0;
     font-weight: bold;
-    color: #417378;
+    color: #c02a37;
 }
 
 .title a {
-    color: #417378;
+    color: #c02a37;
 }
 
 .tagline {
