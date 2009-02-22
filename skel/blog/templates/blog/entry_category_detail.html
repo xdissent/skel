@@ -3,8 +3,14 @@
 
 {% block title %}Entries in {{ category.name }} Category - {{ block.super }}{% endblock %}
 
+
 {% block blog-title %}
     <h1><a href="{% url blog-entry-category-detail category.slug %}" title="Entries in {{ category.name }} Category">Entries in {{ category.name }} Category</a></h1>
+{% endblock %}
+
+{% block rss %}
+{# TODO: Work out Feed urls to be non-hardcoded #}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/feeds/blog/category/{{ category.slug }}/" />
 {% endblock %}
 
 {% block blog-content %}

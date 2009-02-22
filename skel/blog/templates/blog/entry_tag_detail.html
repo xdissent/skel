@@ -7,6 +7,11 @@
     <h1><a href="{% url blog-entry-tag-detail tag %}" title="Entries Tagged {{ tag.name }}">Entries Tagged "{{ tag.name }}"</a></h1>
 {% endblock %}
 
+{% block rss %}
+{# TODO: Work out Feed urls to be non-hardcoded #}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/feeds/blog/tag/{{ tag }}/" />
+{% endblock %}
+
 {% block blog-content %}
     {% for entry in object_list %}
         <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>

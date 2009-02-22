@@ -123,6 +123,8 @@ INSTALLED_APPS = (
     'skel.categories',
 )
 
+COMMENTS_APP = 'skel.core'
+
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
@@ -131,6 +133,11 @@ FORCE_LOWERCASE_TAGS = True
 
 BLOG_AUTO_CLOSE_COMMENTS = 60
 
+RESTRUCTUREDTEXT_FILTER_SETTINGS = {
+    'doctitle_xform': False,
+    'initial_header_level': '2',
+    'cloak_email_addresses': True,
+}
 
 #leave at end of file
 try:

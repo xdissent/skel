@@ -36,7 +36,7 @@ urlpatterns += patterns('',
     url(r'^crop/$', 'django.views.generic.simple.direct_to_template', {'template': 'crop.html'}),
     
     url(r'^feeds/blog/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': blog_other_feeds}),
-    url(r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': blog_feeds}),
+    url(r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': blog_feeds}, name='feed-root'),
 
 )
 
