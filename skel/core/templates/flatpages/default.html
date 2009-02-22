@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{{ flatpage.title }} - {{ block.super }}{% endblock %}
+
+{% block css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/pygments.css" type="text/css" media="screen, projection" />
+{% endblock %}
+
+{% block content %}
+<div id="content" class="grid_9">
+    
+    {% block flatpage-content %}
+        {{ flatpage.content_rendered }}
+    {% endblock %}
+    
+</div>
+{% endblock %}

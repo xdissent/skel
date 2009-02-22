@@ -16,8 +16,8 @@ urlpatterns += patterns('',
     url(r'^users/', include('skel.accounts.urls')),
     url(r'^markupeditor/', include('skel.markupeditor.urls')),
     url(r'^category/', include('skel.categories.urls')),
-    url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'home.html'}, name='home'),
     
+    # TODO: Delete these files    
     url(r'^markupeditordemo/$', 'django.views.generic.simple.direct_to_template', {'template': 'markupeditor.html'}),
     url(r'^superimage/$', 'django.views.generic.simple.direct_to_template', {'template': 'superimage.html'}),
     url(r'^splitpane/$', 'django.views.generic.simple.direct_to_template', {'template': 'splitpane.html'}),
@@ -25,7 +25,7 @@ urlpatterns += patterns('',
 
 )
 
-# TODO: change this to some other test
+# TODO: Change this to some other test
 if settings.DEBUG:
     from django.views.static import serve
     from django.http import Http404, HttpResponseNotFound

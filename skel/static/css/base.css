@@ -33,7 +33,7 @@ a {
     color: #555;
 }
 
-.ccontainer_12 { 
+.container_12 { 
     background: transparent url(../img/12_col_vertical.gif) top left repeat-y;
 }
 
@@ -61,4 +61,16 @@ a {
 .navigation li {
     float: left;
     margin-left: 1em;
+}
+
+form.comments label {
+    width: 160px;
+    display: block;
+    float: left;
+}
+
+img.gravatar {
+    display: block;
+    margin: 0;
+    padding: 0;
 }

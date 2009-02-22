@@ -2,6 +2,8 @@ from django import forms
 from django.db import models
 from skel.markupeditor.markups import registry, get_choices
 
+
+
 class MarkupEditorCreator(object):
     """
     Difficult.
@@ -34,22 +36,27 @@ class MarkupEditorCreator(object):
         rendered = registry[markup]().render(self.field.to_python(value))
         setattr(obj, self.rendered_name, rendered)
         
+        
+
+def add_extra_fields(field, cls, name):
+    choices = get_choices()
+    markup_field = models.CharField(choices=choices, null=True, blank=True, max_length=255)
+    markup_field.creation_counter = field.creation_counter
+    cls.add_to_class('%s_markup' % name, markup_field)
+
+    rendered_field = models.TextField(null=True, blank=True, editable=False)
+    rendered_field.creation_counter = field.creation_counter        
+    cls.add_to_class('%s_rendered' % name, rendered_field)
+    setattr(cls, name, MarkupEditorCreator(field))
+    
+    
+        
 
 class MarkupEditorField(models.TextField):
     """A field that stores a Markup Editor"""
     def contribute_to_class(self, cls, name):
-
-        choices = get_choices()
-        markup_field = models.CharField(choices=choices, null=True, blank=True, max_length=255)
-        markup_field.creation_counter = self.creation_counter
-        cls.add_to_class('%s_markup' % name, markup_field)
-
-        rendered_field = models.TextField(null=True, blank=True, editable=False)
-        rendered_field.creation_counter = self.creation_counter        
-        cls.add_to_class('%s_rendered' % name, rendered_field)
-
         super(MarkupEditorField, self).contribute_to_class(cls, name)
-        setattr(cls, self.name, MarkupEditorCreator(self))
+        add_extra_fields(self, cls, name)
 
     def formfield(self, **kwargs):
         defaults = {'widget': MarkupEditorWidget}
