@@ -1,6 +1,8 @@
 from django import template
 from django.db.models import get_model
+from django.contrib.comments.templatetags.comments import BaseCommentNode
 from template_utils.nodes import ContextUpdatingNode, GenericContentNode
+
 
 class AllGenericContentNode(GenericContentNode):
     def get_content(self, context):
@@ -64,6 +66,21 @@ def do_retrieve_object_by_slug(parser, token):
     if bits[3] != 'as':
         raise template.TemplateSyntaxError("third argument to '%s' tag must be 'as'" % bits[0])
     return RetrieveObjectBySlugNode(bits[1], bits[2], bits[4])
+    
+
+class CommentFormNode(BaseCommentNode):
+    """Insert a form for the comment model into the context."""
+
+    def get_form(self, context):
+        ctype, object_pk = self.get_target_ctype_pk(context)
+        if object_pk:
+            return get_form()(ctype.get_object_for_this_type(pk=object_pk))
+        else:
+            return None
+
+    def render(self, context):
+        context[self.as_varname] = self.get_form(context)
+        return ''
     
     
 register = template.Library()

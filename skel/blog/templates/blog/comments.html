@@ -14,7 +14,13 @@
                 <abbr title="{{ comment.submit_date|date:"Y-m-dTH:i:sQ" }}">{{ comment.submit_date|date:"F jS Y<\b\r />g:i a"|safe }}</abbr>
             </p>
     
-            <div class="grid_7 omega">{{ comment.comment|safe }}</div>
+            <div class="grid_7 omega">
+                {% if comment.comment_rendered %}
+                    {{ comment.comment_rendered|safe }}
+                {% else %}
+                    <p>{{ comment.comment }}</p>
+                {% endif %}
+            </div>
         </div>
 
     {% endfor %}
@@ -23,7 +29,12 @@
 {% if entry.comments_enabled %}
     <p>Leave a Comment</p>
     <div>
-        {% render_comment_form for entry %}
+        {% if not comment_form %}
+            {% get_comment_form for entry as comment_form %}
+        {% endif %}
+        {% with comment_form as form %}
+            {% include "comments/blog/form.html" %}
+        {% endwith %}
     </div>
 {% else %}
     <p>Comments are disabled for this entry.</p>

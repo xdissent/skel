@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
+
 {% block title %}Blog - {{ block.super }}{% endblock %}
+
 
 {% block css %}
     {{ block.super }}
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/blog.css" type="text/css" media="screen, projection" />
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/pygments.css" type="text/css" media="screen, projection" />
 {% endblock %}
+
+
+{% block rss %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url feed-root "blog" %}" />
+{% endblock %}
+
 
 {% block content %}
 <div id="content" class="grid_9">

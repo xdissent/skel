@@ -3,7 +3,6 @@ from django.db import models
 from skel.markupeditor.markups import registry, get_choices
 
 
-
 class MarkupEditorCreator(object):
     """
     Difficult.
@@ -34,8 +33,7 @@ class MarkupEditorCreator(object):
             return
             
         rendered = registry[markup]().render(self.field.to_python(value))
-        setattr(obj, self.rendered_name, rendered)
-        
+        setattr(obj, self.rendered_name, rendered)        
         
 
 def add_extra_fields(field, cls, name):
@@ -66,9 +64,10 @@ class MarkupEditorField(models.TextField):
 
 class MarkupEditorWidget(forms.Textarea):
     """The widget that turns into a Markup Editor instance"""
-    def __init__(self, attrs=None):
-        self.attrs = {'class': 'hz-markupedit'}
-        #super(MarkupEditorWidget, self).__init__(attrs=attrs)
+    def __init__(self, **kwargs):
+        attrs = kwargs.pop('attrs', {})
+        attrs.update({'class': 'hz-markupedit'})
+        super(MarkupEditorWidget, self).__init__(attrs=attrs)
         
     class Media:
         css = {
