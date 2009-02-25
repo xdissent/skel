@@ -16,7 +16,7 @@ def register(model, categories_descriptor_attr='categories'):
     registry.append(model)
     
     from django.db import models
-    from categories.models import Category
+    from skel.categories.models import Category
 
     categories_field = models.ManyToManyField(Category, blank=True, null=True)
     categories_field.creation_counter = model._meta.fields[-1].creation_counter
