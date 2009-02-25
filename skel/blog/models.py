@@ -8,7 +8,8 @@ from django.utils.text import truncate_html_words
 from django.contrib.comments.signals import comment_was_posted
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
-from skel.core.models import Image, PublicSitesObjectManager
+from skel.core.models import Image
+from skel.core.managers import PublicSitesObjectManager
 from skel.markupeditor.fields import MarkupEditorField
 from skel import categories
 
@@ -67,7 +68,7 @@ def moderate_comment(sender, comment, request, **kwargs):
         comment.save()
 
 
-comment_was_posted.connect(format_comment)
-comment_was_posted.connect(moderate_comment)
+# comment_was_posted.connect(format_comment)
+# comment_was_posted.connect(moderate_comment)
 
 categories.register(Entry)

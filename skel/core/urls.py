@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.comments.models import Comment
 from django.utils.encoding import force_unicode
 from tagging.models import Tag
-from skel.core.views import tag_detail, doc_index, doc_skel, post_comment
+from skel.core.views import tag_detail, doc_index, doc_skel
 import datetime
 
 
@@ -12,7 +12,6 @@ import datetime
 from django import forms
 from django.contrib.comments.forms import CommentForm, COMMENT_MAX_LENGTH
 from skel.markupeditor.fields import MarkupEditorWidget
-from skel.markupeditor.markups import get_choices
 
 
 def fix_comment_form_init(func):
@@ -64,8 +63,8 @@ def fix_comment_form_get_comment_object(func):
     return wrapped
 
 
-CommentForm.__init__ = fix_comment_form_init(CommentForm.__init__)
-CommentForm.get_comment_object = fix_comment_form_get_comment_object(CommentForm.get_comment_object)
+#CommentForm.__init__ = fix_comment_form_init(CommentForm.__init__)
+#CommentForm.get_comment_object = fix_comment_form_get_comment_object(CommentForm.get_comment_object)
 
 
 tag_dict = {
@@ -95,9 +94,9 @@ urlpatterns = patterns('',
         name='skel-docroot',
     ),
     
-    url(
-        r'^comments/post/$',
-        post_comment,
-        name='comments-post-comment'
-    ),
+#     url(
+#         r'^comments/post/$',
+#         post_comment,
+#         name='comments-post-comment'
+#     ),
 )

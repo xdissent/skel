@@ -1,7 +1,7 @@
 # TODO: Integrate django.contrib.sites into Category Manager
 
 from django.db import models
-from skel.core.models import PublicObjectManager
+from skel.core.managers import PublicObjectManager
 from skel.markupeditor.fields import MarkupEditorField
 
 class Category(models.Model):
