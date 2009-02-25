@@ -3,7 +3,7 @@
 {% get_latest_objects blog.entry 8 as latest_entries %}
 
 {% if latest_entries %}
-    <ul>
+    <ul class="recent-entries">
     {% for entry in latest_entries %}
         <li>
             <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
