@@ -15,23 +15,14 @@ class MarkupEditorCreator(object):
     def __get__(self, obj, type=None):
         if obj is None:
             raise AttributeError('Can only be accessed via an instance.')
-
         rendered = getattr(obj, self.rendered_name, None)
-        
-        #if rendered:
-        #    return rendered
-        
         return obj.__dict__[self.field.name]
 
-    def __set__(self, obj, value):
-    
+    def __set__(self, obj, value):    
         markup = getattr(obj, self.markup_name, None)
-        
         obj.__dict__[self.field.name] = self.field.to_python(value)
-
         if not markup:
             return
-            
         rendered = registry[markup]().render(self.field.to_python(value))
         setattr(obj, self.rendered_name, rendered)        
         
@@ -39,11 +30,11 @@ class MarkupEditorCreator(object):
 def add_extra_fields(field, cls, name):
     choices = get_choices()
     markup_field = models.CharField(choices=choices, null=True, blank=True, max_length=255)
-    markup_field.creation_counter = field.creation_counter
+    markup_field.creation_counter = field.creation_counter - 1
     cls.add_to_class('%s_markup' % name, markup_field)
 
     rendered_field = models.TextField(null=True, blank=True, editable=False)
-    rendered_field.creation_counter = field.creation_counter        
+    rendered_field.creation_counter = field.creation_counter - 1       
     cls.add_to_class('%s_rendered' % name, rendered_field)
     setattr(cls, name, MarkupEditorCreator(field))
     

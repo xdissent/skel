@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from tagging.fields import TagField
 from skel.markupeditor.fields import MarkupEditorField
-from skel.core.models import Image, PublicSitesObjectManager
+from skel.core.models import Image
+from skel.core.managers import PublicSitesObjectManager
 from skel import categories
 
 

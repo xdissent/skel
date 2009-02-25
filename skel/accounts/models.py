@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-from skel.core.models import PublicSitesObjectManager
+from skel.core.managers import PublicSitesObjectManager
 from skel.markupeditor.fields import MarkupEditorField
 
 
