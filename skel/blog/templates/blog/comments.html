@@ -14,7 +14,7 @@
                 <abbr title="{{ comment.submit_date|date:"Y-m-dTH:i:sQ" }}">{{ comment.submit_date|date:"F jS Y<\b\r />g:i a"|safe }}</abbr>
             </p>
     
-            <div class="grid_7 omega">
+            <div class="grid_7 omega comment">
                 {% if comment.comment_rendered %}
                     {{ comment.comment_rendered|safe }}
                 {% else %}
