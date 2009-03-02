@@ -17,13 +17,17 @@ PROJECT_FILES = [
     'settings.py',
     'static',
     'templates',
+    'initial_data.json',
     'urls.py',
 ]
 
+SKEL_SVN_URL = 'https://code.hartzogcreative.com/svn/hartzog_skel/trunk'
+
+# Local Settings
 PROJECTS_DIR = os.environ.get('SKEL_PROJECTS_DIR', '~/Sites/')
-SVN_URL_ROOT = os.environ.get('SKEL_SVN_URL_ROOT', 'svn+ssh://hartzogcreative.com@hartzogcreative.com/home/36218/data/svn/')
-SVN_SSH_HOST = os.environ.get('SKEL_SVN_SSH_HOST', 'hzc.com')
-SVN_SSH_ROOT = os.environ.get('SKEL_SSH_ROOT', '/home/36218/data/svn/')
+SVN_URL_ROOT = os.environ.get('SKEL_SVN_URL_ROOT', 'https://code.hartzogcreative.com/svn')
+SVN_SSH_HOST = os.environ.get('SKEL_SVN_SSH_HOST', 'code.hartzogcreative.com')
+SVN_SSH_ROOT = os.environ.get('SKEL_SVN_SSH_ROOT', '/var/svn/code.hartzogcreative.com')
 ENVIRONMENTS_DIR = os.environ.get('SKEL_ENVIRONMENTS_DIR', False)
 if not ENVIRONMENTS_DIR:
     ENVIRONMENTS_DIR = os.environ.get('WORKON_HOME', False)
@@ -74,13 +78,14 @@ options(
         no_svn=False,
         no_requirements=False,
         
-    )
+    ),
+    deploy=Bunch(
+        targets=Bunch(
+            dev=Bunch(
+            ),
+        ),
+    ),
 )
-
-
-@task
-def copyfiles():
-    pass
 
 
 @task
@@ -99,6 +104,7 @@ def startproject(options):
     project_path = path(options.args[0])
     project_name = project_path.name
     
+    # Ensure either absolute path or use project_dir
     if project_name == project_path:
         projects_dir = path(options.projects_dir).expand()
         project_path = path.joinpath(projects_dir, project_name)
@@ -144,17 +150,9 @@ def startproject(options):
     easy_install_path = venv_path.joinpath('bin/easy_install')
     if not easy_install_path.exists():
         raise BuildFailure('Virtualenv at %s does not contain easy_install' % venv_path)
-    
-    try:
-        import skel
-    except ImportError:
-        print "*** STILL CANT IMPORT"
-    else:
-        print "*** IMPORTED"
+
+    skel_path = venv_path.joinpath('src/skel/skel')
         
-    # TODO: figure out skel_path
-    skel_path = path('~/Sites/skel-trunk/skel/').expand()
-    
     if not options.no_requirements:
     
         info('Easy installing PIP to process requirements.txt')
@@ -162,6 +160,10 @@ def startproject(options):
         
         pip_path = venv_path.joinpath('bin/pip')
         
+        info('Installing latest copy of Skel')
+        sh('%s install -e svn+%s#egg=Skel' % (pip_path, SKEL_SVN_URL))
+
+            
         # TODO: handle skel upgrade option and set skel_path appropriately
         # if no upgrade, run paver install task into virtualenv
         # if upgrade run pip install skel
@@ -170,7 +172,8 @@ def startproject(options):
         # TODO: get skel pkg_resources path as skel_path
         # TODO: get requirements_path from skel pkg_resources:
         # requirements_path = skel_path.joinpath('requirements.txt')
-        requirements_path = path('~/Sites/hartzog-skel/requirements.txt').expand()
+        
+        requirements_path = venv_path.joinpath('src/skel/requirements.txt')
         
         info('Installing requirements with PIP')
         sh('%s install -r %s' % (pip_path, requirements_path))
@@ -189,7 +192,7 @@ def startproject(options):
         sh('svn mkdir %s -m "creating %s"' % (svn_url.joinpath('branches'), 'branches'))
         
         svn_dev_branch_url = svn_url.joinpath('branches', options.svn_dev_branch)
-        sh('svn mkdir %s -m "creating development branch (%s)"' % (svn_dev_branch_url, svn_dev_branch_url))
+        sh('svn copy %s %s -m "creating development branch (%s)"' % (svn_url.joinpath('trunk'), svn_dev_branch_url, svn_dev_branch_url))
         
         sh('svn co %s %s' % (svn_dev_branch_url, project_path))
         # TODO: set svnignores

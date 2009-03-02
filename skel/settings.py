@@ -109,6 +109,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django.contrib.humanize',
     'django.contrib.flatpages',
+    'django.contrib.sitemaps',
     'template_utils',
     'tagging',
     'profiles',

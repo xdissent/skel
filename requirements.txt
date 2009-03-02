@@ -5,6 +5,7 @@
 http://effbot.org/downloads/Imaging-1.1.6.tar.gz
 markdown
 docutils
-Pygments
+-e hg+http://dev.pocoo.org/hg/pygments-main@799#egg=Pygments
+mercurial
 feedparser
 python-memcached
