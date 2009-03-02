@@ -1,13 +1,17 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap
 from skel.core.urls import urlpatterns as core_urls
 from skel.blog.feeds import EntryFeed, EntryCategoryFeed, EntryTagFeed
+from skel.blog.models import Entry
+from skel.portfolio.models import Project
 
 
 blog_feeds = {
     'blog': EntryFeed,
 }
+
 
 blog_other_feeds = {
     'category': EntryCategoryFeed,
@@ -15,9 +19,30 @@ blog_other_feeds = {
 }
 
 
+entry_dict = {
+    'queryset': Entry.objects.all(),
+    'date_field': 'published',
+}
+
+
+project_dict = {
+    'queryset': Project.objects.all(),
+    'date_field': 'published',
+}
+
+
+sitemaps = {
+    'flatpages': FlatPageSitemap,
+    'blog': GenericSitemap(entry_dict, priority=0.6),
+    'portfolio': GenericSitemap(entry_dict, priority=0.6),
+}
+
+
 admin.autodiscover()
 
+
 urlpatterns = core_urls
+
 
 urlpatterns += patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -38,7 +63,9 @@ urlpatterns += patterns('',
     url(r'^feeds/blog/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': blog_other_feeds}),
     url(r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': blog_feeds}, name='feed-root'),
 
+    url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}, name='sitemap'),
 )
+
 
 # TODO: Change this to some other test
 if settings.DEBUG:

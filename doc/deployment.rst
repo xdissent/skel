@@ -32,10 +32,10 @@ Skel Setup Deploy
       
   .. sourcecode:: bash
 
-     BAD_PATH=nfs/c01/h07/mnt;
-     for EGG_LINK in $VIRTUAL_ENV/lib/python*/site-packages/*.egg-link;
+     BAD_PATH=nfs/c01/h07/mnt; \
+     for EGG_LINK in $VIRTUAL_ENV/lib/python*/site-packages/*.egg-link; \
      do
-         head -n 1 $EGG_LINK | sed "s:$BAD_PATH:home:" >> /home/36218/containers/django/mt_virtualenvs/project_name/lib/python2.4/site-packages/virtualenv_path_extensions.pth;
+         head -n 1 $EGG_LINK | sed "s:$BAD_PATH:home:" >> /home/36218/containers/django/mt_virtualenvs/project_name/lib/python2.4/site-packages/virtualenv_path_extensions.pth; \
      done
   
 * ``mtd add project_name /home/36218/containers/django/project_name projectname.com``
