@@ -1,0 +1,27 @@
+<div id="validation-error" class="container_12 clearfix">
+    <p class="grid_12">This page contains HTML validation errors. <a href="#validation-error-details">View details</a> <a href="?disable-validation">Dismiss</a></p>
+    <div id="validation-error-details"  class="grid_12">
+        <ul>
+        {% for error in parsed.errors %}
+            <li>
+                Line <a href="#validation-source-line-{{ error.line }}">{{ error.line }}</a>:
+                {{ error.message|escape }}
+            </li>
+        {% endfor %}
+        </ul>
+        <div id="validation-source">
+            <table>
+              {% for line, error in lines %}
+                <tr{% if error %} class="error"{% endif %}>
+                    <th id="validation-source-line-{{ forloop.counter }}">
+                        {{ forloop.counter|stringformat:"03d" }}
+                    </th>
+                    <td{% if error %} title="{{ error }}"{% endif %}>
+                        <pre>{{ line }}</pre>
+                    </td>
+                </tr>
+              {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>

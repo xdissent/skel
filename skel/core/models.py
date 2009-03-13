@@ -1,39 +1,38 @@
-# TODO: Integrate django.contrib.sites into Image Managers
-# done: Combine Image and Category Managers and export to other apps
-
 from django.db import models
-from django.conf import settings
-from django.contrib.comments.models import BaseCommentAbstractModel
-from django.contrib.comments.managers import CommentManager
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from skel.core.managers import PublicObjectManager
-from skel.superimage.fields import SuperImageField
-from skel.markupeditor.fields import MarkupEditorField
-        
-
-# TODO: Figure out to change filename through M2M field
-def upload_to(instance, filename):
-    # print instance._meta.__dict__
-    return 'img/uploads/%s' % filename
+from django.contrib.sites.models import Site
+from django.contrib.comments.managers import CommentManager
+from django.contrib.comments.models import BaseCommentAbstractModel
+from skel.core import settings
+from skel.core.managers import NavigationMenuManager
 
 
-class Image(models.Model):
+class NavigationMenu(models.Model):
     title = models.CharField(max_length=255)
-    image = SuperImageField(upload_to=upload_to, height_field='height', width_field='width')
-    width = models.IntegerField(blank=True, null=True, editable=False)
-    height = models.IntegerField(blank=True, null=True, editable=False)
+    label = models.CharField(max_length=255)
+    url = models.CharField(max_length=255, blank=True)
+    children = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='parents')
     public = models.BooleanField(default=True)
-    objects = PublicObjectManager()
-    admin_manager = models.Manager()
+    sites = models.ManyToManyField(Site)
+    objects = NavigationMenuManager()
     
-    def __unicode__(self):
-        return u'%s - %s' % (self.title, self.image.name)
-        
-    @models.permalink
     def get_absolute_url(self):
-        return self.image.url
+        # TODO: Fix these tests
+        if self.url is None:
+            return None
+        if self.url.startswith('http') or '/' in self.url or self.url.startswith('http'):
+            return self.url
+        return reverse(self.url)
         
 
+if settings.CORE_MARKUP_COMMENTS:
+    from skel.markupeditor.fields import MarkupEditorField
+    comment_field = MarkupEditorField()
+else:
+    comment_field = models.TextField()
+    
+# TODO: Clean this model up
 class SkelComment(BaseCommentAbstractModel):
     """
     A user comment about some object.
@@ -43,7 +42,7 @@ class SkelComment(BaseCommentAbstractModel):
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
 
-    comment = MarkupEditorField()
+    comment = comment_field
     
     submit_date = models.DateTimeField(default=None)
     ip_address  = models.IPAddressField(blank=True, null=True)

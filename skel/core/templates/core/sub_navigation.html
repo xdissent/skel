@@ -1,0 +1,14 @@
+
+<ul>
+{% for item in menu %}
+
+    <li>
+    {% if item.url %}
+        <a href="{{ item.get_absolute_url }}" title="{{ item.title }}">{{ item.label }}</a>
+    {% else %}
+        {{ item.label }}
+    {% endif %}
+    </li>
+    
+{% endfor %}
+</ul>

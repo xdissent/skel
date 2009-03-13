@@ -1,5 +1,6 @@
-from django.http import Http404
+from django.http import Http404, HttpResponseNotFound
 from django.views.generic.list_detail import object_detail
+from django.views.static import serve
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.admindocs import utils
 from django.template import RequestContext
@@ -13,6 +14,13 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import resolve
 from tagging.utils import get_tag
+
+
+def static_server(*args, **kwargs):
+    try:
+        return serve(*args, **kwargs)
+    except Http404:
+        return HttpResponseNotFound('Not Found')
 
 
 # TODO: Rewrite this view to not make object_detail look up by pk
@@ -33,7 +41,8 @@ def tag_detail(request, tag=None, **kwargs):
         raise Http404('No Tag found matching "%s".' % tag)
     return object_detail(request, object_id=tag_instance.pk, **kwargs)
     
-
+    
+# TODO: Implement this
 def doc_index(request):
     if not utils.docutils_is_available:
         return missing_docutils_page(request)
@@ -43,6 +52,7 @@ def doc_index(request):
 doc_index = staff_member_required(doc_index)
 
 
+# TODO: Implement this
 def doc_skel(request):
     pass
     

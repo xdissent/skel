@@ -25,7 +25,10 @@
                 </div>
                 
                 <div class="grid_6 omega">
-                    {% include "navigation.html" %}
+                    {% block navigation %}
+                    {% load core_tags %}
+                    {% navigation %}
+                    {% endblock %}
                 </div>    
             {% endblock %}
             
