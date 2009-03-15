@@ -1,6 +1,10 @@
 import sys
+from django.contrib import admin
 from django.conf.urls.defaults import *
 from skel.core import settings
+
+
+admin.autodiscover()
 
 
 urlpatterns = patterns('skel.core.views',
@@ -17,7 +21,7 @@ urlpatterns = patterns('skel.core.views',
     ),
 )
 
-if 'tagging' in settings.INSTALLED_APPS:
+if settings.CORE_USE_TAGS:
     from tagging.models import Tag
     
     urlpatterns += patterns('skel.core.views',
@@ -36,15 +40,18 @@ if settings.CORE_SERVE_MEDIA:
     )
 
 
+# Import any core_urlpatterns Skel apps define
 for app_name in settings.INSTALLED_APPS:
     if not app_name.startswith('skel.'):
         continue
     urls_module_name = '.'.join([app_name, 'urls'])
+    print 'trying urls: %s' % urls_module_name
     try:
         mod = __import__(urls_module_name)
     except ImportError:
         continue
     try:
+        print 'found urls: %s' % urls_module_name
         urls_module = sys.modules[urls_module_name]
         urlpatterns += urls_module.core_urlpatterns
     except AttributeError:

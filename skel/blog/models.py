@@ -13,11 +13,18 @@ else:
     text_field_class = models.TextField
 
 
-if 'tagging' in settings.INSTALLED_APPS:
+if settings.BLOG_TAGS_ENABLED:
     from tagging.fields import TagField
     tags_field = TagField(blank=True)
 else:
     tags_field = None
+
+
+if settings.BLOG_MEDIA_ENABLED:
+    from massmedia.models import Collection
+    media_field = models.ForeignKey(Collection, blank=True, null=True)
+else:
+    media_field = None
 
 
 class Entry(models.Model):
@@ -25,6 +32,7 @@ class Entry(models.Model):
     public = models.BooleanField(default=True)
     author = models.ForeignKey(User)
     tags = tags_field
+    media = media_field
     slug = models.SlugField(unique_for_date='published')
     sites = models.ManyToManyField(Site)
     updated = models.DateTimeField(auto_now=True)
@@ -58,18 +66,6 @@ class Entry(models.Model):
             delta = datetime.datetime.now() - self.published
             return delta.days < settings.BLOG_AUTO_CLOSE_COMMENTS_DAYS
         return settings.BLOG_COMMENTS_ENABLED and self.public
-
-
-def moderate_comment(sender, comment, request, **kwargs):
-    if not comment.content_object.comments_enabled:
-        comment.is_public = False
-        comment.save()
-
-
-if settings.BLOG_COMMENTS_ENABLED:
-    from django.contrib.comments.signals import comment_was_posted
-    comment_was_posted.connect(moderate_comment)
-
 
 if settings.BLOG_CATEGORIES_ENABLED:
     from skel import categories

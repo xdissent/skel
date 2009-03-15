@@ -115,12 +115,12 @@ INSTALLED_APPS = (
     'template_utils',
     'tagging',
     'profiles',
+    'skel.core',
     'skel.blog',
     'skel.categories',
     'skel.markupeditor',
-    'skel.core',
-#     'skel.accounts',
-#     'skel.portfolio',
+    'skel.accounts',
+    'skel.portfolio',
 #     'skel.lastfm',
 #     'skel.superimage',
 #     'skel.quotes',
@@ -148,8 +148,6 @@ GENERIC_CONTENT_LOOKUP_KWARGS = {
     'massmedia.flash': { 'public__exact': True },
     'massmedia.collection': { 'public__exact': True }
 }
-
-BLOG_CATEGORIES_ENABLED = False
 
 #leave at end of file
 try:

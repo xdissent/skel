@@ -15,7 +15,7 @@ entry_fields = [
 entry_list_filter = ('author', 'public', 'sites')
 
 
-if 'tagging' in settings.INSTALLED_APPS:
+if settings.BLOG_TAGS_ENABLED:
     entry_fields.append('tags')
     entry_list_filter += ('tags',)
 

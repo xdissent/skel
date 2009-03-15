@@ -61,7 +61,7 @@ blog_feeds = {
 blog_other_feeds = {}
 
 
-if 'tagging' in settings.INSTALLED_APPS:
+if settings.BLOG_TAGS_ENABLED:
     urlpatterns += patterns('tagging.views',
         url(r'^tag/(?P<tag>[^/]+)/$',
             'tagged_object_list',
@@ -72,7 +72,7 @@ if 'tagging' in settings.INSTALLED_APPS:
     blog_other_feeds['tag'] = feeds.EntryTagFeed
 
 
-if 'skel.categories' in settings.INSTALLED_APPS:    
+if settings.BLOG_CATEGORIES_ENABLED:    
     urlpatterns += patterns('skel.categories.views',
         url(r'^category/(?P<slug>[^/]+)/$',
             'category_object_list',
@@ -85,12 +85,17 @@ if 'skel.categories' in settings.INSTALLED_APPS:
 
 core_urlpatterns = patterns('',
     url(r'^blog/', include(urlpatterns)),
-    url(r'^feeds/blog/(?P<url>.*)/$',
-        'django.contrib.syndication.views.feed', 
-        {'feed_dict': blog_other_feeds}
-    ),
-    url(r'^feeds/(?P<url>.*)/$',
-        'django.contrib.syndication.views.feed',
-        {'feed_dict': blog_feeds},
-        name='feed-root'),
 )
+
+
+if settings.BLOG_FEEDS_ENABLED:
+    core_urlpatterns += patterns('',
+        url(r'^feeds/blog/(?P<url>.*)/$',
+            'django.contrib.syndication.views.feed', 
+            {'feed_dict': blog_other_feeds}
+        ),
+        url(r'^feeds/(?P<url>.*)/$',
+            'django.contrib.syndication.views.feed',
+            {'feed_dict': blog_feeds},
+            name='feed-root'),
+    )

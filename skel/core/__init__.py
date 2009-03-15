@@ -2,6 +2,7 @@
 from django.conf import settings as project_settings
 from skel.core.conf import autodiscover, configure_app
 
+
 if getattr(project_settings, 'CORE_AUTO_APP_SETTINGS', True):
     autodiscover()
 else:
@@ -19,9 +20,21 @@ def get_model():
 def get_form():
     from skel.core.forms import SkelCommentForm
     return SkelCommentForm
+
+
+# Comment moderation
+def moderate_comment(sender, comment, request, **kwargs):
+    if getattr(comment.content_object, 'comments_enabled', 
+               settings.CORE_COMMENTS_ENABLED_DEFAULT):
+        comment.is_public = False
+        comment.save()
+
+if 'django.contrib.comments' in settings.INSTALLED_APPS:
+    from django.contrib.comments.signals import comment_was_posted
+    comment_was_posted.connect(moderate_comment)
  
     
-# Extend ``django.contrib.flatpages.models.flatpage``
+# Extend django.contrib.flatpages.models.flatpage
 def markup_flatpages(sender, **kwargs):
     from skel.markupeditor.fields import add_extra_fields
 

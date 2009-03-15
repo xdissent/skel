@@ -27,8 +27,7 @@ class PoliteMiddleware(object):
 
 class HTMLValidationMiddleware(PoliteMiddleware):
     def _should_use(self):
-        # TODO: Change this so DEBUG is the default for CORE_VALIDATE_RESPONSE
-        return (settings.DEBUG and settings.CORE_VALIDATE_RESPONSE)
+        return settings.CORE_VALIDATE_RESPONSE
         
     def _should_process_response(self, request, response):
         return (type(response) == HttpResponse and

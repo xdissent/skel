@@ -1,0 +1,28 @@
+from django.conf import settings
+
+
+PORTFOLIO_MARKUP_ENABLED = ('skel.markupeditor' in settings.INSTALLED_APPS)
+
+PORTFOLIO_MEDIA_ENABLED = ('massmedia' in settings.INSTALLED_APPS)
+
+PORTFOLIO_TAGS_ENABLED = ('tagging' in settings.INSTALLED_APPS)
+
+PORTFOLIO_CATEGORIES_ENABLED = ('skel.categories' in settings.INSTALLED_APPS)
+
+PORTFOLIO_COMMENTS_ENABLED = ('django.contrib.comments' in settings.INSTALLED_APPS)
+
+PORTFOLIO_AUTO_CLOSE_COMMENTS_DAYS = 60
+
+PORTFOLIO_FEEDS_ENABLED = True
+
+PORTFOLIO_FEED_TITLE = 'Skel Portfolio Feed'
+
+PORTFOLIO_FEED_DESCRIPTION = 'Skel Portfolio Feed'
+
+PORTFOLIO_FEED_NUM_ITEMS = 10
+
+PORTFOLIO_FEED_SHOW_AUTHOR_EMAIL = False
+
+PORTFOLIO_CATEGORY_FEED_TITLE = '%s - %%(category.title)s Category' % PORTFOLIO_FEED_TITLE
+
+PORTFOLIO_TAG_FEED_TITLE = '%s - Projects tagged "%%(tag.name)s"' % PORTFOLIO_FEED_TITLE
