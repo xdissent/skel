@@ -14,8 +14,15 @@ class NavigationMenu(models.Model):
     url = models.CharField(max_length=255, blank=True)
     children = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='parents')
     public = models.BooleanField(default=True)
-    sites = models.ManyToManyField(Site)
+    sites = models.ManyToManyField(Site, blank=True, null=True)
+
     objects = NavigationMenuManager()
+    admin_manager = models.Manager()
+    
+    def __unicode__(self):
+        if self.url:
+            return '%s (%s)' % (self.label, self.get_absolute_url())
+        return self.label
     
     def get_absolute_url(self):
         # TODO: Fix these tests
@@ -24,6 +31,10 @@ class NavigationMenu(models.Model):
         if self.url.startswith('http') or '/' in self.url or self.url.startswith('http'):
             return self.url
         return reverse(self.url)
+        
+    @property
+    def is_root(self):
+        return (self.parents)
         
 
 if settings.CORE_MARKUP_COMMENTS:

@@ -31,8 +31,10 @@ class HTMLValidationMiddleware(PoliteMiddleware):
         
     def _should_process_response(self, request, response):
         return (type(response) == HttpResponse and
+                not request.is_ajax() and
                 'html' in response['Content-Type'] and
                 'disable-validation' not in request.GET and
+                not request.path.startswith('/admin/') and
                 request.META['REMOTE_ADDR'] in settings.INTERNAL_IPS)
         
     def _process_response(self, request, response):

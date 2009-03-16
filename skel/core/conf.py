@@ -45,7 +45,6 @@ def configure_app(app_name, settings_module_name='settings'):
 
 settled = []
 def autodiscover():
-    print "called auto"
     for app_name in settings.INSTALLED_APPS:
         if app_name in IGNORE_APPS or app_name in settled:
             continue

@@ -8,6 +8,8 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('skel.core.views',
+    url(r'^admin/', include(admin.site.urls)),
+
     url(r'^admin/doc/$',
         'doc_index',
         {},
@@ -45,13 +47,11 @@ for app_name in settings.INSTALLED_APPS:
     if not app_name.startswith('skel.'):
         continue
     urls_module_name = '.'.join([app_name, 'urls'])
-    print 'trying urls: %s' % urls_module_name
     try:
         mod = __import__(urls_module_name)
     except ImportError:
         continue
     try:
-        print 'found urls: %s' % urls_module_name
         urls_module = sys.modules[urls_module_name]
         urlpatterns += urls_module.core_urlpatterns
     except AttributeError:

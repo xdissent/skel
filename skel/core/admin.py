@@ -6,8 +6,21 @@ from skel.core import settings
 from skel.core.models import NavigationMenu, SkelComment
 from skel.core.forms import SkelFlatpageForm
 
+class NavigationMenuAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'title': ('label',)}
+    fieldsets = (
+        (None, {'fields': ('label', 'title', 'url', 'public', 'children', 'sites')}),
+    )
+    list_filter = ('public', 'sites')
+    model_admin_manager = NavigationMenu.admin_manager
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(NavigationMenuAdmin, self).get_form(request, obj, **kwargs)
+        if obj is None:
+            form.base_fields['sites'].initial = (settings.SITE_ID,)
+        return form
 
-admin.site.register(NavigationMenu)
+admin.site.register(NavigationMenu, NavigationMenuAdmin)
 
 
 # Markup flatpages admin if we're supposed to
