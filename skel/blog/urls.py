@@ -1,8 +1,7 @@
 from django.conf.urls.defaults import *
-from django.conf import settings
-from tagging.views import tagged_object_list
 from skel.blog.models import Entry
-from skel.categories.views import category_object_list
+from skel.blog import settings, feeds
+
 
 entry_dict = {
     'queryset': Entry.objects.all(),
@@ -55,16 +54,48 @@ urlpatterns = patterns('django.views.generic.date_based',
     ),
 )
 
-urlpatterns += patterns('',
-    url(r'^tag/(?P<tag>[^/]+)/$',
-        tagged_object_list,
-        tag_dict,
-        name='blog-entry-tag-detail'
-    ),
+
+blog_feeds = {
+    'blog': feeds.EntryFeed,
+}
+blog_other_feeds = {}
+
+
+if settings.BLOG_TAGS_ENABLED:
+    urlpatterns += patterns('tagging.views',
+        url(r'^tag/(?P<tag>[^/]+)/$',
+            'tagged_object_list',
+            tag_dict,
+            name='blog-entry-tag-detail'
+        ),
+    )
+    blog_other_feeds['tag'] = feeds.EntryTagFeed
+
+
+if settings.BLOG_CATEGORIES_ENABLED:    
+    urlpatterns += patterns('skel.categories.views',
+        url(r'^category/(?P<slug>[^/]+)/$',
+            'category_object_list',
+            category_dict,
+            name='blog-entry-category-detail'
+        ),
+    )
+    blog_other_feeds['category'] = feeds.EntryCategoryFeed
     
-    url(r'^category/(?P<slug>[^/]+)/$',
-        category_object_list,
-        category_dict,
-        name='blog-entry-category-detail'
-    ),
+
+core_urlpatterns = patterns('',
+    url(r'^blog/', include(urlpatterns)),
 )
+
+
+if settings.BLOG_FEEDS_ENABLED:
+    core_urlpatterns += patterns('',
+        url(r'^feeds/blog/(?P<url>.*)/$',
+            'django.contrib.syndication.views.feed', 
+            {'feed_dict': blog_other_feeds}
+        ),
+        url(r'^feeds/(?P<url>.*)/$',
+            'django.contrib.syndication.views.feed',
+            {'feed_dict': blog_feeds},
+            name='feed-root'),
+    )

@@ -1,25 +1,44 @@
 from django.contrib import admin
-from django.conf import settings
+from skel.blog import settings
 from skel.blog.models import Entry
+
+
+entry_fields = [
+    'title', 
+    'public',
+    'author',
+    'sites',
+    'summary',
+    'body',
+]
+
+entry_list_filter = ('author', 'public', 'sites')
+
+
+if settings.BLOG_TAGS_ENABLED:
+    entry_fields.append('tags')
+    entry_list_filter += ('tags',)
+
+
+if settings.BLOG_CATEGORIES_ENABLED:
+    entry_fields.append('categories')
+    entry_list_filter += ('categories',)
+
+
+if settings.BLOG_MARKUP_ENABLED:
+    for field in ('summary', 'body'):
+        entry_fields.insert(entry_fields.index(field) + 1, field + '_markup')
+        
+
+if settings.BLOG_MEDIA_ENABLED:
+    entry_fields.append('media')
+
 
 class EntryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         (None, {
-            'fields': (
-                'title', 
-                'public',
-                'author',
-                'categories',
-                'tags',
-                'sites',
-                'images',
-                'summary',
-                'summary_markup',
-                'body',
-                'body_markup',
-                
-            )
+            'fields': entry_fields
         }),
         ('Advanced options', {
             'classes': ('collapse',),
@@ -29,8 +48,8 @@ class EntryAdmin(admin.ModelAdmin):
             )
         }),
     )
-    list_display = ('published', 'title', 'author', 'body_markup', 'public',)
-    list_filter = ('author', 'public', 'sites', 'categories', 'tags')
+    list_display = ('published', 'title', 'author', 'public',)
+    list_filter = entry_list_filter
     search_fields = ['title', 'body', 'summary']
     model_admin_manager = Entry.admin_manager
     

@@ -2,6 +2,9 @@ from django import template
 from django.db.models import get_model
 from django.contrib.comments.templatetags.comments import BaseCommentNode
 from template_utils.nodes import ContextUpdatingNode, GenericContentNode
+from skel.core.models import NavigationMenu
+
+register = template.Library()
 
 
 class AllGenericContentNode(GenericContentNode):
@@ -15,7 +18,6 @@ class AllGenericContentNode(GenericContentNode):
             result = list(query_set[:self.num])
         return { self.varname: result }
         
-
 class RetrieveObjectBySlugNode(ContextUpdatingNode):
     """
     ``Node`` subclass which retrieves a single object -- by
@@ -37,6 +39,7 @@ class RetrieveObjectBySlugNode(ContextUpdatingNode):
         return { self.varname: self.model._default_manager.get(slug=self.slug.resolve(context))}
 
 
+@register.tag('get_all_objects')
 def do_all_objects(parser, token):
     bits = token.contents.split()
     if len(bits) != 4:
@@ -45,7 +48,7 @@ def do_all_objects(parser, token):
         raise template.TemplateSyntaxError("second argument to '%s' tag must be 'as'" % bits[0])
     return AllGenericContentNode(bits[1], 0, bits[3])
     
-
+@register.tag('retrieve_object_slug')
 def do_retrieve_object_by_slug(parser, token):
     """
     Retrieves a specific object from a given model by slug
@@ -66,8 +69,10 @@ def do_retrieve_object_by_slug(parser, token):
     if bits[3] != 'as':
         raise template.TemplateSyntaxError("third argument to '%s' tag must be 'as'" % bits[0])
     return RetrieveObjectBySlugNode(bits[1], bits[2], bits[4])
-    
-    
-register = template.Library()
-register.tag('get_all_objects', do_all_objects)
-register.tag('retrieve_object_slug', do_retrieve_object_by_slug)
+
+@register.inclusion_tag('core/navigation.html')
+def navigation(levels=None):
+    if levels is not None and not isinstance(levels, int):
+        raise template.TemplateSyntaxError('The argument to this tag must be an integer.')
+    menu = NavigationMenu.objects.get_root()
+    return {'levels': levels, 'menu': menu}

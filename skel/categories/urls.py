@@ -8,11 +8,15 @@ category_dict = {
 }
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns('django.views.generic.list_detail',
     url(
         r'^(?P<slug>[^/]+)/$', 
-        'django.views.generic.list_detail.object_detail', 
+        'object_detail', 
         category_dict,
         name='category-detail'
     ),
+)
+
+core_urlpatterns = patterns('',
+    url(r'^category/', include(urlpatterns)),
 )

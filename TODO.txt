@@ -11,3 +11,5 @@ TODO: Add Sitemap
 done: Add {% empty %} clause to sidebar inclusions
 
 TODO: Add Hints tab to hz.markupeditor.js
+
+TODO: Add tracker to feeds

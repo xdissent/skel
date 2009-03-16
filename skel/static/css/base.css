@@ -34,8 +34,8 @@ a {
     color: #333;
 }
 
-.ccontainer_12 { 
-    background: transparent url(../img/12_col_vertical.png) top left repeat-y;
+.container_12 { 
+/*     background: transparent url(../img/12_col_vertical.png) top left repeat-y; */
 }
 
 .title {
@@ -59,7 +59,7 @@ a {
     list-style: none;
 }
 
-.navigation li {
+.navigation > li {
     float: left;
     margin-left: 1em;
 }
@@ -74,4 +74,22 @@ img.gravatar {
     display: block;
     margin: 0;
     padding: 0;
+}
+
+#validation-error, #validation-error table .error {
+    border: 1px solid #cd0a0a;
+    background-color: #fef1ec;
+    color: #cd0a0a;
+}
+
+#validation-error table {
+    color: #000;
+}
+
+#validation-error table p, #validation-error table pre {
+    margin-bottom: 0;
+}
+
+#validation-error table th {
+    padding-right: 10px;
 }

@@ -18,6 +18,7 @@ ADMINS = (
 INTERNAL_IPS = (
     '98.193.129.254',
     '98.193.195.124',
+    '127.0.0.1',
 )
 
 MANAGERS = ADMINS
@@ -79,6 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'skel.core.middleware.HTMLValidationMiddleware',
 )
 
 ROOT_URLCONF = PROJ_NAME + '.urls'
@@ -115,13 +117,13 @@ INSTALLED_APPS = (
     'profiles',
     'skel.core',
     'skel.blog',
+    'skel.categories',
+    'skel.markupeditor',
     'skel.accounts',
     'skel.portfolio',
-    'skel.lastfm',
-    'skel.markupeditor',
-    'skel.superimage',
-    'skel.quotes',
-    'skel.categories',
+#     'skel.lastfm',
+#     'skel.superimage',
+#     'skel.quotes',
 )
 
 COMMENTS_APP = 'skel.core'
@@ -132,12 +134,19 @@ AUTH_PROFILE_MODULE = 'accounts.userprofile'
 
 FORCE_LOWERCASE_TAGS = True
 
-BLOG_AUTO_CLOSE_COMMENTS = 60
-
 RESTRUCTUREDTEXT_FILTER_SETTINGS = {
     'doctitle_xform': False,
     'initial_header_level': '2',
     'cloak_email_addresses': True,
+}
+
+GENERIC_CONTENT_LOOKUP_KWARGS = {
+    'blog.post': { 'public__exact': True },
+    'massmedia.image': { 'public__exact': True },
+    'massmedia.video': { 'public__exact': True },
+    'massmedia.audio': { 'public__exact': True },
+    'massmedia.flash': { 'public__exact': True },
+    'massmedia.collection': { 'public__exact': True }
 }
 
 #leave at end of file

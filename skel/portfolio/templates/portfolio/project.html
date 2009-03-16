@@ -1,4 +1,6 @@
-{% load tagging_tags %}
+{% load comments tagging_tags %}
+
+{% get_comment_count for project as comment_count %}
 {% tags_for_object project as tags %}
 
 <p>
@@ -33,7 +35,6 @@
         <br />
     {% endif %}
 
-
     {% if project.role %}
         Role: {{ project.role }}
         <br />
@@ -59,11 +60,5 @@
             </p>
         {% endfor %}
     {% endif %}
-    
-    <div>
-    {% for image in project.images.all %}
-        <img src="{{ image.image.url }}" alt="{{ image.title }}" />
-    {% endfor %}
-    </div>
     
 {% endif %}

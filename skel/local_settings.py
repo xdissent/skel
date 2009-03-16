@@ -10,9 +10,7 @@
 
 #DATABASE_ENGINE = 'sqlite3'
 #DATABASE_NAME = os.path.join(PROJ_PATH, 'sqlite.db')
-#DATABASE_USER = ''
-#DATABASE_PASSWORD = ''
-#DATABASE_HOST = ''
-#DATABASE_PORT = ''
 
 #CACHE_BACKEND = 'locmem:///?timeout=30&max_entries=200'
+
+#CORE_SERVE_MEDIA = True

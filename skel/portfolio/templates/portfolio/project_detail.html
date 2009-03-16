@@ -1,11 +1,48 @@
 {% extends "portfolio/base.html" %}
 
 
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/theme/ui.all.css" type="text/css" media="screen, projection" />
+{% endblock %}
+
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.ui.all.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.core.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.splitpane.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.markupeditor.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var markups = $.hz.markupeditor.defaults.markups.slice(0,2);
+        $('.hz-markupedit')
+            .css({fontFamily: 'monospace'})
+            .each(function() {
+                    var select = $('select[name=' + $(this).attr('name') + '_markup]');
+                    select.parent().hide();
+                    $(this).markupeditor({
+                        markups: markups,
+                        select: function(e, ui) {
+                            select.children('[value=' + ui.markup.id + ']')
+                                .attr({selected: true});
+                        },
+                        initial: select.val(),
+                    });
+                });
+    });
+    </script>
+{% endblock %}
+
+
 {% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
 
-{% block project-title %}
+
+{% block portfolio-title %}
     <h1><a href="{{ object.get_absolute_url }}" title="{{ object.title }}">{{ object.title }}</a></h1>
 {% endblock %}
+
 
 {% block portfolio-content %}
     {% with object as project %}
