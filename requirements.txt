@@ -1,12 +1,13 @@
+# http://code.hartzogcreative.com/svn/hartzog_skel/trunk
+http://code.hartzogcreative.com/svn/vendor/imaging/current
+http://code.hartzogcreative.com/svn/vendor/utidylib/current
 -e svn+http://code.djangoproject.com/svn/django/trunk#egg=Django
 -e svn+http://django-tagging.googlecode.com/svn/trunk#egg=Tagging
 -e svn+http://django-template-utils.googlecode.com/svn/trunk#egg=Template_utils
--e svn+http://django-profiles.googlecode.com/svn/trunk#egg=Profiles
-http://effbot.org/downloads/Imaging-1.1.6.tar.gz
+-e hg+http://dev.pocoo.org/hg/pygments-main@799#egg=Pygments
+-e hg+http://bitbucket.org/ubernostrum/django-profiles#egg=Profiles
+-e hg+http://bitbucket.org/ubernostrum/django-registration#egg=Registration
 markdown
 docutils
-# install this later
-# -e hg+http://dev.pocoo.org/hg/pygments-main@799#egg=Pygments
-mercurial
 feedparser
 python-memcached
