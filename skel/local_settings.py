@@ -14,3 +14,5 @@ DATABASE_NAME = os.path.join(PROJ_PATH, 'sqlite.db')
 CACHE_BACKEND = 'locmem:///?timeout=30&max_entries=200'
 
 CORE_SERVE_MEDIA = True
+
+EMAIL_PORT = 1025
