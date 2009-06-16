@@ -33,10 +33,10 @@ if not ENVIRONMENTS_DIR:
     ENVIRONMENTS_DIR = os.environ.get('WORKON_HOME', False)
     
 PACKAGE_DATA = paver.setuputils.find_package_data()
-#print PACKAGE_DATA
+# print PACKAGE_DATA
 PACKAGES = sorted(PACKAGE_DATA.keys())
 PACKAGES = find_packages()
-print PACKAGES
+# print PACKAGES
 
 DATA_FILES = [
     ('skel/core/management', ['pavement.py']),
@@ -208,5 +208,5 @@ def startproject(options):
         else:
             src_path.copy(dest_path)
             
-    from pprint import pprint
-    pprint(options.startproject)
+    # from pprint import pprint
+    # pprint(options.startproject)
