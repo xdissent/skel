@@ -112,8 +112,10 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.flatpages',
     'django.contrib.sitemaps',
+    'south',
     'template_utils',
     'tagging',
+    'registration',
     'profiles',
     'skel.core',
     'skel.blog',
@@ -148,6 +150,11 @@ GENERIC_CONTENT_LOOKUP_KWARGS = {
     'massmedia.flash': { 'public__exact': True },
     'massmedia.collection': { 'public__exact': True }
 }
+
+# TODO: Move these to accounts settings
+ACCOUNT_ACTIVATION_DAYS = 5
+LOGIN_REDIRECT_URL = '/'
+DEFAULT_FROM_EMAIL = 'webmaster@example.com'
 
 #leave at end of file
 try:

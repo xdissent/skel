@@ -68,8 +68,7 @@ class MarkupEditorWidget(forms.Textarea):
             )
         }
         js = (
-            'js/jquery/jquery.js',
-            'js/jquery/jquery.ui.all.js',
+            'js/hartzog/hz.jqueryloader.js',
             'js/hartzog/hz.splitpane.js',
             'js/hartzog/hz.markupeditor.js',
             'js/admin/markupeditorwidget.js',

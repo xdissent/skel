@@ -42,6 +42,12 @@ if settings.CORE_SERVE_MEDIA:
     )
 
 
+if settings.CORE_USE_REGISTRATION:
+    urlpatterns += patterns('',
+        (r'^accounts/', include('registration.urls')),
+    )
+    
+
 # Import any core_urlpatterns Skel apps define
 for app_name in settings.INSTALLED_APPS:
     if not app_name.startswith('skel.'):
