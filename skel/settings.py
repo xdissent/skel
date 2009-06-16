@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.flatpages',
     'django.contrib.sitemaps',
+    'south',
     'template_utils',
     'tagging',
     'registration',
