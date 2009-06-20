@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'tagging',
     'registration',
     'profiles',
+    'massmedia',
     'skel.core',
     'skel.blog',
     'skel.categories',
