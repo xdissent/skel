@@ -124,9 +124,9 @@ INSTALLED_APPS = (
     'skel.markupeditor',
     'skel.accounts',
     'skel.portfolio',
-#     'skel.lastfm',
-#     'skel.superimage',
-#     'skel.quotes',
+    'skel.lastfm',
+    'skel.superimage',
+    'skel.quotes',
 )
 
 COMMENTS_APP = 'skel.core'
