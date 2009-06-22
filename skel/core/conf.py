@@ -50,7 +50,7 @@ def autodiscover():
             continue
         try:
             configure_app(app_name)
-        except ImportError:
-            continue
-        finally:
             settled.append(app_name)
+        except ImportError:
+            settled.append(app_name)
+            continue
