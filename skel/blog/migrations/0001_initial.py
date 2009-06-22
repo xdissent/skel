@@ -4,6 +4,10 @@ from django.db import models
 from skel.blog.models import *
 
 class Migration:
+
+    depends_on = (
+        ('categories', '0001_initial'),
+    )
     
     def forwards(self, orm):
         
