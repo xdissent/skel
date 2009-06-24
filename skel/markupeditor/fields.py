@@ -68,7 +68,9 @@ class MarkupEditorWidget(forms.Textarea):
             )
         }
         js = (
-            'js/hartzog/hz.jqueryloader.js',
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js',
+#             'js/hartzog/hz.jqueryloader.js',
             'js/hartzog/hz.splitpane.js',
             'js/hartzog/hz.markupeditor.js',
             'js/admin/markupeditorwidget.js',

@@ -5,6 +5,8 @@ from django.contrib.comments import get_model
 from skel.core import settings
 from skel.core.models import NavigationMenu, SkelComment
 from skel.core.forms import SkelFlatpageForm
+from skel.markupeditor.fields import MarkupEditorField, MarkupEditorWidget
+
 
 class NavigationMenuAdmin(admin.ModelAdmin):
     prepopulated_fields = {'title': ('label',)}
@@ -33,6 +35,9 @@ class SkelFlatPageAdmin(FlatPageAdmin):
             'fields': ('enable_comments', 'registration_required', 'template_name')
         }),
     )
+    formfield_overrides = {
+        MarkupEditorField: {'widget': MarkupEditorWidget},
+    }
     
 if settings.CORE_MARKUP_FLATPAGES:
     from django.contrib.flatpages.models import FlatPage
