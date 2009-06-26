@@ -22,3 +22,8 @@ urlpatterns = patterns('',
         name='accounts-user-detail'
     ),
 )
+
+
+core_urlpatterns = patterns('',
+    url(r'^users/', include(urlpatterns)),
+)

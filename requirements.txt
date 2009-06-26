@@ -1,6 +1,8 @@
 # http://code.hartzogcreative.com/svn/hartzog_skel/trunk
 http://code.hartzogcreative.com/svn/vendor/imaging/current
 http://code.hartzogcreative.com/svn/vendor/utidylib/current
+http://svn.aeracode.org/svn/south/trunk
+-e svn+http://code.hartzogcreative.com/svn/vendor/django-massmedia/current#egg=Massmedia
 -e svn+http://code.djangoproject.com/svn/django/trunk#egg=Django
 -e svn+http://django-tagging.googlecode.com/svn/trunk#egg=Tagging
 -e svn+http://django-template-utils.googlecode.com/svn/trunk#egg=Template_utils
@@ -11,3 +13,6 @@ markdown
 docutils
 feedparser
 python-memcached
+hachoir-core
+hachoir-metadata
+hachoir-parser

@@ -9,6 +9,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('skel.core.views',
     url(r'^admin/', include(admin.site.urls)),
+    
+    url(r'^comments/', include('django.contrib.comments.urls')),
 
     url(r'^admin/doc/$',
         'doc_index',

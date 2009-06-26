@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from skel.core.managers import PublicSitesObjectManager
 from skel.portfolio import settings
+from skel.markupeditor.fields import MarkupEditorField
+from tagging.fields import TagField
+from massmedia.models import Collection
 
 
 class Client(models.Model):
@@ -35,40 +38,19 @@ class Testimonial(models.Model):
 
     def __unicode__(self):
         return '%s - %s' % (self.quotee, self.project.title)
-        
 
-if settings.PORTFOLIO_MARKUP_ENABLED:
-    from skel.markupeditor.fields import MarkupEditorField
-    text_field_class = MarkupEditorField
-else:
-    text_field_class = models.TextField
-
-
-if settings.PORTFOLIO_TAGS_ENABLED:
-    from tagging.fields import TagField
-    tags_field = TagField(blank=True)
-else:
-    tags_field = None
-
-
-if settings.PORTFOLIO_MEDIA_ENABLED:
-    from massmedia.models import Collection
-    media_field = models.ForeignKey(Collection, blank=True, null=True)
-else:
-    media_field = None
-    
 
 class Project(models.Model):
     title = models.CharField(max_length=255)
     public = models.BooleanField(default=True)
-    tags = tags_field
-    media = media_field
+    tags = TagField(blank=True)
+    media = models.ForeignKey(Collection, blank=True, null=True)
     slug = models.SlugField(unique=True)
     sites = models.ManyToManyField(Site)
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=datetime.datetime.now)
-    summary = text_field_class(blank=True)
-    description = text_field_class()
+    summary = MarkupEditorField(blank=True)
+    description = MarkupEditorField()
 
     testimonials = models.ManyToManyField(Testimonial, blank=True, null=True)
     contributors = models.ManyToManyField(User, blank=True, null=True, related_name='projects_contributes_to')
@@ -101,6 +83,6 @@ class Project(models.Model):
             return delta.days < settings.PORTFOLIO_AUTO_CLOSE_COMMENTS_DAYS
         return settings.PORTFOLIO_COMMENTS_ENABLED and self.public
 
-if settings.PORTFOLIO_CATEGORIES_ENABLED:
-    from skel import categories
-    categories.register(Project)
+# if settings.PORTFOLIO_CATEGORIES_ENABLED:
+from skel import categories
+categories.register(Project)

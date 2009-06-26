@@ -6,39 +6,24 @@ from skel.core.managers import PublicSitesObjectManager
 from skel.blog import settings
 
 
-if settings.BLOG_MARKUP_ENABLED:
-    from skel.markupeditor.fields import MarkupEditorField
-    text_field_class = MarkupEditorField
-else:
-    text_field_class = models.TextField
-
-
-if settings.BLOG_TAGS_ENABLED:
-    from tagging.fields import TagField
-    tags_field = TagField(blank=True)
-else:
-    tags_field = None
-
-
-if settings.BLOG_MEDIA_ENABLED:
-    from massmedia.models import Collection
-    media_field = models.ForeignKey(Collection, blank=True, null=True)
-else:
-    media_field = None
+from skel.markupeditor.fields import MarkupEditorField
+from tagging.fields import TagField
+from massmedia.models import Collection
+from skel import categories
 
 
 class Entry(models.Model):
     title = models.CharField(max_length=255)
     public = models.BooleanField(default=True)
     author = models.ForeignKey(User)
-    tags = tags_field
-    media = media_field
+    tags = TagField(blank=True)
+    media = models.ForeignKey(Collection, blank=True, null=True)
     slug = models.SlugField(unique_for_date='published')
     sites = models.ManyToManyField(Site)
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=datetime.datetime.now)
-    summary = text_field_class(blank=True)
-    body = text_field_class()
+    summary = MarkupEditorField(blank=True)
+    body = MarkupEditorField()
     objects = PublicSitesObjectManager()
     admin_manager = models.Manager()
     
@@ -67,6 +52,5 @@ class Entry(models.Model):
             return delta.days < settings.BLOG_AUTO_CLOSE_COMMENTS_DAYS
         return settings.BLOG_COMMENTS_ENABLED and self.public
 
-if settings.BLOG_CATEGORIES_ENABLED:
-    from skel import categories
-    categories.register(Entry)
+
+categories.register(Entry)

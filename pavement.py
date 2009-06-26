@@ -17,7 +17,7 @@ PROJECT_FILES = [
     'settings.py',
     'static',
     'templates',
-    'initial_data.json',
+#     'initial_data.json',
     'urls.py',
 ]
 

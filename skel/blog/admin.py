@@ -1,6 +1,7 @@
 from django.contrib import admin
 from skel.blog import settings
 from skel.blog.models import Entry
+from skel.markupeditor.fields import MarkupEditorField, MarkupEditorWidget
 
 
 entry_fields = [
@@ -15,23 +16,23 @@ entry_fields = [
 entry_list_filter = ('author', 'public', 'sites')
 
 
-if settings.BLOG_TAGS_ENABLED:
-    entry_fields.append('tags')
-    entry_list_filter += ('tags',)
+# if settings.BLOG_TAGS_ENABLED:
+entry_fields.append('tags')
+entry_list_filter += ('tags',)
 
 
-if settings.BLOG_CATEGORIES_ENABLED:
-    entry_fields.append('categories')
-    entry_list_filter += ('categories',)
+# if settings.BLOG_CATEGORIES_ENABLED:
+entry_fields.append('categories')
+entry_list_filter += ('categories',)
 
 
-if settings.BLOG_MARKUP_ENABLED:
-    for field in ('summary', 'body'):
-        entry_fields.insert(entry_fields.index(field) + 1, field + '_markup')
+# if settings.BLOG_MARKUP_ENABLED:
+for field in ('summary', 'body'):
+    entry_fields.insert(entry_fields.index(field) + 1, field + '_markup')
         
 
-if settings.BLOG_MEDIA_ENABLED:
-    entry_fields.append('media')
+# if settings.BLOG_MEDIA_ENABLED:
+entry_fields.append('media')
 
 
 class EntryAdmin(admin.ModelAdmin):
@@ -52,6 +53,9 @@ class EntryAdmin(admin.ModelAdmin):
     list_filter = entry_list_filter
     search_fields = ['title', 'body', 'summary']
     model_admin_manager = Entry.admin_manager
+    formfield_overrides = {
+        MarkupEditorField: {'widget': MarkupEditorWidget},
+    }
     
     def get_form(self, request, obj=None, **kwargs):
         form = super(EntryAdmin, self).get_form(request, obj, **kwargs)
@@ -59,5 +63,6 @@ class EntryAdmin(admin.ModelAdmin):
             form.base_fields['author'].initial = request.user.pk
             form.base_fields['sites'].initial = (settings.SITE_ID,)
         return form
+        
 
 admin.site.register(Entry, EntryAdmin)

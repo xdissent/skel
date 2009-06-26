@@ -6,6 +6,7 @@ from django.contrib.comments.managers import CommentManager
 from django.contrib.comments.models import BaseCommentAbstractModel
 from skel.core import settings
 from skel.core.managers import NavigationMenuManager
+from skel.markupeditor.fields import MarkupEditorField
 
 
 class NavigationMenu(models.Model):
@@ -35,13 +36,7 @@ class NavigationMenu(models.Model):
     @property
     def is_root(self):
         return (self.parents)
-        
 
-if settings.CORE_MARKUP_COMMENTS:
-    from skel.markupeditor.fields import MarkupEditorField
-    comment_field = MarkupEditorField()
-else:
-    comment_field = models.TextField()
     
 # TODO: Clean this model up
 class SkelComment(BaseCommentAbstractModel):
@@ -53,7 +48,7 @@ class SkelComment(BaseCommentAbstractModel):
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
 
-    comment = comment_field
+    comment = MarkupEditorField()
     
     submit_date = models.DateTimeField(default=None)
     ip_address  = models.IPAddressField(blank=True, null=True)
