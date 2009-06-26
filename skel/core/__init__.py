@@ -24,7 +24,7 @@ def get_form():
 
 # Comment moderation
 def moderate_comment(sender, comment, request, **kwargs):
-    if getattr(comment.content_object, 'comments_enabled', 
+    if not getattr(comment.content_object, 'comments_enabled', 
                settings.CORE_COMMENTS_ENABLED_DEFAULT):
         comment.is_public = False
         comment.save()
