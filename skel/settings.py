@@ -157,6 +157,8 @@ ACCOUNT_ACTIVATION_DAYS = 5
 LOGIN_REDIRECT_URL = '/'
 DEFAULT_FROM_EMAIL = 'webmaster@example.com'
 
+AKISMET_API_KEY = '652d0f8b1fcf'
+
 #leave at end of file
 try:
     from local_settings import *

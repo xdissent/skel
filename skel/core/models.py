@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -142,3 +143,30 @@ class SkelComment(BaseCommentAbstractModel):
             'url': self.get_absolute_url()
         }
         return 'Posted by %(user)s at %(date)s\n\n%(comment)s\n\nhttp://%(domain)s%(url)s' % d
+
+
+class SkelCommentFlag(models.Model):
+    user      = models.ForeignKey(User, verbose_name='user', related_name='skel_comment_flags')
+    comment   = models.ForeignKey(SkelComment, verbose_name='comment', related_name='flags')
+    flag      = models.CharField('flag', max_length=30, db_index=True)
+    flag_date = models.DateTimeField('date', default=None)
+
+    # Constants for flag types
+    SUGGEST_REMOVAL = 'removal suggestion'
+    MODERATOR_DELETION = 'moderator deletion'
+    MODERATOR_APPROVAL = 'moderator approval'
+
+    class Meta:
+        db_table = 'skel_comment_flags'
+        unique_together = [('user', 'comment', 'flag')]
+        verbose_name = 'comment flag'
+        verbose_name_plural = 'comment flags'
+
+    def __unicode__(self):
+        return '%s flag of comment ID %s by %s' % \
+            (self.flag, self.comment_id, self.user.username)
+
+    def save(self, force_insert=False, force_update=False):
+        if self.flag_date is None:
+            self.flag_date = datetime.datetime.now()
+        super(SkelCommentFlag, self).save(force_insert, force_update)
