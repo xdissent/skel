@@ -3,7 +3,7 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.comments.admin import CommentsAdmin
 from django.contrib.comments import get_model
 from skel.core import settings
-from skel.core.models import NavigationMenu, SkelComment
+from skel.core.models import NavigationMenu, SkelComment, SkelCommentFlag
 from skel.core.forms import SkelFlatpageForm
 from skel.markupeditor.fields import MarkupEditorField, MarkupEditorWidget
 
@@ -45,12 +45,7 @@ if settings.CORE_MARKUP_FLATPAGES:
     admin.site.register(FlatPage, SkelFlatPageAdmin)
     
     
-# Handle comments admin if required
-comment_fields = ['user', 'user_name', 'user_email', 'user_url', 'comment']
-
-if settings.CORE_MARKUP_COMMENTS:
-    comment_fields.append('comment_markup')
-
+comment_fields = ['user', 'user_name', 'user_email', 'user_url', 'comment', 'comment_markup']
 class SkelCommentsAdmin(CommentsAdmin):
     fieldsets = (
         (None,
@@ -63,6 +58,10 @@ class SkelCommentsAdmin(CommentsAdmin):
             {'fields': ('submit_date', 'ip_address', 'is_public', 'is_removed')}
         ),
     )
+
+class SkelCommentFlagsAdmin(admin.ModelAdmin):
+    pass
     
 if get_model() is SkelComment:
     admin.site.register(SkelComment, SkelCommentsAdmin)
+    admin.site.register(SkelCommentFlag, SkelCommentFlagsAdmin)
