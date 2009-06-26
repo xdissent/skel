@@ -13,6 +13,7 @@ markdown
 docutils
 feedparser
 python-memcached
-hachoir-core
-hachoir-metadata
-hachoir-parser
+# hachoir-core
+# hachoir-metadata
+# hachoir-parser
+akismet

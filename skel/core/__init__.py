@@ -33,7 +33,7 @@ def akismet_moderate_comment(sender, comment, request, *args, **kwargs):
     from django.contrib.sites.models import Site
     from django.conf import settings
     
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         return
 
     try:
