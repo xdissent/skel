@@ -7,19 +7,24 @@
 {% endblock %}
 
 {% block accounts-content %}
-{% for user in object_list %}
-    <h3><a href="{% url accounts-user-detail user %}">{{ user.username }}</a></h3>
+    {% load core_tags %}
     
-    <p>
-{% if user.get_full_name %}
-    Full Name: {{ user.get_full_name }}<br />
-{% endif %}
-
-{% if user.get_profile.url %}
-    Homepage: <a href="{{ user.get_profile.url }}" rel="no-follow">{{ user.get_profile.url }}</a>
-{% endif %}
-
-    </p>
+    {% for user in object_list %}
+        <h3><a href="{% url accounts-user-detail user %}">{{ user.username }}</a></h3>
+        
+        <p>
+            {% if user.get_full_name %}
+                Full Name: {{ user.get_full_name }}<br />
+            {% endif %}
+            
+            {% if user.get_profile.url %}
+                Homepage: <a href="{{ user.get_profile.url }}" rel="no-follow">{{ user.get_profile.url }}</a>
+            {% endif %}
+        </p>
     
-{% endfor %}
+    {% endfor %}
+
+    {% if is_paginated %}
+        {% paginator %}
+    {% endif %}
 {% endblock %}

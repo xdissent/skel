@@ -8,6 +8,9 @@
 {% endblock %}
 
 {% block blog-content %}
+
+    {% load core_tags %}
+
     {% for entry in object_list %}
         {% ifchanged entry.published.month %}
         <h2>
@@ -19,4 +22,8 @@
     {% empty %}
         <p>No entries for {{ year }}.</p>
     {% endfor %}
+    
+    {% if is_paginated %}
+        {% paginator %}
+    {% endif %}
 {% endblock %}

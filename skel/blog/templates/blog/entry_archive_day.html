@@ -8,10 +8,17 @@
 {% endblock %}
 
 {% block blog-content %}
+
+    {% load core_tags %}
+
     {% for entry in object_list %}
         <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
         {% include "blog/entry.html" %}
     {% empty %}
         <p>No entries for {{ day|date:"l F jS, Y" }}.</p>
     {% endfor %}
+    
+    {% if is_paginated %}
+        {% paginator %}
+    {% endif %}
 {% endblock %}

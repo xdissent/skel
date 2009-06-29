@@ -14,10 +14,17 @@
 {% endblock %}
 
 {% block blog-content %}
+
+    {% load core_tags %}
+    
     {% for entry in object_list %}
         <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
         {% include "blog/entry.html" %}
     {% empty %}
         <p>No entries in in {{ category.name }} Category.</p>
     {% endfor %}
+    
+    {% if is_paginated %}
+        {% paginator %}
+    {% endif %}
 {% endblock %}
