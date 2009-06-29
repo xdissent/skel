@@ -1,0 +1,27 @@
+<p>
+
+    {% if show_first %}
+        <a href="?page=1" title="First Page" class="button">First Page</a></span>
+    {% endif %}
+    
+    {% if has_previous %}
+        <a href="?page={{ previous }}" title="Previous Page" class="button-left">Previous Page</a>
+    {% endif %}
+    
+    {% for num in page_numbers %}
+      {% ifequal num page %}
+        <span class="button-current" title="Current Page">{{ num }}</span>
+      {% else %}
+        <a href="?page={{ num }}" class="button" title="Page {{ num }}">{{ num }}</a>
+      {% endifequal %}
+    {% endfor %}
+    
+    {% if has_next %}
+        <a href="?page={{ next }}" title="Next Page" class="button-right">Next Page</a>
+    {% endif %}
+    
+    {% if show_last %}
+        <a href="?page={{ pages }}" title="Last Page" class="button">Last Page</a>
+    {% endif %}
+
+</p>

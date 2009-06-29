@@ -74,7 +74,13 @@ p, dl, hr, h1, h2, h3, h4, h5, h6, ol, ul, pre, table, address, fieldset { margi
 .right-spaced { margin-right: 18px; }
 .bottom-spaced { margin-bottom: 18px; }
 .left-spaced { margin-left: 18px; }
-.button { background: url(../img/circle_arrow_white.png) top right no-repeat; padding: 0 1.5em 0 0.5em; border: 2px solid; -webkit-border-radius: 9px; -moz-border-radius: 9px; text-decoration: none; }
+.button { padding: 0 0.5em 0 0.5em; border: 2px solid; -webkit-border-radius: 9px; -moz-border-radius: 9px; text-decoration: none; background-color: #56797f; border-color: #56797f; color: #fff; }
+.button-right { background: url(../img/circle_arrow_white.png) top right no-repeat; padding: 0 0.5em 0 0.5em; border: 2px solid; -webkit-border-radius: 9px; -moz-border-radius: 9px; text-decoration: none; background-color: #56797f; border-color: #56797f; color: #fff; }
+.button-left { background: url(../img/circle_arrow_white_left.png) top left no-repeat; padding: 0 0.5em 0 0.5em; border: 2px solid; -webkit-border-radius: 9px; -moz-border-radius: 9px; text-decoration: none; background-color: #56797f; border-color: #56797f; color: #fff; }
+.button-current { padding: 0 0.5em 0 0.5em; border: 2px solid; -webkit-border-radius: 9px; -moz-border-radius: 9px; text-decoration: none; background-color: #56797f; border-color: #56797f; color: #fff; }
+html .button-current { background-color: #89acb2; border-color: #89acb2; }
+html .button-left { padding-left: 1.5em; }
+html .button-right { padding-right: 1.5em; }
 .meta { font-size: .75em; line-height: 2; }
 html > body { color: #fff; background-color: #fcfbdc; }
 a { color: #594B3A; text-decoration: none; }
@@ -93,7 +99,6 @@ a:hover { text-decoration: underline; }
 #top-bar { background-color: #8AC2CB; width: 940px; display: inline; float: left; margin-left: 10px; margin-right: 10px; padding-left: 0px; padding-right: 0px; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; padding-top: 18px; margin-bottom: 18px; }
 #top-bar > * { padding-left: 18px; padding-right: 18px; }
 #main { background-color: #8AC2CB; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; width: 940px; display: inline; float: left; margin-left: 10px; margin-right: 10px; padding-left: 0px; padding-right: 0px; padding-top: 18px; margin-bottom: 18px; }
-#main .button { background-color: #56797f; border-color: #56797f; color: #fff; }
 #main #content { width: 620px; display: inline; float: left; margin-left: 0; margin-right: 10px; padding-left: 0px; padding-right: 0px; }
 #main #content > * { padding-left: 18px; padding-right: 18px; }
 #main #content h2 + .meta { margin-top: -18px; }

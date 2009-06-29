@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(
         r'^/?$',
         object_list,
-        dict(info_dict, template_name='accounts/user_list.html'),
+        dict(info_dict, template_name='accounts/user_list.html', paginate_by=10),
         name='accounts-user-list'
     ),
 

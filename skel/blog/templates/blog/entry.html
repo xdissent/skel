@@ -3,6 +3,8 @@
 {% get_comment_count for entry as comment_count %}
 {% tags_for_object entry as tags %}
 
+<div class="entry">
+
     <p class="meta">
         Author:
         <a href="{% url accounts-user-detail entry.author %}">{% firstof entry.author.get_full_name entry.author.username %}</a><br />
@@ -28,7 +30,7 @@
         <p>{{ entry.summary }}</p>
     {% endif %}
     <p class="meta"><a href="{{ entry.get_absolute_url }}#comments">Comments ({{ comment_count }})</a></p>
-    <p><a href="{{ entry.get_absolute_url }}" class="button">Read more</a></p>
+    <p><a href="{{ entry.get_absolute_url }}" class="button-right">Read more</a></p>
     
 {% else %}
     {% if entry.summary_rendered %}
@@ -36,6 +38,8 @@
     {% else %}
         <p>{{ entry.body }}</p>
     {% endif %}
-    {% include "blog/comments.html" %}    
-    
+    {% include "blog/comments.html" %}
+        
 {% endif %}
+
+</div>

@@ -18,6 +18,7 @@ category_dict = {
     'queryset': entry_dict['queryset'],
     'template_name': 'blog/entry_category_detail.html',
     'allow_empty': True,
+    'paginate_by': 2,
 }
 
 
