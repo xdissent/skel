@@ -1,8 +1,11 @@
-{% extends "base.html" %}
+{% extends "error.html" %}
 
-{% block content %}
-<div class="grid_9">
-    <h1>404</h1>
-    <p>No file exists at this location.</p>
-</div>
+{% block title %}404 - {{ block.super }}{% endblock %}
+
+{% block error-title %}
+    <h1>404 Error</h1>
+{% endblock %}
+
+{% block error-content %}
+    <p>No file exists at {{ request.get_full_path }}</p>
 {% endblock %}

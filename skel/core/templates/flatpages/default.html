@@ -2,16 +2,11 @@
 
 {% block title %}{{ flatpage.title }} - {{ block.super }}{% endblock %}
 
-{% block css %}
-{{ block.super }}
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/pygments.css" type="text/css" media="screen, projection" />
-{% endblock %}
-
 {% block content %}
-<div id="content" class="grid_9">
+<div id="content">
     
     {% block flatpage-content %}
-        {{ flatpage.content_rendered }}
+        {% firstof flatpage.content_rendered flatpage.content %}
     {% endblock %}
     
 </div>

@@ -1,0 +1,11 @@
+{% extends "error.html" %}
+
+{% block title %}505 - {{ block.super }}{% endblock %}
+
+{% block error-title %}
+    <h1>505 Error</h1>
+{% endblock %}
+
+{% block error-content %}
+    <p>An error occurred while processing this request. An administrator has been notified.</p>
+{% endblock %}

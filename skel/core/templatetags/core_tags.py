@@ -70,9 +70,7 @@ def do_retrieve_object_by_slug(parser, token):
         raise template.TemplateSyntaxError("third argument to '%s' tag must be 'as'" % bits[0])
     return RetrieveObjectBySlugNode(bits[1], bits[2], bits[4])
 
-@register.inclusion_tag('core/navigation.html')
-def navigation(levels=None):
-    if levels is not None and not isinstance(levels, int):
-        raise template.TemplateSyntaxError('The argument to this tag must be an integer.')
+@register.inclusion_tag('core/navigation.html', takes_context=True)
+def navigation(context):
     menu = NavigationMenu.objects.get_root()
-    return {'levels': levels, 'menu': menu}
+    return {'menu': menu, 'user': context['user']}

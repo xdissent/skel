@@ -6,66 +6,34 @@
 
 {% block content %}
 
-{% if object.entry_set.all and object.project_set.all %}
-<div class="grid_6">
-{% else %}
-<div class="grid_9">
-{% endif %}
+<div id="content">
 
-{% if object.entry_set.all %}
-<h1><a href="{% url blog-entry-category-detail object.slug %}" title="Blog Entries in {{ object.name }} category">Entries in "{{ object.name }}" category</a></h1>
+    {% if object.entry_set.all %}
+    <h1><a href="{% url blog-entry-category-detail object.slug %}" title="Blog Entries in {{ object.name }} category">Entries in "{{ object.name }}" category</a></h1>
+        
+        {% for entry in object.entry_set.all|slice:":5" %}
+            <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
+            {% include "blog/entry.html" %}
+        {% endfor %}
     
-    {% for entry in object.entry_set.all|slice:":5" %}
-        <h2><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h2>
-        {% include "blog/entry.html" %}
-    {% endfor %}
-
-    {% if object.entry_set.all|slice:":6"|length_is:"6" %}
-        <p><a href="{% url blog-entry-category-detail object.slug %}" title="More Entries in {{ object.name }}">More Entries in {{ object.name }}</a></p>
+        {% if object.entry_set.all|slice:":6"|length_is:"6" %}
+            <p><a href="{% url blog-entry-category-detail object.slug %}" title="More Entries in {{ object.name }}">More Entries in {{ object.name }}</a></p>
+        {% endif %}
     {% endif %}
-{% endif %}
-
-
-{% if object.entry_set.all and object.project_set.all %}
-</div><div class="grid_6">
-{% endif %}
-
-
-{% if object.project_set.all %}
-    <h1><a href="{% url portfolio-project-category-detail object.slug %}" title="Projects in {{ object.name }} category">Projects in "{{ object.name }}" category</a></h1>
     
-    {% for project in object.project_set.all|slice:":5"  %}
-        <h2><a href="{{ project.get_absolute_url }}" title="{{ project.title }}">{{ project.title }}</a></h2>
-        {% include "portfolio/project.html" %}
-    {% endfor %}
-    
-    {% if object.project_set.all|slice:":6"|length_is:"6" %}
-        <p><a href="{% url portfolio-project-category-detail object.slug %}" title="More Projects in {{ object.name }}">More Projects in {{ object.name }}</a></p>
+    {% if object.project_set.all %}
+        <h1><a href="{% url portfolio-project-category-detail object.slug %}" title="Projects in {{ object.name }} category">Projects in "{{ object.name }}" category</a></h1>
+        
+        {% for project in object.project_set.all|slice:":5"  %}
+            <h2><a href="{{ project.get_absolute_url }}" title="{{ project.title }}">{{ project.title }}</a></h2>
+            {% include "portfolio/project.html" %}
+        {% endfor %}
+        
+        {% if object.project_set.all|slice:":6"|length_is:"6" %}
+            <p><a href="{% url portfolio-project-category-detail object.slug %}" title="More Projects in {{ object.name }}">More Projects in {{ object.name }}</a></p>
+        {% endif %}
     {% endif %}
-{% endif %}
-
+    
 </div>
-
-{% endblock %}
-
-
-{% block sidebar %}
-
-{% if object.entry_set.all and object.project_set.all %}
-{% else %}
-    {{ block.super}}
-{% endif %}
-
-{% endblock %}
-
-
-{% block bottombar %}
-
-{% if object.entry_set.all and object.project_set.all %}
-    <div id="bottombar" class="grid_12">
-        {% include "bottombar.html" %}
-    </div>
-{% else %}
-{% endif %}
-
+    
 {% endblock %}

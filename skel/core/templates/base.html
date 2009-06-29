@@ -6,64 +6,71 @@
         <title>{% block title %}Hartzog Skel - The Hartzog Creative Django Framework{% endblock %}</title>
         
         {% block css %}
-        <link rel="stylesheet" href="{{ MEDIA_URL }}css/reset.css" type="text/css" media="screen, projection" />
-        <link rel="stylesheet" href="{{ MEDIA_URL }}css/text.css" type="text/css" media="screen, projection" />
-        <link rel="stylesheet" href="{{ MEDIA_URL }}css/960.css" type="text/css" media="screen, projection" />
-        <link rel="stylesheet" href="{{ MEDIA_URL }}css/base.css" type="text/css" media="screen, projection" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/site.css" type="text/css" media="screen, projection" />
         {% endblock %}
         
         {% block rss %}
         {% endblock %}
         
         {% block js %}
+<!--
         <script type="text/javascript" src="http://google.com/jsapi"></script>
         <script type="text/javascript" src="{{ MEDIA_URL }}js/hartzog/hz.jqueryloader.js"></script>
+-->
         {% endblock %}
         
     </head>
     <body>
     
-        <div id="wrapper" class="container_12">
-            <div id="header" class="grid_12">
-            
+        <div id="wrapper">
+            <div id="header">
             {% block header %}
-                <div class="grid_6 alpha">
-                    <p class="title"><a href="/" title="Hartzog Skel Home">Hartzog Skel</a></p>
-                    <p class="tagline">The Hartzog Creative Django Framework</p>
+                <div>
+                    <p class="site-logo"><a href="/" title="Hartzog Skel Home">Hartzog Skel</a></p>
+                    <p class="tag-line">The Hartzog Creative Django Framework</p>
                 </div>
                 
-                <div class="grid_6 omega">
-                    {% block navigation %}
+                {% block navigation %}
                     {% load core_tags %}
                     {% navigation %}
-                    {% endblock %}
-                </div>    
+                {% endblock %}   
+                
             {% endblock %}
             
             </div>
             
-            {% block topbar %}
-            {% endblock %}
-            
-            {% block content %}
-                <div id="content" class="grid_9">
+            {% block top-bar %}
+                <div id="top-bar">
+                    {% include "top-bar.html" %}
                 </div>
             {% endblock %}
             
-            {% block sidebar %}
-                <div id="sidebar" class="grid_3">
-                    {% include "sidebar.html" %}
+            <div id="main">
+            
+                {% block content %}
+                    <div id="content">
+                    </div>
+                {% endblock %}
+                
+                {% block side-bar %}
+                    <div id="side-bar">
+                        {% include "side-bar.html" %}
+                    </div>
+                {% endblock %}
+            </div>
+
+            {% block bottom-bar %}
+                <div id="bottom-bar">
+                    {% include "bottom-bar.html" %}
                 </div>
             {% endblock %}
             
-            {% block bottombar %}
-            {% endblock %}
-            
-            <div id="footer" class="grid_12">
+            <div id="footer">
             {% block footer %}
                 <p>&copy; {% now "Y" %} Hartzog Creative</p>
             {% endblock %}
             </div>
+            
             <div class="clear"></div>
         </div>
     </body>

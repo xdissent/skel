@@ -3,7 +3,7 @@
 
     <li>
     {% if item.url %}
-        <a href="{{ item.get_absolute_url }}" title="{{ item.title }}">{{ item.label }}</a>
+        <h3><a href="{{ item.get_absolute_url }}" title="{{ item.title }}">{{ item.label }}</a></h3>
     {% else %}
         {{ item.label }}
     {% endif %}
@@ -17,4 +17,18 @@
     </li>
     
 {% endfor %}
+
+    <li>
+        {% if user.is_authenticated %}
+            <h3>
+                <a href="{% url accounts-user-detail user %}">{{ user.username }}</a>
+            </h3>
+            <ul>
+                <li><a href="{% url auth_logout %}" title="Log Out">Log Out</a></li>
+            </ul>
+        {% else %}
+            <h3><a href="{% url auth_login %}" title="Log In">Log In</a></h3>
+        {% endif %}
+
+    </li>
 </ul>

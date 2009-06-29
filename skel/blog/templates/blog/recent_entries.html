@@ -3,7 +3,7 @@
 {% get_latest_objects blog.entry 8 as latest_entries %}
 
 {% if latest_entries %}
-    <ul class="recent-entries">
+    <ul>
     {% for entry in latest_entries %}
         <li>
             <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
@@ -11,7 +11,7 @@
         </li>
     {% endfor %}
     </ul>
-    <p class="more"><a href="{% url blog-entry-latest %}">Read more</a></p>
+    <p><a href="{% url blog-entry-latest %}" class="button">Read more</a></p>
 {% else %}
-    <p class="more">No entries</p>
+    <p>No entries</p>
 {% endif %}

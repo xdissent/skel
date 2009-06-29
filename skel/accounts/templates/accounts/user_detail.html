@@ -2,11 +2,6 @@
 
 {% block title %}{{ object.username }} - {{ block.super }}{% endblock %}
 
-{% block css %}
-{{ block.super }}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/pygments.css" type="text/css" media="screen, projection" />
-{% endblock %}
-
 {% block accounts-title %}
 {% if object.get_profile.url %}
     <h1><a href="{{ object.get_profile.url }}" rel="no-follow" title="{{ object }}">{{ object }}</a></h1>
@@ -18,16 +13,16 @@
 
 {% block accounts-content %}
 
-<p>
-{% if object.get_full_name %}
-    Full Name: {{ object.get_full_name }}<br />
-{% endif %}
-
-{% if object.get_profile.url %}
-    Homepage: <a href="{{ object.get_profile.url }}" rel="no-follow" title="{{ object.get_profile.url }}">{{ object.get_profile.url }}</a>
-{% endif %}
-</p>
+    <p class="meta">
+        {% if object.get_full_name %}
+            Full Name: {{ object.get_full_name }}<br />
+        {% endif %}
+        
+        {% if object.get_profile.url %}
+            Homepage: <a href="{{ object.get_profile.url }}" rel="no-follow" title="{{ object.get_profile.url }}">{{ object.get_profile.url }}</a>
+        {% endif %}
+    </p>
 
     
-{{ object.get_profile.bio_rendered }}
+{% firstof object.get_profile.bio_rendered object.get_profile.bio %}
 {% endblock %}
