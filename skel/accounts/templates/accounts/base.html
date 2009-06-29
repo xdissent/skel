@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Users - {{ block.super }}{% endblock %}
+{% block title %}Accounts - {{ block.super }}{% endblock %}
 
 {% block content %}
-<div id="content" class="grid_9">
+<div id="content">
 
     {% block accounts-title %}
-        <h1><a href="{% url accounts-user-list %}">Users</a></h1>
+        <h1><a href="{% url accounts-user-list %}">Accounts</a></h1>
     {% endblock %}
     
     {% block accounts-content %}

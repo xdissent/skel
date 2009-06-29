@@ -1,9 +1,14 @@
-{% extends "registration/base.html" %}
+{% extends "accounts/base.html" %}
 
-{% block content %}
+{% block title %}Registration - {{ block.super }}{% endblock %}
+
+{% block accounts-title %}
     <h1>Register</h1>
+{% endblock %}
+    
+{% block accounts-content %}
     <form action="" method="post">
-    {{ form.as_p }}
-    <p><input type="submit" value="Register" /></p>
-    </form>    
+        {{ form.as_p }}
+        <p><input type="submit" value="Register" /></p>
+    </form>   
 {% endblock %}

@@ -1,0 +1,260 @@
+@import url('reset.less');
+@import url('text.less');
+@import url('grid.less');
+
+@body-color: #fff;
+@body-background: #fcfbdc;
+
+@link-color: #594B3A;
+
+@wrapper-background: #56797f;
+
+@header-background: #8AC2CB;
+
+@navigation-background: #8AC2CB;
+
+@main-background: #8AC2CB;
+
+@top-bar-background: #8AC2CB;
+
+@bottom-bar-background: #8AC2CB;
+
+@footer-background: #8AC2CB;
+
+@grid-padding: 18px;
+@grid-spacing: 18px;
+
+.rounded {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.top-padded {
+    padding-top: @grid-padding;
+}
+
+.right-padded {
+    padding-right: @grid-padding;
+}
+
+.bottom-padded {
+    padding-bottom: @grid-padding;
+}
+
+.left-padded {
+    padding-left: @grid-padding;
+}
+
+.top-spaced {
+    margin-top: @grid-spacing;
+}
+
+.right-spaced {
+    margin-right: @grid-spacing;
+}
+
+.bottom-spaced {
+    margin-bottom: @grid-spacing;
+}
+
+.left-spaced {
+    margin-left: @grid-spacing;
+}
+
+.button {
+    background: url(../img/circle_arrow_white.png) top right no-repeat;
+    padding: 0 1.5em 0 0.5em;
+    border: 2px solid;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    text-decoration: none;
+}
+
+.meta {
+    font-size: .75em;
+    line-height: 2;
+}
+
+html > body {
+    color: @body-color;
+    background-color: @body-background;
+}
+
+a {
+    color: @link-color;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#wrapper {
+    .container;
+    
+    background-color: @wrapper-background;
+}
+
+#header {
+    .grid_12;
+    .rounded;
+    .top-spaced;
+    .bottom-spaced;
+        
+    .site-logo {
+        .top-padded;
+        .h1;
+        margin-bottom: 0;
+    }
+    
+    .tag-line {
+        .h2;
+    }
+    
+    > div {
+        .grid_7;
+        .alpha;
+        .rounded;
+        background-color: @header-background;
+    }
+    
+    > div > * {
+        .left-padded;
+        .right-padded;
+    }
+    
+    .navigation {
+        .grid_5;
+        .omega;
+        .rounded;
+        .top-padded;
+        margin-bottom: 0;
+        background-color: @navigation-background;
+    }
+    
+    ul.navigation {
+        float: right;
+    }
+    
+    .navigation, .navigation ul {
+        list-style: none;
+    }
+    
+    .navigation > li {
+        margin-left: 1em;
+        float: left;
+        margin-bottom: 0;
+    }
+    
+    .navigation h3 a {
+        color: @body-color;
+    }
+}
+
+#top-bar {
+    .grid_12;
+    .rounded;
+    .top-padded;
+    .bottom-spaced;
+    
+    background-color: @top-bar-background;
+    
+    > * {
+        .left-padded;
+        .right-padded;
+    }
+}
+
+#main {
+    .rounded;
+    .grid_12;
+    .top-padded;
+    .bottom-spaced;
+    
+    background-color: @main-background;
+    
+    .button {
+        background-color: @wrapper-background;
+        border-color: @wrapper-background;
+        color: @body-color;
+    }
+    
+    #content {
+        .grid_8;
+        .alpha;
+        
+        > * {
+            .left-padded;
+            .right-padded;
+        }
+        
+        h2 + .meta {
+            margin-top: -18px;
+        }
+        
+        h1 + .meta {
+            margin-top: -18px;
+        }
+    }
+    
+    #side-bar {
+        .grid_4;
+        .omega;
+    }
+}
+
+#bottom-bar {
+    .grid_12;
+    .rounded;
+    .top-padded;
+    .bottom-spaced;
+    
+    color: @bottom-bar-color;
+    background-color: @bottom-bar-background;
+    
+    .button {
+        background-color: @wrapper-background;
+        border-color: @wrapper-background;
+        color: @body-color;
+    }
+    
+    ul {
+        list-style: none;
+    }
+    
+    ul > li {
+        margin-left: 0;
+    }
+    
+    > div > * {
+        .left-padded;
+        .right-padded;
+    }
+    
+    > div {
+        .grid_3;
+    }
+    
+    > div:first-child {
+        .alpha;
+    }
+    
+    > div:last-child {
+        .omega;
+    }
+}
+
+#footer {
+    .grid_12;
+    .rounded;
+    .top-padded;
+    .bottom-spaced;
+    
+    background-color: @footer-background;
+    
+    > * {
+        .left-padded;
+        .right-padded;
+    }
+}

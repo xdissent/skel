@@ -3,10 +3,10 @@
 {% get_comment_count for entry as comment_count %}
 {% tags_for_object entry as tags %}
 
-    <p>
+    <p class="meta">
         Author:
         <a href="{% url accounts-user-detail entry.author %}">{% firstof entry.author.get_full_name entry.author.username %}</a><br />
-        <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"F jS Y<\b\r />g:i a"|safe }}</abbr><br />
+        <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"F jS Y g:i a"|safe }}</abbr><br />
         Tags:
     {% for tag in tags %}
         <a href="{% url blog-entry-tag-detail tag.name %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
@@ -22,11 +22,20 @@
     </p>
 
 {% if not show_detail %}
-    {{ entry.summary_rendered|safe }}
+    {% if entry.summary_rendered %}
+        {{ entry.summary_rendered }}
+    {% else %}
+        <p>{{ entry.summary }}</p>
+    {% endif %}
     <p class="meta"><a href="{{ entry.get_absolute_url }}#comments">Comments ({{ comment_count }})</a></p>
+    <p><a href="{{ entry.get_absolute_url }}" class="button">Read more</a></p>
     
 {% else %}
-    {{ entry.body_rendered|safe }}
+    {% if entry.summary_rendered %}
+        {{ entry.body_rendered }}
+    {% else %}
+        <p>{{ entry.body }}</p>
+    {% endif %}
     {% include "blog/comments.html" %}    
     
 {% endif %}

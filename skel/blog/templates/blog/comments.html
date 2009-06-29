@@ -7,14 +7,14 @@
     {% get_comment_list for entry as comment_list %}
 
     {% for comment in comment_list %}
-        <div class="grid_9 alpha omega">
-            <p class="grid_2 alpha">
+        <div>
+            <p>
                 <img src="http://www.gravatar.com/avatar/{{ comment.email|md5 }}?s=54" alt="Gravatar for {{ comment.name }}" class="gravatar" /><br />
                 {{ comment.name }}<br />
                 <abbr title="{{ comment.submit_date|date:"Y-m-dTH:i:sQ" }}">{{ comment.submit_date|date:"F jS Y<\b\r />g:i a"|safe }}</abbr>
             </p>
     
-            <div class="grid_7 omega comment">
+            <div>
                 {% if comment.comment_rendered %}
                     {{ comment.comment_rendered|safe }}
                 {% else %}
@@ -27,7 +27,7 @@
 {% endif %}
 
 {% if entry.comments_enabled %}
-    <p>Leave a Comment</p>
+    <h2>Leave a Comment</h2>
     <div>
         {% if not comment_form %}
             {% get_comment_form for entry as comment_form %}

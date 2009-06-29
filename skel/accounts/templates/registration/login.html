@@ -1,13 +1,19 @@
-{% extends "registration/base.html" %}
+{% extends "accounts/base.html" %}
 
-{% block content %}
-<form method="post" action="">
-  {{ form.as_p }}
+{% block title %}Log In - {{ block.super }}{% endblock %}
 
-  <input type="submit" value="Log in" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</form>
-
-<p>Forgot password? <a href="{% url auth_password_reset %}">Reset it</a>!</p>
-<p>Not a Member? <a href="{% url registration_register %}">Register</a>!</p>
+{% block accounts-title %}
+    <h1>Log In</h1>
 {% endblock %}
+    
+{% block accounts-content %}
+    <form method="post" action="">
+      {{ form.as_p }}
+    
+      <input type="submit" value="Log in" />
+      <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    
+    <p>Forgot password? <a href="{% url auth_password_reset %}">Reset it</a>!</p>
+    <p>Not a Member? <a href="{% url registration_register %}">Register</a>!</p>
+{% endblock %}    

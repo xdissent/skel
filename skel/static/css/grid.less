@@ -1,0 +1,222 @@
+/* `Containers
+----------------------------------------------------------------------------------------------------*/
+@grid-width: 960px;
+@columns: 12;
+@margin: 10px;
+@padding: 0px;
+@column-width: 80px;
+
+.container {
+	margin-left: auto;
+	margin-right: auto;
+	width: @grid-width;
+}
+
+.grid {
+	display: inline;
+	float: left;
+	margin-left: @margin;
+	margin-right: @margin;
+	padding-left: @padding;
+	padding-right: @padding;
+}
+
+.grid_1 {
+    .grid;
+	width: @column-width - 2 * @padding;
+}
+
+.grid_2 {
+    .grid;
+	width: @column-width * 2 - 2 * @margin - 2 * @padding;
+}
+
+.grid_3 {
+    .grid;
+	width: @column-width * 3 - 2 * @margin - 2 * @padding;
+}
+
+.grid_4 {
+    .grid;
+	width: @column-width * 4 - 2 * @margin - 2 * @padding;
+}
+
+.grid_5 {
+    .grid;
+	width: @column-width * 5 - 2 * @margin - 2 * @padding;
+}
+
+.grid_6 {
+    .grid;
+	width: @column-width * 6 - 2 * @margin - 2 * @padding;
+}
+
+.grid_7 {
+    .grid;
+	width: @column-width * 7 - 2 * @margin - 2 * @padding;
+}
+
+.grid_8 {
+    .grid;
+	width: @column-width * 8 - 2 * @margin - 2 * @padding;
+}
+
+.grid_9 {
+    .grid;
+	width: @column-width * 9 - 2 * @margin - 2 * @padding;
+}
+
+.grid_10 {
+    .grid;
+	width: @column-width * 10 - 2 * @margin - 2 * @padding;
+}
+
+.grid_11 {
+    .grid;
+	width: @column-width * 11 - 2 * @margin - 2 * @padding;
+}
+
+.grid_12 {
+    .grid;
+	width: @column-width * 12 - 2 * @margin - 2 * @padding;
+}
+
+/* `Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+	margin-left: 0;
+}
+
+.omega {
+	margin-right: 0;
+}
+
+/* `Prefix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.prefix_1 {
+	padding-left: 80px;
+}
+
+.prefix_2 {
+	padding-left: 160px;
+}
+
+.prefix_3 {
+	padding-left: 240px;
+}
+
+.prefix_4 {
+	padding-left: 320px;
+}
+
+.prefix_5 {
+	padding-left: 400px;
+}
+
+.prefix_6 {
+	padding-left: 480px;
+}
+
+.prefix_7 {
+	padding-left: 560px;
+}
+
+.prefix_8 {
+	padding-left: 640px;
+}
+
+.prefix_9 {
+	padding-left: 720px;
+}
+
+.prefix_10 {
+	padding-left: 800px;
+}
+
+.prefix_11 {
+	padding-left: 880px;
+}
+
+/* `Suffix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.suffix_1 {
+	padding-right: 80px;
+}
+
+.suffix_2 {
+	padding-right: 160px;
+}
+
+.suffix_3 {
+	padding-right: 240px;
+}
+
+.suffix_4 {
+	padding-right: 320px;
+}
+
+.suffix_5 {
+	padding-right: 400px;
+}
+
+.suffix_6 {
+	padding-right: 480px;
+}
+
+.suffix_7 {
+	padding-right: 560px;
+}
+
+.suffix_8 {
+	padding-right: 640px;
+}
+
+.suffix_9 {
+	padding-right: 720px;
+}
+
+.suffix_10 {
+	padding-right: 800px;
+}
+
+.suffix_11 {
+	padding-right: 880px;
+}
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
