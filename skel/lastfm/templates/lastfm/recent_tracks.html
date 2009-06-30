@@ -1,4 +1,4 @@
-<ul class="lastfm xoxo">
+<ul class="last-fm">
 {% for track in tracks %}
     {% ifchanged %}
     <li class="artist">
@@ -6,8 +6,8 @@
     </li>
     {% endifchanged %}    
     <li class="song">
-        <abbr class="grid_1 alpha">{{ track.updated|date:"g:i" }}</abbr>
-        <a title="{{ track.title }} by {{ track.artist }} on Last.Fm" href="{{ track.link }}" class="grid_2 omega">{{ track.title }}</a>
+        <a title="{{ track.title }} by {{ track.artist }} on Last.Fm" href="{{ track.link }}">{{ track.title }}</a>
+        <abbr>{{ track.updated|date:"g:i" }}</abbr>
     </li>
 {% endfor %}
 </ul>
