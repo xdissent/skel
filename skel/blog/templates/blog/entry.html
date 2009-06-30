@@ -33,7 +33,7 @@
     <p><a href="{{ entry.get_absolute_url }}" class="button-right">Read more</a></p>
     
 {% else %}
-    {% if entry.summary_rendered %}
+    {% if entry.body_rendered %}
         {{ entry.body_rendered }}
     {% else %}
         <p>{{ entry.body }}</p>
