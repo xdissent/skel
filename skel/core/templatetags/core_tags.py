@@ -1,6 +1,9 @@
+import re
 from django import template
 from django.db.models import get_model
 from django.contrib.comments.templatetags.comments import BaseCommentNode
+from django.utils.safestring import mark_safe
+from django.template.defaultfilters import stringfilter
 from template_utils.nodes import ContextUpdatingNode, GenericContentNode
 from skel.core.models import NavigationMenu
 
@@ -100,3 +103,15 @@ def paginator(context, adjacent_pages=2):
         "show_first": 1 not in page_numbers,
         "show_last": context["pages"] not in page_numbers,
     }
+    
+
+
+
+NOFOLLOW_RE = re.compile(u'<a (?![^>]*rel=["\']nofollow[\'"])' \
+                         u'(?![^>]*href=["\']\.{0,2}/[^/])',
+                         re.UNICODE|re.IGNORECASE)
+
+@register.filter
+@stringfilter                         
+def nofollow(content):
+    return mark_safe(re.sub(NOFOLLOW_RE, u'<a rel="nofollow" ', content))
