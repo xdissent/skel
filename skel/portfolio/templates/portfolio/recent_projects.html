@@ -1,0 +1,17 @@
+{% load generic_content humanize %}
+
+{% get_latest_objects portfolio.project 8 as latest_projects %}
+
+{% if latest_projects %}
+    <ul class="portfolio-recent-projects">
+    {% for project in latest_projects %}
+        <li>
+            <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+            <abbr title="{{ project.published|date:"Y-m-dTH:i:sQ" }}">{{ project.published|naturalday:"M j" }}</abbr>
+        </li>
+    {% endfor %}
+    </ul>
+    <p><a href="{% url portfolio-project-list %}" class="button-right">Read more</a></p>
+{% else %}
+    <p>No entries</p>
+{% endif %}
