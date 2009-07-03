@@ -4,8 +4,10 @@ from django.db.models import get_model
 from django.contrib.comments.templatetags.comments import BaseCommentNode
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import stringfilter
+from django.template.loader import render_to_string
 from template_utils.nodes import ContextUpdatingNode, GenericContentNode
 from skel.core.models import NavigationMenu
+from treemenus.models import Menu, MenuItem
 
 register = template.Library()
 
@@ -115,3 +117,49 @@ NOFOLLOW_RE = re.compile(u'<a (?![^>]*rel=["\']nofollow[\'"])' \
 @stringfilter                         
 def nofollow(content):
     return mark_safe(re.sub(NOFOLLOW_RE, u'<a rel="nofollow" ', content))
+
+
+
+class RenderMenuNode(template.Node):
+    def __init__(self, menu_name, menu_template):
+        self.menu_name = menu_name
+        self.menu_template = menu_template
+        
+    def render(self, context):
+        menu = Menu.objects.get(name=self.menu_name)
+        context['menu'] = menu
+        return render_to_string(self.menu_template, context)
+        
+@register.tag
+def render_menu(parser, token):
+    try:
+        tag_name, menu_name, menu_template = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, "%r tag requires two arguments" % token.contents.split()[0]
+    # if not (menu_name[0] == menu_name[-1] and menu_name[0] in ('"', "'")) or not (menu_template[0] == menu_template[-1] and menu_template[0] in ('"', "'"))
+#         raise template.TemplateSyntaxError, "%r tag's arguments should be in quotes" % tag_name
+    return RenderMenuNode(menu_name[1:-1], menu_template[1:-1])
+
+
+class RenderMenuItemNode(template.Node):
+    def __init__(self, menu_item, menu_template):
+        self.menu_item = template.Variable(menu_item)
+        self.menu_template = menu_template
+        
+    def render(self, context):
+        try:
+            context['menu_item'] = self.menu_item.resolve(context)
+            return render_to_string(self.menu_template, context)
+        except template.VariableDoesNotExist:
+            return ''
+            
+
+@register.tag
+def render_menu_item(parser, token):
+    try:
+        tag_name, menu_item, menu_template = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, "%r tag requires two arguments" % token.contents.split()[0]
+#     if not (menu_template[0] == menu_template[-1] and menu_template[0] in ('"', "'"))
+#         raise template.TemplateSyntaxError, "%r tag's second argument should be in quotes" % tag_name
+    return RenderMenuItemNode(menu_item, menu_template[1:-1])

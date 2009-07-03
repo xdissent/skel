@@ -32,7 +32,7 @@
                 
                 {% block navigation %}
                     {% load core_tags %}
-                    {% navigation %}
+                    {% render_menu "Navigation" "treemenus/navigation.html" %}
                 {% endblock %}   
                 
             {% endblock %}
