@@ -1,0 +1,24 @@
+{% load tree_menu_tags %}
+
+<li>
+    <p>
+        {% if menu_item.url %}
+            <a href="{{ menu_item.url }}" title="{{ menu_item.caption }}">{{ menu_item.caption }}</a>
+        {% else %}
+            {% if menu_item.named_url %}
+                <a href="{% reverse_named_url menu_item.named_url %}" title="{{ menu_item.caption }}">{{ menu_item.caption }}</a>
+            {% else %}
+                {{ menu_item.caption }}
+            {% endif %}
+        {% endif %}
+
+    </p>
+
+    {% if menu_item.has_children %}
+        <ul>
+            {% for child in menu_item.children %}
+                {% show_menu_item child %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>
