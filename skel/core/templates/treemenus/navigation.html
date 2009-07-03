@@ -1,0 +1,6 @@
+{% load core_tags %}
+<ul class="navigation">
+    {% for menu_item in menu.root_item.children %}
+        {% render_menu_item menu_item "treemenus/navigation_item.html" %}
+    {% endfor %}
+</ul>
