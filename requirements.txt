@@ -11,6 +11,7 @@ http://svn.aeracode.org/svn/south/trunk
 -e hg+http://bitbucket.org/ubernostrum/django-profiles#egg=Profiles
 -e hg+http://bitbucket.org/ubernostrum/django-registration#egg=Registration
 -e hg+http://bitbucket.org/xdissent/feedcache-django#egg=Feedcache
+-e git+git://github.com/xdissent/django-debug-toolbar.git#egg=Django_debug_toolbar
 markdown
 docutils
 feedparser
