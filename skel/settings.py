@@ -4,8 +4,12 @@
 
 import os
 
+MT_ID = '36218'
 PROJ_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJ_NAME = os.path.basename(os.path.dirname(__file__))
+VIRTUAL_ENVIRONMENT_PATH = '/home/%s/containers/django/mt_virtualenvs/%s' % (MT_ID, PROJ_NAME)
+BLOG_FEED_TITLE = 'Hartzog Skel Blog Feed'
+BLOG_FEED_DESCRIPTION = 'The Hartzog Creative Django Framework'
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -25,10 +29,10 @@ MANAGERS = ADMINS
 FORCE_SCRIPT_NAME = ''
 
 DATABASE_ENGINE = 'postgresql_psycopg2'
-DATABASE_NAME = 'db36218_skel'
-DATABASE_USER = 'db36218'
+DATABASE_NAME = 'db%s_%s' % (MT_ID, PROJ_NAME)
+DATABASE_USER = 'db%s' % MT_ID
 DATABASE_PASSWORD = 'kKZ5Dv7g'
-DATABASE_HOST = 'internal-db.s36218.gridserver.com'
+DATABASE_HOST = 'internal-db.s%s.gridserver.com' % MT_ID
 DATABASE_PORT = ''
 
 # Local time zone for this installation. Choices can be found here:
@@ -73,20 +77,19 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.http.SetRemoteAddrFromForwardedFor',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'skel.core.middleware.HTMLValidationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = PROJ_NAME + '.urls'
 
 TEMPLATE_DIRS = [
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJ_PATH, 'templates'),
 ]
 
@@ -117,6 +120,7 @@ INSTALLED_APPS = (
     'profiles',
     'massmedia',
     'treemenus',
+    'debug_toolbar',
     'skel.core',
     'skel.blog',
     'skel.categories',
@@ -131,6 +135,9 @@ INSTALLED_APPS = (
 COMMENTS_APP = 'skel.core'
 
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+CACHE_MIDDLEWARE_SECONDS = 600
+CACHE_MIDDLEWARE_KEY_PREFIX = PROJ_NAME
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
 
@@ -157,6 +164,22 @@ LOGIN_REDIRECT_URL = '/'
 DEFAULT_FROM_EMAIL = 'webmaster@example.com'
 
 AKISMET_API_KEY = '652d0f8b1fcf'
+
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+#    'debug_toolbar.panels.profile.ProfileDebugPanel',
+    'debug_toolbar.panels.cache.CacheDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.firebug.FirebugPanel',
+    'debug_toolbar.panels.validator.ValidatorPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+)
 
 #leave at end of file
 try:
