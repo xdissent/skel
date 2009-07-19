@@ -93,6 +93,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.http.SetRemoteAddrFromForwardedFor',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.doc.XViewMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
