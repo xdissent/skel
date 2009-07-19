@@ -4,10 +4,26 @@
 
 import os
 
-MT_ID = '36218'
 PROJ_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJ_NAME = os.path.basename(os.path.dirname(__file__))
-VIRTUAL_ENVIRONMENT_PATH = '/home/%s/containers/django/mt_virtualenvs/%s' % (MT_ID, PROJ_NAME)
+
+if 'MT_ID' in os.environ:
+    MT_ID = os.environ['MT_ID']
+    DATABASE_ENGINE = 'postgresql_psycopg2'
+    DATABASE_NAME = 'db%s_%s' % (MT_ID, PROJ_NAME)
+    DATABASE_USER = 'db%s' % MT_ID
+    DATABASE_PASSWORD = 'kKZ5Dv7g'
+    DATABASE_HOST = 'internal-db.s%s.gridserver.com' % MT_ID
+    VIRTUAL_ENVIRONMENT_PATH = '/home/%s/containers/django/mt_virtualenvs/%s' % (MT_ID, PROJ_NAME)
+    CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+else:
+    DATABASE_ENGINE = 'sqlite3'
+    DATABASE_NAME = os.path.join(PROJ_PATH, 'sqlite.db')
+    VIRTUAL_ENVIRONMENT_PATH = os.path.expanduser('~/%s' % PROJ_NAME)
+    CORE_SERVE_MEDIA = True
+    CACHE_BACKEND = 'locmem:///?timeout=30&max_entries=200'
+
+
 BLOG_FEED_TITLE = 'Hartzog Skel Blog Feed'
 BLOG_FEED_DESCRIPTION = 'The Hartzog Creative Django Framework'
 
@@ -28,12 +44,7 @@ MANAGERS = ADMINS
 # Necessary for (mt) Django GridContainer
 FORCE_SCRIPT_NAME = ''
 
-DATABASE_ENGINE = 'postgresql_psycopg2'
-DATABASE_NAME = 'db%s_%s' % (MT_ID, PROJ_NAME)
-DATABASE_USER = 'db%s' % MT_ID
-DATABASE_PASSWORD = 'kKZ5Dv7g'
-DATABASE_HOST = 'internal-db.s%s.gridserver.com' % MT_ID
-DATABASE_PORT = ''
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -134,7 +145,6 @@ INSTALLED_APPS = (
 
 COMMENTS_APP = 'skel.core'
 
-CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 CACHE_MIDDLEWARE_SECONDS = 600
 CACHE_MIDDLEWARE_KEY_PREFIX = PROJ_NAME
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
@@ -168,7 +178,6 @@ AKISMET_API_KEY = '652d0f8b1fcf'
 DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.version.VersionDebugPanel',
     'debug_toolbar.panels.timer.TimerDebugPanel',
-#    'debug_toolbar.panels.profile.ProfileDebugPanel',
     'debug_toolbar.panels.cache.CacheDebugPanel',
     'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
     'debug_toolbar.panels.headers.HeaderDebugPanel',
@@ -179,6 +188,7 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.firebug.FirebugPanel',
     'debug_toolbar.panels.validator.ValidatorPanel',
     'debug_toolbar.panels.logger.LoggingPanel',
+    'debug_toolbar.panels.profile.ProfileDebugPanel',
 )
 
 #leave at end of file
