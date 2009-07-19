@@ -7,22 +7,18 @@ from skel.core import settings
 admin.autodiscover()
 
 
-urlpatterns = patterns('skel.core.views',
-    url(r'^admin/', include(admin.site.urls)),
-    
+urlpatterns = patterns('skel.core.views',    
     url(r'^comments/', include('django.contrib.comments.urls')),
-
-    url(r'^admin/doc/$',
-        'doc_index',
-        {},
-        name='django-admindocs-docroot',
-    ),
     
     url(r'^admin/doc/skel/$',
         'doc_skel',
         {},
         name='skel-docroot',
     ),
+    
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    
+    url(r'^admin/', include(admin.site.urls)),
 )
 
 if settings.CORE_USE_TAGS:
