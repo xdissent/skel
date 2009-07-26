@@ -1,5 +1,6 @@
 import sys
 from paver.tasks import *
+from paver.options import Bunch
 
 class SkelTask(Task):
     pass
@@ -10,6 +11,7 @@ def skel_task(func):
     Note that this decorator does not actually replace the function object.
     It just keeps track of the task and sets an is_task flag on the
     function object."""
+    print 'Skeltaskifying %s' % func
     if isinstance(func, SkelTask):
         return func
     task = SkelTask(func)
@@ -66,24 +68,41 @@ def install_project_tasks():
     if not hasattr(environment, "_project_tasks_installed"):
         environment.task_finders.append(ProjectTaskFinder())
         environment._project_tasks_installed = True
+        
+environment.options(
+    startproject=Bunch(
+        no_svn=False,
+        project_path='adsf',
+    )
+)
 
-@skel_task
-def startproject():
-    """Start a new Skel project."""
-    print 'start project'
-    
 @cmdopts([
-    ('username=', 'u', 'Username to use when logging in to the servers')
+    ('project-path=', 'p', 'The path to use for the project.'),
+    ('no-svn', None, 'Disable Subversion repository creation.'),
 ])
+@consume_args
+@skel_task
+def startproject(options, info, args):
+    """Start a new Skel project."""
+    if not args:
+        raise BuildFailure('This command requires one argument.')
+    if 'startproject' not in options:
+        raise BuildFailure('Could not find default options.')
+
+    options = options.startproject
+    info('Starting project\n%s\n%s' % (args, options))
+
 @project_task
 def deploy(options):
     """Deploy a Skel project."""
     print 'Deployed %s' % options
-    
+
+
 @skel_task
 def startapp():
     """Deploy a Skel project."""
     print 'deployed'
+
 
 @skel_task
 def demo(options):
