@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+settings = None
 
 if 'SKEL_PYTHON_INIT' not in os.environ:
     import sys
@@ -17,26 +18,25 @@ if 'SKEL_PYTHON_INIT' not in os.environ:
     try:
         cmd = os.path.join(settings.VIRTUAL_ENVIRONMENT_PATH, 'bin/python')
     except AttributeError:
-        sys.stderr.write('Error: settings module does not contain VIRTUAL_ENVIRONMENT_PATH\n')
-        sys.exit(1)
+        sys.stderr.write('Warning: settings module does not contain VIRTUAL_ENVIRONMENT_PATH\n')
+    else:
+        args = sys.argv[:]
+        args.insert(0, cmd)
+        env = os.environ.copy()
+        env['SKEL_PYTHON_INIT'] = 'done'
+        
+        try:
+            os.execve(cmd, args, env)
+        except OSError:
+            sys.stderr.write('Warning: could not execute interpreter in your virtual environment. Tried: %s\n' % cmd)
 
-    args = sys.argv
-    args.insert(0, cmd)
-    env = os.environ
-    env['SKEL_PYTHON_INIT'] = 'done'
-    
+if settings is None:
     try:
-        os.execve(cmd, args, env)
-    except OSError:
-        sys.stderr.write('Error: could not execute interpreter in your virtual environment.\nTried: %s\n' % cmd)
+        import settings # Assumed to be in the same directory.
+    except ImportError:
+        import sys
+        sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r. It appears you've customized things.\nYou'll have to run django-admin.py, passing it your settings module.\n(If the file settings.py does indeed exist, it's causing an ImportError somehow.)\n" % __file__)
         sys.exit(1)
-
-try:
-    import settings # Assumed to be in the same directory.
-except ImportError:
-    import sys
-    sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r. It appears you've customized things.\nYou'll have to run django-admin.py, passing it your settings module.\n(If the file settings.py does indeed exist, it's causing an ImportError somehow.)\n" % __file__)
-    sys.exit(1)
 
 from django.core.management import setup_environ
 setup_environ(settings)
