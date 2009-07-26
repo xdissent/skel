@@ -92,7 +92,7 @@ class SkelManagementUtility(ManagementUtility):
         return '\n'.join(usage)
         
 def execute_from_command_line(argv=None):
-    execute_manager(None, argv)
+    execute_manager(argv=argv)
     
 def execute_manager(settings_mod=None, argv=None):
     """
