@@ -1,3 +1,4 @@
+import os
 import sys
 from paver.tasks import *
 from paver.options import Bunch
@@ -10,8 +11,9 @@ def skel_task(func):
     
     Note that this decorator does not actually replace the function object.
     It just keeps track of the task and sets an is_task flag on the
-    function object."""
-    print 'Skeltaskifying %s' % func
+    function object.
+    
+    """
     if isinstance(func, SkelTask):
         return func
     task = SkelTask(func)
@@ -25,7 +27,9 @@ def project_task(func):
     
     Note that this decorator does not actually replace the function object.
     It just keeps track of the task and sets an is_task flag on the
-    function object."""
+    function object.
+    
+    """
     if isinstance(func, ProjectTask):
         return func
     task = ProjectTask(func)
@@ -72,7 +76,7 @@ def install_project_tasks():
 environment.options(
     startproject=Bunch(
         no_svn=False,
-        project_path='adsf',
+        project_path=os.environ.get('SKEL_PROJECT_PATH', '~/Site'),
     )
 )
 
