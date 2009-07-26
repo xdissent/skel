@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from skel.core.managers import NavigationMenuManager
+from skel.markupeditor.fields import MarkupEditorField # Needed for south
 
 
 class NavigationMenu(models.Model):
