@@ -152,7 +152,7 @@ def startproject(options, args, debug, info):
         info('Detecting virtualenvwrapper.')
         virtualenvwrapper = None
         try:
-            sh('source ~/.bash_profile && workon', capture=True)
+            sh('source ~/.bash_profile && type workon', capture=True)
         except BuildFailure:
             try:
                 virtualenvwrapper = sh('which virtualenvwrapper_bashrc', capture=True).strip()
@@ -168,7 +168,7 @@ def startproject(options, args, debug, info):
             raise BuildFailure('Could not find virtualenvwrapper. You must specify the "--virtualenv=VENV_PATH" option.')
 
         mkvirtualenv_command = 'source %s && mkvirtualenv %s' % (virtualenvwrapper, project_name)
-        virtualenv_path = path(sh('source %s && echo $WORKON_HOME' % virtualenvwrapper, capture=True).strip())
+        virtualenv_path = path(sh('source %s && echo $WORKON_HOME' % virtualenvwrapper, capture=True).strip()) / project_name
         
     try:
         sh(mkvirtualenv_command)
@@ -178,8 +178,8 @@ def startproject(options, args, debug, info):
     easy_install_path = virtualenv_path / 'bin/easy_install'
     try:
         sh('%s pip' % easy_install_path, capture=True)
-    except BuildError:
-        raise BuildError('Could not install pip.')
+    except BuildFailure:
+        raise BuildFailure('Could not install pip.')
     
     pip_path = virtualenv_path / 'bin/pip'
     info('Installing requirements into virtualenv.')
@@ -206,7 +206,7 @@ def demo(info):
     environment.options.startproject['virtualenv'] = temp_virtualenv
     environment.args = ['demo']
     
-    info('Starting demo project.')
+    info('Starting demo process.')
     try:
         startproject()
     except BuildFailure:
@@ -228,3 +228,21 @@ def demo(info):
 
     info('Demo stopped. Removing demo directory.')
     temp_prefix.rmtree()
+    
+@consume_args
+@skel_task
+def develop(info):
+    """Develop Skel in the current location."""
+    skel_path = path(sys.modules['skel'].__file__).dirname()
+    environment.options.startproject['no_svn'] = True
+    environment.args = ['skel_develop']
+    
+    info('Starting development process.')
+    try:
+        startproject()
+    except BuildFailure:
+        info('Error encountered. Development failed.')
+        raise
+    
+    sh('source ~/.bash_profile && workon skel_develop && add2virtualenv %s && cdsitepackages && rm -rf Skel* skel*' % skel_path.dirname())
+    info('Success. Type "workon skel_develop" to get started.')
