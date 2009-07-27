@@ -3,7 +3,7 @@ import sys
 import types
 from django.core.management import ManagementUtility, setup_environ, get_commands
 
-# This doesn't work.
+# This doesn't work. We are trying to inject Paver from Skel's minilib.
 try:
     import paver
 except ImportError:
@@ -14,9 +14,15 @@ except ImportError:
     if os.path.exists(paver_path):
         sys.path.insert(0, paver_path)
 
+# Must import this after we find the right Paver.
 from skel.core.management.tasks import *
 
 def get_tasks(cls=None):
+    """Returns a list of Tasks available in the Paver environment.
+    
+    If ``cls`` is specified, only Tasks of that specific class are returned.
+    
+    """
     if cls is None:
         task_list = [task.shortname for task in environment.get_tasks()]
     else:
