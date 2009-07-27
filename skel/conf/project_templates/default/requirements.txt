@@ -1,5 +1,5 @@
-http://code.hartzogcreative.com/svn/paver/current
-http://code.hartzogcreative.com/svn/hartzog_skel/trunk
+http://code.hartzogcreative.com/svn/hartzog_skel/branches/xdissent
+http://code.hartzogcreative.com/svn/vendor/paver/current
 http://code.hartzogcreative.com/svn/vendor/imaging/current
 http://code.hartzogcreative.com/svn/vendor/utidylib/current
 http://svn.aeracode.org/svn/south/trunk
