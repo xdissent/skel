@@ -3,6 +3,7 @@ import sys
 import types
 from django.core.management import ManagementUtility, setup_environ, get_commands
 
+# This doesn't work.
 try:
     import paver
 except ImportError:
@@ -92,10 +93,16 @@ class SkelManagementUtility(ManagementUtility):
         return '\n'.join(usage)
         
 def execute_from_command_line(argv=None):
+    """Runs a Django, Skel, or Paver command.
+    
+    This function should be used for commands that are not project specific.
+    
+    """
     execute_manager(argv=argv)
     
 def execute_manager(settings_mod=None, argv=None):
-    """
+    """Runs a Django, Skel, or Paver command.
+    
     Like execute_from_command_line(), but for use by manage.py, a
     project-specific skel-admin.py utility.
     
