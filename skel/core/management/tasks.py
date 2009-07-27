@@ -215,13 +215,16 @@ def demo(info):
         raise
 
     try:
-        temp_manage_cmd = 'cd %s && %s ./manage.py' % (temp_project, temp_python)
-        sh('%s syncdb --settings=settings_dev --migrate --noinput' % temp_manage_cmd)
-        sh('%s runserver --settings=settings_dev' % temp_manage_cmd)
-    except BuildFailure:
-        info('Error encountered. Removing demo directory.')
-        temp_prefix.rmtree()
-        raise
+        try:
+            temp_manage_cmd = 'cd %s && %s ./manage.py' % (temp_project, temp_python)
+            sh('%s syncdb --settings=settings_dev --migrate --noinput' % temp_manage_cmd)
+            sh('%s runserver --settings=settings_dev' % temp_manage_cmd)
+        except BuildFailure:
+            info('Error encountered. Removing demo directory.')
+            temp_prefix.rmtree()
+            raise
+    except KeyboardInterrupt:
+        pass
 
     info('Demo stopped. Removing demo directory.')
     temp_prefix.rmtree()
