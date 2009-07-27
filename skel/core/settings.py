@@ -1,12 +1,5 @@
 from django.conf import settings
 
-CORE_AUTO_APP_SETTINGS = True
-
-CORE_AUTO_APP_SETTINGS_IGNORE_APPS = (
-    'django.contrib.comments',
-    'tagging',
-)
-
 CORE_MARKUP_FLATPAGES = ('django.contrib.flatpages' in settings.INSTALLED_APPS)
 
 CORE_USE_TAGS = ('tagging' in settings.INSTALLED_APPS)
