@@ -1,6 +1,6 @@
 import os
 import sys
-from paver.path25 import path, pushd
+from paver.path import path
 from paver.tasks import *
 from paver.easy import sh
 from paver.options import Bunch
@@ -199,7 +199,10 @@ def demo(info):
     """Run a temporary Skel demo server."""
     import tempfile
     temp_prefix = path(tempfile.mkdtemp())
+    temp_project = temp_prefix / 'demo'
     temp_virtualenv = temp_prefix / 'virtualenv'
+    temp_python = temp_virtualenv / 'bin/python'
+
     environment.options.startproject['no_svn'] = True
     environment.options.startproject['prefix'] = temp_prefix
     environment.options.startproject['virtualenv'] = temp_virtualenv
@@ -213,6 +216,11 @@ def demo(info):
     finally:
         info('Removing demo directory.')
 #         temp_prefix.rmtree()
+
+    temp_manage_cmd = 'cd %s && %s ./manage.py' % (temp_project, temp_python)
+    sh('%s syncdb --settings=settings_dev --migrate --noinput' % temp_manage_cmd)
+    sh('%s runserver --settings=settings_dev' % temp_manage_cmd)
+
     # call syncdb
     # call migrate
     # call runserver [--settings=settings_dev]
