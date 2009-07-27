@@ -6,11 +6,8 @@ from django.contrib.comments.managers import CommentManager
 from django.contrib.comments.models import BaseCommentAbstractModel
 from skel.markupeditor.fields import MarkupEditorField
 
-# TODO: Clean this model up
-class SkelComment(BaseCommentAbstractModel):
-    """
-    A user comment about some object.
-    """
+class Comment(BaseCommentAbstractModel):
+    """A user comment about some object."""
     user = models.ForeignKey(User, blank=True, null=True, related_name="%(class)s_comments")
     user_name = models.CharField(max_length=50, blank=True)
     user_email = models.EmailField(blank=True)
@@ -31,7 +28,6 @@ class SkelComment(BaseCommentAbstractModel):
     objects = CommentManager()
 
     class Meta:
-        db_table = 'skel_comments'
         ordering = ('submit_date',)
         permissions = [('can_moderate', 'Can moderate comments')]
 
@@ -41,7 +37,7 @@ class SkelComment(BaseCommentAbstractModel):
     def save(self, force_insert=False, force_update=False):
         if self.submit_date is None:
             self.submit_date = datetime.datetime.now()
-        super(SkelComment, self).save(force_insert, force_update)
+        super(Comment, self).save(force_insert, force_update)
 
     def _get_userinfo(self):
         """
@@ -112,9 +108,9 @@ class SkelComment(BaseCommentAbstractModel):
         return 'Posted by %(user)s at %(date)s\n\n%(comment)s\n\nhttp://%(domain)s%(url)s' % d
 
 
-class SkelCommentFlag(models.Model):
+class CommentFlag(models.Model):
     user      = models.ForeignKey(User, verbose_name='user', related_name='skel_comment_flags')
-    comment   = models.ForeignKey(SkelComment, verbose_name='comment', related_name='flags')
+    comment   = models.ForeignKey(Comment, verbose_name='comment', related_name='flags')
     flag      = models.CharField('flag', max_length=30, db_index=True)
     flag_date = models.DateTimeField('date', default=None)
 
@@ -136,4 +132,4 @@ class SkelCommentFlag(models.Model):
     def save(self, force_insert=False, force_update=False):
         if self.flag_date is None:
             self.flag_date = datetime.datetime.now()
-        super(SkelCommentFlag, self).save(force_insert, force_update)
+        super(CommentFlag, self).save(force_insert, force_update)
