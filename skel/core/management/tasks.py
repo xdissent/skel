@@ -72,24 +72,22 @@ def install_skel_tasks():
     if not hasattr(environment, "_skel_tasks_installed"):
         environment.task_finders.append(SkelTaskFinder())
         environment._skel_tasks_installed = True
+        environment.options(
+            startproject=Bunch(
+                no_svn=False,
+                prefix=os.environ.get('SKEL_PREFIX', '~/Sites'),
+                template=os.environ.get('SKEL_TEMPLATE', 'default'),
+                svn_root=os.environ.get('SKEL_SVN_ROOT', 'https://code.hartzogcreative.com/svn'),
+                virtualenv=None
+            )
+        )
         
 def install_project_tasks():
     """Makes project Paver commands available as Paver tasks."""
     if not hasattr(environment, "_project_tasks_installed"):
         environment.task_finders.append(ProjectTaskFinder())
         environment._project_tasks_installed = True
-
-
-# Set up default options.
-environment.options(
-    startproject=Bunch(
-        no_svn=False,
-        prefix=os.environ.get('SKEL_PREFIX', '~/Sites'),
-        template=os.environ.get('SKEL_TEMPLATE', 'default'),
-        svn_root=os.environ.get('SKEL_SVN_ROOT', 'https://code.hartzogcreative.com/svn'),
-        virtualenv=None
-    )
-)
+        # Set up default options.
 
 
 @cmdopts([
@@ -212,16 +210,18 @@ def demo(info):
     try:
         startproject()
     except BuildFailure:
+        info('Error encountered. Removing demo directory.')
+        temp_prefix.rmtree()
         raise
-    finally:
-        info('Removing demo directory.')
-#         temp_prefix.rmtree()
 
-    temp_manage_cmd = 'cd %s && %s ./manage.py' % (temp_project, temp_python)
-    sh('%s syncdb --settings=settings_dev --migrate --noinput' % temp_manage_cmd)
-    sh('%s runserver --settings=settings_dev' % temp_manage_cmd)
+    try:
+        temp_manage_cmd = 'cd %s && %s ./manage.py' % (temp_project, temp_python)
+        sh('%s syncdb --settings=settings_dev --migrate --noinput' % temp_manage_cmd)
+        sh('%s runserver --settings=settings_dev' % temp_manage_cmd)
+    except BuildFailure:
+        info('Error encountered. Removing demo directory.')
+        temp_prefix.rmtree()
+        raise
 
-    # call syncdb
-    # call migrate
-    # call runserver [--settings=settings_dev]
-    # remove temp path
+    info('Demo stopped. Removing demo directory.')
+    temp_prefix.rmtree()
