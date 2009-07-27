@@ -9,13 +9,15 @@ except ImportError:
 
 
 class Decorator:
-    """
-    A Decorator base class that applies magic to make simple decorators 
-    behave more intuitively. Subclasses must implement the ``wrapper``
+    """A Decorator base class that applies magic to make simple decorators 
+    behave more intuitively. 
+    
+    Subclasses must implement the ``wrapper``
     method, which should call the wrapped function, regardless of how
     the decorator was instantiated. Decorators may accept positional and
     keyword arguments and the ``wrapper`` method receives the arguments 
     passed to the function when called.
+    
     """
     def __init__(self, func=None, *args, **kwargs):
         self.func = None
@@ -40,11 +42,11 @@ class Decorator:
         return self.wrapper(*args, **kwargs)
         
     def get_kwarg_default(self, kwarg_name):
-        """
-        Extracts the default value for the keyword argument ``kwarg_name``
-        as defined by ``self.func``. This method should only be called if
-        ``self.func`` has been already been populated, otherwise it will
-        always raise a ``ValueError``. 
+        """Extracts the default value for the keyword argument ``kwarg_name``
+        as defined by ``self.func``. 
+        
+        This method should only be called if ``self.func`` has been already 
+        been populated, otherwise it will always raise a ``ValueError``. 
         
         Example::
         
@@ -59,24 +61,28 @@ class Decorator:
             @RedirectDefaultTemplate    
             def view(request, template='default.html'):
                 [...]
+
         """
         args, varargs, varkw, defaults = inspect.getargspec(self.func)
         return defaults[args.index('template_name') - len(args)]
         
     def wrapper(self, *args, **kwargs):
-        """
+        """A wrapper for the decorated function.
+        
         Subclasses must implement this method. It is called in place of the
         wrapped function and should accept all arguments the function might
         require. This method may assume ``self.args`` and ``self.kwargs``
         have been populated with the arguments passed to the decorator 
         instance and ``self.func`` is the wrapped function.
+        
         """
         raise NotImplementedError
 
 
 class ajaxable(Decorator):
-    """
-    Decorator for views that accept the ``template_name`` keyword argument.
+    """AJAX decorator for views that accept the ``template_name`` keyword 
+    argument.
+    
     When the view is called for an AJAX request, the suffix ``_xhr`` is 
     appended to the original template name (preserving the file extension) 
     and the view is called with the updated ``template_name`` argument. The
@@ -100,6 +106,7 @@ class ajaxable(Decorator):
         @ajaxable
         def view(request, **kwargs):
             [...]
+
     """
     def wrapper(self, request, template_name=None, *args, **kwargs):
         if not request.is_ajax():
