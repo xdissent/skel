@@ -8,6 +8,7 @@ import sys
 class Command(runserver.Command):    
     def handle(self, *args, **kwargs):
         server_proc = subprocess.Popen(['python -m smtpd -n -c DebuggingServer localhost:1025'], shell=True)
+        open_proc = subprocess.Popen(['open http://localhost:8000/'], shell=True)
         try:
             super(Command, self).handle(*args, **kwargs)
         finally:
