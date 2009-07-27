@@ -4,6 +4,8 @@ from django.contrib.sites.models import Site
 from skel.core.managers import NavigationMenuManager
 from skel.markupeditor.fields import MarkupEditorField # Needed for south
 
+class SkelComment(models.Model):
+    pass
 
 class NavigationMenu(models.Model):
     title = models.CharField(max_length=255)
