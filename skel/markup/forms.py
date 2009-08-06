@@ -1,4 +1,3 @@
-import pdb
 from django import forms
 from django.forms.util import ErrorList
 from django.forms.models import ModelFormMetaclass, ModelForm
@@ -19,7 +18,7 @@ def get_choices(model_name):
 
 
 class MarkUpWidget(forms.Select):
-    """"""
+    """A widget that includes the media needed for marked up fields."""
     class Media:
         js = ('js/markupeditor.js',)
 
@@ -32,7 +31,6 @@ class MarkedUpModelFormMetaclass(ModelFormMetaclass):
                                                                   bases, attrs)
         model = attrs['Meta'].model
         model_name = '.'.join([model._meta.app_label, model._meta.module_name])
-        
         if model_name not in registered_models:
             return super(MarkedUpModelFormMetaclass, cls).__new__(cls, name, 
                                                                   bases, attrs)
@@ -54,13 +52,11 @@ class MarkedUpModelFormMetaclass(ModelFormMetaclass):
 
 class MarkedUpModelForm(ModelForm):
     __metaclass__ = MarkedUpModelFormMetaclass
-    
     markup_fields = []
         
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
                  initial=None, error_class=ErrorList, label_suffix=':',
                  empty_permitted=False, instance=None):
-        print 'MarkedUpModelForm __init__()'
         if initial is None:
             initial = {}
         if instance is not None:
@@ -75,15 +71,12 @@ class MarkedUpModelForm(ModelForm):
                                                 initial, error_class, 
                                                 label_suffix, empty_permitted, 
                                                 instance)
-        
+
     def save(self, commit=True):
-        print 'MarkedUpModelForm save()'
         obj = super(MarkedUpModelForm, self).save(commit=commit)
-        
         # Create save_m2m function that renders markup.
         old_m2m = getattr(self, 'save_m2m', None)
         def save_m2m():
-            print 'save_m2m'
             if old_m2m is not None:
                 old_m2m()
             for field_name in self.markup_fields:
@@ -93,7 +86,9 @@ class MarkedUpModelForm(ModelForm):
                 markedup_item.engine_name = self.cleaned_data[engine_field_name]
                 markedup_item.render()
                 markedup_item.save()
+        # Save object or store save_m2m function.
         if commit:
+            obj.save()
             save_m2m()
         else:
             self.save_m2m = save_m2m
@@ -127,10 +122,8 @@ def markedup_modelform_factory(model, form=MarkedUpModelForm,
     if hasattr(form, 'Meta'):
         parent = (form.Meta, object)
     Meta = type('Meta', parent, attrs)
-
     # Give this new form class a reasonable name.
     class_name = ''.join(['MarkedUp', model.__name__, 'Form'])
-
     # Class attributes for the new form class.
     form_class_attrs = {
         'Meta': Meta,
