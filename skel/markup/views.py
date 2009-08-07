@@ -1,15 +1,10 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import Http404
-from skel.markup.markups import registry
+from skel.markup.engines import registered_engines
 
-
-def preview(request, markup):
-    #if markup not in registry or 'content' not in request.POST:
-    #    raise Http404
-
-    rendered = registry[markup]().render(request.POST['content'])
-    
-    return render_to_response('markupeditor/preview.html',
-                          { 'rendered': rendered },
-                          context_instance=RequestContext(request))
+def preview(request, engine_name):
+    source = request.POST['source']
+    engine = registered_engines[engine_name]()
+    rendered = engine.render(source)
+    return render_to_response('markup/preview.html', {'rendered': rendered},
+                              context_instance=RequestContext(request))

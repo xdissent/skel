@@ -26,6 +26,7 @@ class Engine(object):
     default_options = {}
     
     def _finalize_options(self, options):
+        """Merge provided options with defaults."""
         if options is None:
             return self.default_options
         final_options = self.default_options
@@ -33,11 +34,13 @@ class Engine(object):
         return final_options
 
     def render(self, source, options=None):
+        """Render the source into markup with the provided options."""
         options = self._finalize_options(options)
         markup = self._render(smart_str(source), options)
         return mark_safe(force_unicode(markup))
         
     def _render(self, source, options=None):
+        """Execute the render algorithm used by the render method."""
         raise NotImplementedError('MarkUps must provide a "_render" method.')
 
 

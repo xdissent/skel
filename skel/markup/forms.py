@@ -6,6 +6,7 @@ from skel.markup import registered_models, settings
 
 
 def get_choices(model_name):
+    """Calculate markup engine choices for a model."""
     choices = []
     if model_name in settings.SKEL_MARKUP_ENGINES:
         engines = settings.SKEL_MARKUP_ENGINES[model_name]
