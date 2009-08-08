@@ -130,6 +130,7 @@ def startproject(options, args, debug, info):
 
     info('Copying project template "%s" to "%s".' % (options.template, project_path))
     try:
+        # Note: This still fucks up .svn handling.
         template_path.copytree(project_path)
     except OSError:
         raise BuildFailure('Could not create project directory "%s".' % project_path)
