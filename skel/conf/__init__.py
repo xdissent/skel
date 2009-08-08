@@ -4,8 +4,10 @@ import logging
 from django.conf import settings as project_settings
 from skel.conf import settings as app_settings
 
+
 # Global cache of apps whose settings have been handled.
 _settled = None
+
 
 class AppSettings(types.ModuleType):
     """Application level settings module class.
@@ -30,6 +32,7 @@ class AppSettings(types.ModuleType):
         except AttributeError:
             return getattr(self.default_settings, name)
 
+
 def configure_app(app_name, settings_module_name='settings'):
     """Applies project and app settings to an app's settings module."""
     settings_module_name = '.'.join([app_name, settings_module_name])
@@ -44,6 +47,7 @@ def configure_app(app_name, settings_module_name='settings'):
     settings = AppSettings(settings_module_name, settings_module)
     sys.modules[settings_module_name] = settings
     setattr(app, 'settings', settings)
+
 
 def autodiscover():
     """Finds app-level settings and overrides them if appropriate.
@@ -73,6 +77,7 @@ def autodiscover():
             logging.debug('Caught ImportError when configuring %s' % app_name)
             _settled.append(app_name)
             continue
+
 
 def handle_app_settings():
     """Sets up Skel's application level settings.
