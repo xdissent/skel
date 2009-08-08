@@ -12,18 +12,18 @@ urlpatterns = patterns('',
     url(
         r'^/?$',
         object_list,
-        dict(info_dict, template_name='accounts/user_list.html', paginate_by=10),
-        name='accounts-user-list'
+        dict(info_dict, template_name='accounts/users.html', paginate_by=10),
+        name='users'
     ),
 
     url(r'^(?P<username>\w+)/$',
         user_detail,
-        dict(info_dict, template_name='accounts/user_detail.html'),
-        name='accounts-user-detail'
+        dict(info_dict, template_name='accounts/user.html'),
+        name='user'
     ),
 )
 
 
 core_urlpatterns = patterns('',
-    url(r'^users/', include(urlpatterns)),
+    url(r'^users/', include((urlpatterns, 'accounts', 'accounts'))),
 )

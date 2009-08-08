@@ -3,13 +3,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from skel.core.managers import PublicSitesObjectManager
-from skel.markupeditor.fields import MarkupEditorField
+from skel import markup
 
 
-class UserProfile(models.Model):
+class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
     url = models.URLField(blank=True, verify_exists=True)
-    bio = MarkupEditorField(blank=True)
+    bio = TextField(blank=True)
     public = models.BooleanField(default=True)
     sites = models.ManyToManyField(Site)
     objects = PublicSitesObjectManager()
@@ -23,6 +23,9 @@ class UserProfile(models.Model):
     
     @models.permalink
     def get_absolute_url(self):
-        return ('user-detail', None, {
+        return ('accounts:user', None, {
             'user': self.user.username,
         })
+
+
+markup.register(Profile)

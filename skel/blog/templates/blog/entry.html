@@ -7,7 +7,7 @@
 
     <p class="meta">
         Author:
-        <a href="{# url accounts-user-detail entry.author #}">{% firstof entry.author.get_full_name entry.author.username %}</a><br />
+        <a href="{% url accounts:user entry.author %}">{% firstof entry.author.get_full_name entry.author.username %}</a><br />
         <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"F jS Y g:i a"|safe }}</abbr><br />
         Tags:
     {% for tag in tags %}
