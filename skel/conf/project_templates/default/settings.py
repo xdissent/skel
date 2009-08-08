@@ -20,7 +20,7 @@ else:
     DATABASE_ENGINE = 'sqlite3'
     DATABASE_NAME = os.path.join(PROJ_PATH, 'sqlite.db')
     VIRTUAL_ENVIRONMENT_PATH = os.path.expanduser('~/%s' % PROJ_NAME)
-    CORE_SERVE_MEDIA = True
+    SKEL_CORE_SERVE_MEDIA = True
     CACHE_BACKEND = 'locmem:///?timeout=30&max_entries=200'
 
 

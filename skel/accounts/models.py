@@ -9,7 +9,7 @@ from skel import markup
 class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
     url = models.URLField(blank=True, verify_exists=True)
-    bio = TextField(blank=True)
+    bio = models.TextField(blank=True)
     public = models.BooleanField(default=True)
     sites = models.ManyToManyField(Site)
     objects = PublicSitesObjectManager()

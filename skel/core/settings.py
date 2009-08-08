@@ -6,7 +6,7 @@ SKEL_CORE_SERVE_ADMIN = ('django.contrib.admin' in settings.INSTALLED_APPS)
 
 CORE_USE_TAGS = ('tagging' in settings.INSTALLED_APPS)
 
-CORE_SERVE_MEDIA = settings.DEBUG
+SKEL_CORE_SERVE_MEDIA = False
 
 CORE_AJAXABLE_TEMPLATE_SUFFIX = '_xhr'
 

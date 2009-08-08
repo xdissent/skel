@@ -20,3 +20,18 @@ for app_name in settings.INSTALLED_APPS:
         urlpatterns += urls_module.core_urlpatterns
     except AttributeError:
         continue
+
+
+if settings.SKEL_CORE_SERVE_MEDIA:
+    urlpatterns += patterns('django.views.static',
+        url(r'^static/(?P<path>.*)$', 'serve',
+            {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+    )
+
+
+if settings.SKEL_CORE_SERVE_ADMIN:
+    from django.contrib import admin
+    admin.autodiscover()
+    urlpatterns += patterns('',
+        url('^admin/', include(admin.site.urls)),
+    )
