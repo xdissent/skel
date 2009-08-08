@@ -1,50 +1,10 @@
 import sys
-from django.contrib import admin
 from django.conf.urls.defaults import *
 from skel.core import settings
 
 
-admin.autodiscover()
+urlpatterns = []
 
-
-urlpatterns = patterns('skel.core.views',    
-    url(r'^comments/', include('django.contrib.comments.urls')),
-    
-    url(r'^admin/doc/skel/$',
-        'doc_skel',
-        {},
-        name='skel-docroot',
-    ),
-    
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    
-    url(r'^admin/', include(admin.site.urls)),
-)
-
-if settings.CORE_USE_TAGS:
-    from tagging.models import Tag
-    
-    urlpatterns += patterns('skel.core.views',
-        url(r'^tag/(?P<tag>[^/]+)/$', 
-            'tag_detail',
-            {'queryset': Tag.objects.all()},
-            name='tag-detail',
-        ),
-    )
-
-if settings.CORE_SERVE_MEDIA:
-    urlpatterns += patterns('skel.core.views',
-        url(r'^static/(?P<path>.*)$',
-        'static_server',
-        {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
-    )
-
-
-if settings.CORE_USE_REGISTRATION:
-    urlpatterns += patterns('',
-        (r'^accounts/', include('registration.urls')),
-    )
-    
 
 # Import any core_urlpatterns Skel apps define
 for app_name in settings.INSTALLED_APPS:

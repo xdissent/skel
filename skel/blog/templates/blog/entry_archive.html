@@ -4,7 +4,7 @@
 {% block title %}Latest Entries - {{ block.super }}{% endblock %}
 
 {% block blog-title %}
-    <h1><a href="{% url blog-entry-latest %}">Latest Entries</a></h1>
+    <h1><a href="{% url blog:latest %}">Latest Entries</a></h1>
 {% endblock %}
 
 {% block blog-content %}

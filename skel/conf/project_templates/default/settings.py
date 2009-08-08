@@ -136,15 +136,15 @@ INSTALLED_APPS = (
     'skel.core',
     'skel.blog',
     'skel.categories',
-    'skel.markupeditor',
-    'skel.accounts',
-    'skel.portfolio',
-    'skel.lastfm',
-    'skel.superimage',
+    'skel.markup',
+#    'skel.accounts',
+#    'skel.portfolio',
+#    'skel.lastfm',
+#    'skel.superimage',
     'skel.quotes',
 )
 
-COMMENTS_APP = 'skel.core'
+# COMMENTS_APP = 'skel.core'
 
 CACHE_MIDDLEWARE_SECONDS = 600
 CACHE_MIDDLEWARE_KEY_PREFIX = PROJ_NAME
@@ -161,7 +161,7 @@ RESTRUCTUREDTEXT_FILTER_SETTINGS = {
 }
 
 GENERIC_CONTENT_LOOKUP_KWARGS = {
-    'blog.post': { 'public__exact': True },
+    'blog.entry': { 'public__exact': True },
     'massmedia.image': { 'public__exact': True },
     'massmedia.video': { 'public__exact': True },
     'massmedia.audio': { 'public__exact': True },

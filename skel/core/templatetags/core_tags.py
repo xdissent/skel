@@ -1,13 +1,14 @@
 import re
 from django import template
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import get_model
 from django.contrib.comments.templatetags.comments import BaseCommentNode
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import stringfilter
 from django.template.loader import render_to_string
 from template_utils.nodes import ContextUpdatingNode, GenericContentNode
-from skel.core.models import NavigationMenu
 from treemenus.models import Menu, MenuItem
+
 
 register = template.Library()
 
@@ -75,10 +76,6 @@ def do_retrieve_object_by_slug(parser, token):
         raise template.TemplateSyntaxError("third argument to '%s' tag must be 'as'" % bits[0])
     return RetrieveObjectBySlugNode(bits[1], bits[2], bits[4])
 
-@register.inclusion_tag('core/navigation.html', takes_context=True)
-def navigation(context):
-    menu = NavigationMenu.objects.get_root()
-    return {'menu': menu, 'user': context['user']}
     
 @register.inclusion_tag("core/paginator.html", takes_context=True)
 def paginator(context, adjacent_pages=2):
@@ -126,7 +123,10 @@ class RenderMenuNode(template.Node):
         self.menu_template = menu_template
         
     def render(self, context):
-        menu = Menu.objects.get(name=self.menu_name)
+        try:
+            menu = Menu.objects.get(name=self.menu_name)
+        except ObjectDoesNotExist:
+            return ''
         context['menu'] = menu
         return render_to_string(self.menu_template, context)
         

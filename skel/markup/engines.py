@@ -29,7 +29,7 @@ class Engine(object):
         """Merge provided options with defaults."""
         if options is None:
             return self.default_options
-        final_options = self.default_options
+        final_options = self.default_options.copy()
         final_options.update(options)
         return final_options
 

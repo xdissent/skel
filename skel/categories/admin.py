@@ -1,13 +1,9 @@
 from django.contrib import admin
 from skel.categories.models import Category
-from skel.markupeditor.fields import MarkupEditorField, MarkupEditorWidget
+from skel.markup.admin import MarkedUpAdmin
 
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(MarkedUpAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'public',)
-    model_admin_manager = Category.admin_manager
-    formfield_overrides = {
-        MarkupEditorField: {'widget': MarkupEditorWidget},
-    }
 
 admin.site.register(Category, CategoryAdmin)

@@ -24,7 +24,6 @@ class MarkedUpItem(models.Model):
         return {}
         
     def get_engine(self):
-        print 'Getting engine %s' % self.engine_name
         from skel.markup.engines import registered_engines
         return registered_engines[self.engine_name]()
     
@@ -38,4 +37,3 @@ class MarkedUpItem(models.Model):
         if source is None:
             source = getattr(self.content_object, self.source_field, '')
         self.rendered = self.engine.render(source, self.render_options)
-        print 'Rendered: %s' % self.rendered

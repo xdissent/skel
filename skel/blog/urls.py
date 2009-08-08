@@ -27,7 +27,7 @@ urlpatterns = patterns('django.views.generic.date_based',
         r'^/?$',
         'archive_index',
         entry_dict,
-        name='blog-entry-latest'
+        name='latest'
     ),
 
     url(r'^(?P<year>\d{4})/$',
@@ -51,7 +51,7 @@ urlpatterns = patterns('django.views.generic.date_based',
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
         'object_detail',
         dict(entry_dict, slug_field='slug'),
-        name='blog-entry-detail'
+        name='entry'
     ),
 )
 
@@ -62,34 +62,34 @@ blog_feeds = {
 blog_other_feeds = {}
 
 
-if settings.BLOG_TAGS_ENABLED:
+if settings.SKEL_BLOG_TAGGING_ENABLED:
     urlpatterns += patterns('tagging.views',
         url(r'^tag/(?P<tag>[^/]+)/$',
             'tagged_object_list',
             tag_dict,
-            name='blog-entry-tag-detail'
+            name='tag'
         ),
     )
     blog_other_feeds['tag'] = feeds.EntryTagFeed
 
 
-if settings.BLOG_CATEGORIES_ENABLED:    
+if settings.SKEL_BLOG_CATEGORIES_ENABLED:    
     urlpatterns += patterns('skel.categories.views',
         url(r'^category/(?P<slug>[^/]+)/$',
             'category_object_list',
             category_dict,
-            name='blog-entry-category-detail'
+            name='category'
         ),
     )
     blog_other_feeds['category'] = feeds.EntryCategoryFeed
     
 
 core_urlpatterns = patterns('',
-    url(r'^blog/', include(urlpatterns)),
+    url(r'^blog/', include((urlpatterns, 'blog', 'blog'))),
 )
 
 
-if settings.BLOG_FEEDS_ENABLED:
+if settings.SKEL_BLOG_FEEDS_ENABLED:
     core_urlpatterns += patterns('',
         url(r'^feeds/blog/(?P<url>.*)/$',
             'django.contrib.syndication.views.feed', 

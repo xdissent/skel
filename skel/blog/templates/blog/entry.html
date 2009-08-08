@@ -7,25 +7,25 @@
 
     <p class="meta">
         Author:
-        <a href="{% url accounts-user-detail entry.author %}">{% firstof entry.author.get_full_name entry.author.username %}</a><br />
+        <a href="{# url accounts-user-detail entry.author #}">{% firstof entry.author.get_full_name entry.author.username %}</a><br />
         <abbr title="{{ entry.published|date:"Y-m-dTH:i:sQ" }}">{{ entry.published|date:"F jS Y g:i a"|safe }}</abbr><br />
         Tags:
     {% for tag in tags %}
-        <a href="{% url blog-entry-tag-detail tag.name %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+        <a href="{% url blog:tag tag.name %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
     {% endfor %}
     
     {% if entry.categories.all %}
         <br />
         Categories:
         {% for category in entry.categories.all %}
-            <a href="{% url blog-entry-category-detail category.slug %}" rel="tag">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
+            <a href="{% url blog:category category.slug %}" rel="tag">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
         {% endfor %}
     {% endif %}
     </p>
 
 {% if not show_detail %}
-    {% if entry.summary_rendered %}
-        {{ entry.summary_rendered }}
+    {% if entry.summary_markedup.rendered %}
+        {{ entry.summary_markedup.rendered|safe }}
     {% else %}
         <p>{{ entry.summary }}</p>
     {% endif %}
@@ -33,8 +33,8 @@
     <p><a href="{{ entry.get_absolute_url }}" class="button-right">Read more</a></p>
     
 {% else %}
-    {% if entry.body_rendered %}
-        {{ entry.body_rendered }}
+    {% if entry.body_markedup.rendered %}
+        {{ entry.body_markedup.rendered|safe }}
     {% else %}
         <p>{{ entry.body }}</p>
     {% endif %}

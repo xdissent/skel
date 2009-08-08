@@ -6,7 +6,7 @@
     <ul>
     {% for tag in tags %}
         <li>
-            <a href="{% url tag-detail tag %}">{{ tag.name }}</a>
+            <a href="{% url blog:tag tag %}">{{ tag.name }}</a>
         </li>
     {% endfor %}
     </ul>

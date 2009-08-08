@@ -1,10 +1,5 @@
 from django.contrib import admin
-from django.db import models
-from models import Quote
+from skel.quotes.models import Quote
+from skel.markup.admin import MarkedUpAdmin
 
-
-class QuoteAdmin(admin.ModelAdmin):
-    model_admin_manager = Quote.admin_manager
-    
-    
-admin.site.register(Quote, QuoteAdmin)
+admin.site.register(Quote, MarkedUpAdmin)

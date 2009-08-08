@@ -4,27 +4,25 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.contrib.comments.managers import CommentManager
 from django.contrib.comments.models import BaseCommentAbstractModel
-from skel.markupeditor.fields import MarkupEditorField
 
 class Comment(BaseCommentAbstractModel):
     """A user comment about some object."""
-    user = models.ForeignKey(User, blank=True, null=True, related_name="%(class)s_comments")
+    user = models.ForeignKey(User, blank=True, null=True, 
+                             related_name="%(class)s_comments")
     user_name = models.CharField(max_length=50, blank=True)
     user_email = models.EmailField(blank=True)
     user_url = models.URLField(blank=True)
-
-    comment = MarkupEditorField()
-    
+    comment = models.TextField()
     submit_date = models.DateTimeField(default=None)
     ip_address  = models.IPAddressField(blank=True, null=True)
-    is_public   = models.BooleanField(default=True,
-                    help_text='Uncheck this box to make the comment effectively ' \
-                                'disappear from the site.')
-    is_removed  = models.BooleanField(default=False,
-                    help_text='Check this box if the comment is inappropriate. ' \
-                                'A "This comment has been removed" message will ' \
-                                'be displayed instead.')
-
+    public = models.BooleanField(default=True,
+                                 help_text='Uncheck this box to make the ' \
+                                 'comment effectively disappear from the site.')
+    removed  = models.BooleanField(default=False, 
+                                   help_text='Check this box if the comment ' \
+                                   'is inappropriate. A "This comment has ' \
+                                   'been removed" message will be displayed ' \
+                                   'instead.')
     objects = CommentManager()
 
     class Meta:
@@ -95,9 +93,7 @@ class Comment(BaseCommentAbstractModel):
         return self.get_content_object_url() + (anchor_pattern % self.__dict__)
 
     def get_as_text(self):
-        """
-        Return this comment as plain text.  Useful for emails.
-        """
+        """Return this comment as plain text.  Useful for emails."""
         d = {
             'user': self.user or self.name,
             'date': self.submit_date,

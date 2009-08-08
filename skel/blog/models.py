@@ -1,34 +1,30 @@
-import datetime
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from massmedia.models import Collection
 from skel.core.managers import PublicSitesObjectManager
 from skel.blog import settings
-
-
-from skel.markupeditor.fields import MarkupEditorField
-from tagging.fields import TagField
-from massmedia.models import Collection
-from skel import categories
+import tagging
 
 
 class Entry(models.Model):
     title = models.CharField(max_length=255)
-    public = models.BooleanField(default=True)
-    author = models.ForeignKey(User)
-    tags = TagField(blank=True)
-    media = models.ForeignKey(Collection, blank=True, null=True)
     slug = models.SlugField(unique_for_date='published')
-    sites = models.ManyToManyField(Site)
+    author = models.ForeignKey(User)
+    published = models.DateTimeField(default=datetime.now)
     updated = models.DateTimeField(auto_now=True)
-    published = models.DateTimeField(default=datetime.datetime.now)
-    summary = MarkupEditorField(blank=True)
-    body = MarkupEditorField()
+    tags = tagging.fields.TagField()
+    media = models.ForeignKey(Collection, blank=True, null=True)
+    summary = models.TextField(blank=True)
+    body = models.TextField()
+    sites = models.ManyToManyField(Site)
+    public = models.BooleanField(default=True)
+    
     objects = PublicSitesObjectManager()
     admin_manager = models.Manager()
     
     class Meta:
-        db_table = 'blog_entries'
         verbose_name_plural = 'entries'
         ordering = ('-published',)
         get_latest_by = 'published'
@@ -38,7 +34,7 @@ class Entry(models.Model):
     
     @models.permalink
     def get_absolute_url(self):
-        return ('blog-entry-detail', None, {
+        return ('blog:entry', None, {
             'year': self.published.year,
             'month': self.published.strftime('%b').lower(),
             'day': self.published.strftime('%d'),
@@ -47,10 +43,23 @@ class Entry(models.Model):
     
     @property
     def comments_enabled(self):
-        if settings.BLOG_AUTO_CLOSE_COMMENTS_DAYS > 0:
-            delta = datetime.datetime.now() - self.published
-            return delta.days < settings.BLOG_AUTO_CLOSE_COMMENTS_DAYS
-        return settings.BLOG_COMMENTS_ENABLED and self.public
+        if settings.SKEL_BLOG_AUTO_CLOSE_COMMENTS_DAYS > 0:
+            delta = datetime.now() - self.published
+            return delta.days < settings.SKEL_BLOG_AUTO_CLOSE_COMMENTS_DAYS
+        return settings.SKEL_BLOG_COMMENTS_ENABLED and self.public
 
 
-categories.register(Entry)
+# Register markup fields.
+if settings.SKEL_BLOG_MARKUP_ENABLED:
+    from skel import markup
+    markup.register(Entry)
+
+# Register tags.
+# if SKEL_BLOG_TAGGING_ENABLED:
+#     import tagging
+#     tagging.register(Entry)
+
+# Register categories.
+if settings.SKEL_BLOG_CATEGORIES_ENABLED:
+    from skel import categories
+    categories.register(Entry)

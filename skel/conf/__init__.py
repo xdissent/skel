@@ -95,5 +95,5 @@ def handle_app_settings():
                                 'SKEL_CONF_AUTO_APP_SETTINGS', auto_settings)
         if auto_settings:
             autodiscover()
-        else:
-            configure_app(app_settings)
+        # Just in case skel.conf isn't in INSTALLED_APPS, configure it manually.
+        configure_app('skel.conf')

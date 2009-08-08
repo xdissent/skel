@@ -1,7 +1,7 @@
 # Global dict of models that have been registered with the Markup Editor.
 registered_models = {}
 
-def register_model(model, fields=None):
+def register(model, fields=None):
     """Registers a model's fields to be used with the Markup Editor.
     
     If fields is not specified, ``SKEL_MARKUP_MODEL_FIELDS`` will be checked 
