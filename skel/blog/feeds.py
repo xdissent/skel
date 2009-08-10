@@ -5,14 +5,13 @@ from skel.blog.models import Entry
 from skel.blog import settings
 
 
-# TODO: Fill feed attributes from settings (paver should use them too)
 class EntryFeed(Feed):
     title = settings.SKEL_BLOG_FEED_TITLE
     description = settings.SKEL_BLOG_FEED_DESCRIPTION
     description_template = 'blog/feed_description.html'
     
     def link(self):
-        return reverse('blog-entry-latest')
+        return reverse('blog:latest')
 
     def items(self):
         return Entry.objects.all()[:settings.SKEL_BLOG_FEED_NUM_ITEMS]
@@ -38,18 +37,25 @@ class EntryFeed(Feed):
         
 class EntryCategoryFeed(EntryFeed):
     def get_object(self, bits):
+        # We want to show a 404 when provided an empty or weird URLs.
         if len(bits) != 1:
             raise ObjectDoesNotExist
         from skel.categories.models import Category
-        return Category.objects.get(slug__exact=bits[0])
+        try:
+            return Category.objects.get(slug__exact=bits[0])
+        except ObjectDoesNotExist:
+            # Instantiate a new Category for use in other methods.
+            return Category(slug=bits[0], name=bits[0])
     
     def title(self, obj):
-        return settings.SKEL_BLOG_CATEGORY_FEED_TITLE % {'category': obj}
+        return settings.SKEL_BLOG_CATEGORY_FEED_TITLE % obj.name
     
     def link(self, obj):
-        return reverse('blog-entry-category-detail', args=[obj.slug])
+        return reverse('blog:category', args=[obj.slug])
 
     def items(self, obj):
+        if obj.pk is None:
+            return []
         return obj.entry_set.all()[:settings.SKEL_BLOG_FEED_NUM_ITEMS]
         
         
@@ -58,14 +64,19 @@ class EntryTagFeed(EntryFeed):
         if len(bits) != 1:
             raise ObjectDoesNotExist
         from tagging.models import Tag
-        return Tag.objects.get(name=bits[0])
+        try:
+            return Tag.objects.get(name=bits[0])
+        except ObjectDoesNotExist:
+            return Tag(name=bits[0])
     
     def title(self, obj):
-        return settings.SKEL_BLOG_TAG_FEED_TITLE % {'tag': obj}
+        return settings.SKEL_BLOG_TAG_FEED_TITLE % obj.name
     
     def link(self, obj):
-        return reverse('blog-entry-tag-detail', args=[obj])
+        return reverse('blog:tag', args=[obj])
 
     def items(self, obj):
+        if obj.pk is None:
+            return []
         from tagging.models import TaggedItem
         return TaggedItem.objects.get_by_model(Entry, obj)[:settings.SKEL_BLOG_FEED_NUM_ITEMS]

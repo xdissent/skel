@@ -25,5 +25,5 @@ SKEL_BLOG_FEED_SHOW_AUTHOR_EMAIL = False
 # These have undesired effects
 # SKEL_BLOG_CATEGORY_FEED_TITLE = '%s - %%(category.title)s Category' % SKEL_BLOG_FEED_TITLE
 # SKEL_BLOG_TAG_FEED_TITLE = '%s - Entries tagged "%%(tag.name)s"' % SKEL_BLOG_FEED_TITLE
-SKEL_BLOG_CATEGORY_FEED_TITLE = '%%(category.title)s Category'
-SKEL_BLOG_TAG_FEED_TITLE = 'Entries tagged "%%(tag.name)s"'
+SKEL_BLOG_CATEGORY_FEED_TITLE = '%s Category'
+SKEL_BLOG_TAG_FEED_TITLE = 'Entries tagged "%s"'

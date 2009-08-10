@@ -3,100 +3,74 @@ from skel.blog.models import Entry
 from skel.blog import settings, feeds
 
 
+# Create entry date based URLs.
 entry_dict = {
     'queryset': Entry.objects.all(),
     'date_field': 'published',
 }
-
-tag_dict = {
-    'queryset_or_model': entry_dict['queryset'],
-    'template_name': 'blog/entry_tag_detail.html',
-    'allow_empty': True,
-}
-
-category_dict = {
-    'queryset': entry_dict['queryset'],
-    'template_name': 'blog/entry_category_detail.html',
-    'allow_empty': True,
-    'paginate_by': 2,
-}
-
-
 urlpatterns = patterns('django.views.generic.date_based',
-    url(
-        r'^/?$',
-        'archive_index',
-        entry_dict,
-        name='latest'
-    ),
+    url(r'^/?$', 'archive_index', 
+        dict(entry_dict, template_name='blog/latest.html'), name='latest'),
 
-    url(r'^(?P<year>\d{4})/$',
-        'archive_year',
-        dict(entry_dict, make_object_list=True, allow_empty=True),
-        name='blog-entry-year'
-    ),
+    url(r'^(?P<year>\d{4})/$', 'archive_year', 
+        dict(entry_dict, make_object_list=True, allow_empty=True, 
+             template_name='blog/year.html'), name='year'),
     
-    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$',
-        'archive_month',
-        dict(entry_dict, allow_empty=True),
-        name='blog-entry-month'
-    ),
+    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', 'archive_month',
+        dict(entry_dict, allow_empty=True, template_name='blog/month.html'), 
+        name='month'),
     
-    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/$',
-        'archive_day',
-        dict(entry_dict, allow_empty=True),
-        name='blog-entry-day'
-    ),
+    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/$', 'archive_day',
+        dict(entry_dict, allow_empty=True, template_name='blog/day.html'), 
+        name='day'),
 
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-        'object_detail',
-        dict(entry_dict, slug_field='slug'),
-        name='entry'
-    ),
+        'object_detail', dict(entry_dict, slug_field='slug'), name='entry'),
 )
 
 
-blog_feeds = {
-    'blog': feeds.EntryFeed,
-}
-blog_other_feeds = {}
+# Create syndication feeds.
+blog_feeds = {'': feeds.EntryFeed}
 
 
+# Create tagging URLs.
 if settings.SKEL_BLOG_TAGGING_ENABLED:
+    tag_dict = {
+        'queryset_or_model': entry_dict['queryset'],
+        'template_name': 'blog/tag.html',
+        'allow_empty': True,
+    }
     urlpatterns += patterns('tagging.views',
-        url(r'^tag/(?P<tag>[^/]+)/$',
-            'tagged_object_list',
-            tag_dict,
-            name='tag'
-        ),
+        url(r'^tag/(?P<tag>[^/]+)/$', 'tagged_object_list', tag_dict,
+            name='tag'),
     )
-    blog_other_feeds['tag'] = feeds.EntryTagFeed
+    blog_feeds['tag'] = feeds.EntryTagFeed
 
 
+# Create entry category URLs.
 if settings.SKEL_BLOG_CATEGORIES_ENABLED:    
+    category_dict = {
+        'queryset': entry_dict['queryset'],
+        'template_name': 'blog/category.html',
+        'allow_empty': True,
+        'paginate_by': 2,
+    }
     urlpatterns += patterns('skel.categories.views',
-        url(r'^category/(?P<slug>[^/]+)/$',
-            'category_object_list',
-            category_dict,
-            name='category'
-        ),
+        url(r'^category/(?P<slug>[^/]+)/$', 'category_object_list',
+            category_dict, name='category'),
     )
-    blog_other_feeds['category'] = feeds.EntryCategoryFeed
-    
+    blog_feeds['category'] = feeds.EntryCategoryFeed
 
+
+# Create feeds URLs.
+if settings.SKEL_BLOG_FEEDS_ENABLED:
+    urlpatterns += patterns('django.contrib.syndication.views',
+        url(r'^feed/$', 'feed', {'url': '', 'feed_dict': blog_feeds}, name='feed'),
+        url(r'^feed/(?P<url>.*)/$', 'feed', {'feed_dict': blog_feeds}),
+    )
+
+
+# Register default global URLs.
 core_urlpatterns = patterns('',
     url(r'^blog/', include((urlpatterns, 'blog', 'blog'))),
 )
-
-
-if settings.SKEL_BLOG_FEEDS_ENABLED:
-    core_urlpatterns += patterns('',
-        url(r'^feeds/blog/(?P<url>.*)/$',
-            'django.contrib.syndication.views.feed', 
-            {'feed_dict': blog_other_feeds}
-        ),
-        url(r'^feeds/(?P<url>.*)/$',
-            'django.contrib.syndication.views.feed',
-            {'feed_dict': blog_feeds},
-            name='feed-root'),
-    )

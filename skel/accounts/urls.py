@@ -9,21 +9,18 @@ info_dict = {
 }
 
 urlpatterns = patterns('',
-    url(
-        r'^/?$',
-        object_list,
+    url(r'^/?$', 'django.views.generic.list_detail.object_list',
         dict(info_dict, template_name='accounts/users.html', paginate_by=10),
         name='users'
     ),
 
-    url(r'^(?P<username>\w+)/$',
-        user_detail,
+    url(r'^(?P<username>\w+)/$', 'skel.accounts.views.user_detail',
         dict(info_dict, template_name='accounts/user.html'),
         name='user'
     ),
 )
 
-
+# Create default core urlpatterns.
 core_urlpatterns = patterns('',
     url(r'^users/', include((urlpatterns, 'accounts', 'accounts'))),
 )
