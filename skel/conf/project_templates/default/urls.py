@@ -1,2 +1,2 @@
 from django.conf.urls.defaults import *
-from skel.core.urls import urlpatterns
+from skel.core.urls import urlpatterns, handler500
