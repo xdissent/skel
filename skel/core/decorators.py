@@ -102,7 +102,7 @@ class ajaxable(Decorator):
         def view(request, template_name=None):
             [...]
         
-        # The decorator may have no effect on this view:
+        # The decorator *may* have no effect on this view:
         @ajaxable
         def view(request, **kwargs):
             [...]
@@ -122,6 +122,6 @@ class ajaxable(Decorator):
                     template_name = self.get_kwarg_default('template_name')
                 except ValueError:
                     return self.func(request, *args, **kwargs)
-            root, ext = os.path.splitext(template_name)
-            template_name = root + settings.CORE_AJAXABLE_TEMPLATE_SUFFIX + ext
+            name, ext = os.path.splitext(template_name)
+            template_name = name + settings.SKEL_CORE_AJAXABLE_SUFFIX + ext
         return self.func(request, template_name=template_name, *args, **kwargs)

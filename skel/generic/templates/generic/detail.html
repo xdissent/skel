@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
+
+{% block content %}    
+
+    {% block generic-title %}
+        <h1>{{ object.title }}</h1>
+    {% endblock %}
+    
+    {% block generic-content %}
+        <p>BODY</p>
+    {% endblock %}
+
+{% endblock %}

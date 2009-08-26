@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import get_model
 from django.contrib.comments.templatetags.comments import BaseCommentNode
 from django.utils.safestring import mark_safe
+from django.utils.hashcompat import md5_constructor
 from django.template.defaultfilters import stringfilter
 from django.template.loader import render_to_string
 from template_utils.nodes import ContextUpdatingNode, GenericContentNode
@@ -163,3 +164,10 @@ def render_menu_item(parser, token):
 #     if not (menu_template[0] == menu_template[-1] and menu_template[0] in ('"', "'"))
 #         raise template.TemplateSyntaxError, "%r tag's second argument should be in quotes" % tag_name
     return RenderMenuItemNode(menu_item, menu_template[1:-1])
+
+
+@register.filter
+@stringfilter
+def md5(value):
+    """Calculate and return an MD5 hash given a string."""
+    return md5_constructor(value).hexdigest()

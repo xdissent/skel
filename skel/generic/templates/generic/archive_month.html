@@ -1,0 +1,7 @@
+{% extends "generic/list_base.html" %}
+
+{% block title %}{{ month|date:"F Y" }} Archive - {{ block.super }}{% endblock %}
+
+{% block generic-title %}
+    <h1>Generic {{ month|date:"F Y" }} Archive</h1>
+{% endblock %}

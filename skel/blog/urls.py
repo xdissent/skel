@@ -1,6 +1,12 @@
 from django.conf.urls.defaults import *
+from skel.core.sitemaps import GenericSitemap
+from skel.generic.views import GenericView, ArchiveView, YearView, MonthView, DayView, DetailView
+from skel.generic import GenericSuite
 from skel.blog.models import Entry
 from skel.blog import settings, feeds
+
+# Create a suite for all entries.
+urlpatterns = GenericSuite(Entry.objects.all()).urls
 
 
 # Create entry date based URLs.
@@ -8,25 +14,12 @@ entry_dict = {
     'queryset': Entry.objects.all(),
     'date_field': 'published',
 }
-urlpatterns = patterns('django.views.generic.date_based',
-    url(r'^/?$', 'archive_index', 
-        dict(entry_dict, template_name='blog/latest.html'), name='latest'),
 
-    url(r'^(?P<year>\d{4})/$', 'archive_year', 
-        dict(entry_dict, make_object_list=True, allow_empty=True, 
-             template_name='blog/year.html'), name='year'),
-    
-    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', 'archive_month',
-        dict(entry_dict, allow_empty=True, template_name='blog/month.html'), 
-        name='month'),
-    
-    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/$', 'archive_day',
-        dict(entry_dict, allow_empty=True, template_name='blog/day.html'), 
-        name='day'),
 
-    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-        'object_detail', dict(entry_dict, slug_field='slug'), name='entry'),
-)
+# Create core sitemaps.
+core_sitemaps = {
+    'blog': GenericSitemap(entry_dict, priority=0.6),
+}
 
 
 # Create syndication feeds.

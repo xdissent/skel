@@ -1,0 +1,15 @@
+{% extends "generic/base.html" %}
+
+{% block generic-title %}
+    <h1>Generic List Base</h1>
+{% endblock %}
+
+{% block generic-content %}
+    {% for object in object_list %}
+        {# render_listing object #}
+        <h2>Object Title</h2>
+        <p>Object Description</p>
+    {% empty %}
+        <p>No objects.</p>
+    {% endfor %}
+{% endblock %}

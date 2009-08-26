@@ -80,6 +80,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 INSTALLED_APPS = [
+    'skel.accounts',
+    'skel.blog',
+    'skel.categories',
+    'skel.comments',
+    'skel.core',
+    'skel.generic',
+    'skel.markup',
+    'skel.quotes',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.auth',
@@ -97,13 +105,6 @@ INSTALLED_APPS = [
     'tagging',
     'template_utils',
     'treemenus',
-    'skel.accounts',
-    'skel.blog',
-    'skel.categories',
-    'skel.comments',
-    'skel.core',
-    'skel.markup',
-    'skel.quotes',
 ]
 
 

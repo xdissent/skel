@@ -5,8 +5,8 @@ Skel Generic Application
 Installation
 ------------
 
-The generic application requires no changes to your project settings. This
-will change when the app provides template tags.
+The generic application must be in ``INSTALLED_APPS`` in your project 
+settings.
 
 
 Views
@@ -16,7 +16,9 @@ Class based versions of django.views.generic equivalents.
 
 Wishlist:
 
+ * Add context variable to find the model's verbose name and plural form.
  * Method to generate a URLConf for a view instance.
+ * Factory to generate an entire urlpatterns for a generic app.
  * **DONE** No need to subclass view to make it model specific.
  * **DONE** Template search lists include object specific names.
  * ``LatestView`` view that takes multiple querysets and renders a list of
@@ -40,6 +42,7 @@ Wishlist:
  * **DONE** ``DetailView`` should default to a ``generic/detail.html`` template which
    handles a few reasonable default model attributes.
  * Date based views should be paginated.
+ * Add a default URL pattern to each view.
 
 
 ``GenericView``
@@ -116,3 +119,24 @@ A base class for date based generic views.
 
 Notes:
  * This view is not paginated.
+
+
+Sites
+-----
+
+A generic site is a group of views and associated URLs.
+
+
+``GenericSuite``
+~~~~~~~~~~~~~~~
+
+A generic suite is a group of URLs and views, which are controlled by the 
+``GenericSuite`` class. Subclassing allows for customization of default
+URLs and views, and can determine which queryset to use. The queryset can
+also be specified when instantiating the site.
+
+in blog.urls:
+
+from skel.blog.models import Entry
+suite = GenericSuite(Entry.objects.all())
+urlpatterns = suite.urls

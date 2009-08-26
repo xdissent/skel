@@ -104,7 +104,9 @@ class DateView(ListView):
         Return a list of template names to be used for the request. Must return
         a list. May not be called if get_template is overridden.
         """        
-        return super(DateView, self).get_template_names(request, items, suffix=self._template_name_suffix)        
+        ts = super(DateView, self).get_template_names(request, items, suffix=self._template_name_suffix)        
+        print ts
+        return ts
         
     def get_dated_items(self, request, *args, **kwargs):
         """

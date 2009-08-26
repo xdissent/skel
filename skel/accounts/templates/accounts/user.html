@@ -24,5 +24,10 @@
     </p>
 
     
-{% firstof object.get_profile.bio_rendered object.get_profile.bio %}
+    {% if object.get_profile.bio_rendered %}
+        {{ object.get_profile.bio_rendered }}
+    {% else %}
+        <p>{{ object.get_profile.bio }}</p>
+    {% endif %}
+
 {% endblock %}

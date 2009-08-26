@@ -1,4 +1,4 @@
-{% load comments tagging_tags %}
+{% load comments tagging_tags comments_tags %}
 
 {% get_comment_count for entry as comment_count %}
 {% tags_for_object entry as tags %}
@@ -38,8 +38,17 @@
     {% else %}
         <p>{{ entry.body }}</p>
     {% endif %}
-    {% include "blog/comments.html" %}
-        
+    
+    {% render_comment_list for entry %}
+
+    {% if entry.comments_enabled %}
+        <h2>Leave a Comment</h2>
+        {% with entry.get_absolute_url as next %}
+            {% render_comment_form for entry %}
+        {% endwith %}
+    {% else %}
+        <p>Comments are disabled for this entry.</p>
+    {% endif %}
 {% endif %}
 
 </div>

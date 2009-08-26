@@ -32,11 +32,7 @@ def do_latest_comments(parser, token):
     if bits [2] != 'as':
         raise template.TemplateSyntaxError("second argument to '%s' tag must be 'as'" % bits[0])
     return LatestCommentsNode('comments.comment', bits[1], bits[3])
-    
-@stringfilter
-def do_md5(value):
-    return md5.new(value).hexdigest()
+
 
 register = template.Library()
 register.tag('get_latest_comments', do_latest_comments)
-register.filter('md5', do_md5)

@@ -12,7 +12,8 @@ class GenericView(object):
             context_processors = None,
             mimetype = 'text/html',
             template_loader = None,
-            template_name = None
+            template_name = None,
+            current_app = None,
         )
         if kwargs:
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % iter(kwargs).next())
@@ -66,6 +67,7 @@ class GenericView(object):
         processors = self.get_context_processors(request, obj)
         if context is None:
             context = {}
+        context['current_app'] = self.current_app
         return RequestContext(request, context, processors)
 
     def get_context_processors(self, request, obj):

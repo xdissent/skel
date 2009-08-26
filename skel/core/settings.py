@@ -1,21 +1,20 @@
 from django.conf import settings
 
-CORE_MARKUP_FLATPAGES = ('django.contrib.flatpages' in settings.INSTALLED_APPS)
+SKEL_CORE_MARKUP_FLATPAGES = ('django.contrib.flatpages' in settings.INSTALLED_APPS)
 
 SKEL_CORE_SERVE_ADMIN = ('django.contrib.admin' in settings.INSTALLED_APPS)
 
-CORE_USE_TAGS = ('tagging' in settings.INSTALLED_APPS)
+SKEL_CORE_TAGGING_ENABLED = ('tagging' in settings.INSTALLED_APPS)
 
 SKEL_CORE_SERVE_MEDIA = False
 
-CORE_AJAXABLE_TEMPLATE_SUFFIX = '_xhr'
+SKEL_CORE_AJAXABLE_SUFFIX = '_xhr'
 
-CORE_VALIDATE_RESPONSE = settings.DEBUG
+SKEL_CORE_SERVE_SITEMAP = ('django.contrib.sitemaps' in settings.INSTALLED_APPS)
 
-CORE_VALIDATE_RESPONSE_OPTIONS = {
-    'doctype': 'strict',
-    'output_xhtml': True,
-    'input_encoding': 'utf8',
-}
+SKEL_CORE_DEBUG_TOOLBAR_ENABLED = ('debug_toolbar' in settings.INSTALLED_APPS)
+
+SKEL_CORE_HANDLER_500 = 'skel.core.views.server_error'
+
 
 CORE_USE_REGISTRATION = ('registration' in settings.INSTALLED_APPS)

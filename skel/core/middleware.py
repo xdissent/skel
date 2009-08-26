@@ -1,57 +1,48 @@
 from django.core.exceptions import MiddlewareNotUsed
-from django.http import HttpResponse, HttpResponseServerError
-from django.template import Context, Template
-from skel.core.utils import render_into_response
-from skel.core import settings
-
 
 class PoliteMiddleware(object):
+    """A base class that makes it easy to conditionally run a middleware."""
     def __init__(self):
+        """Initialize the middleware and discard it if appropriate."""
         if not self._should_use():
             raise MiddlewareNotUsed
 
+    def process_request(self, request):
+        """Process the request conditionally."""
+        if not self._should_process_request(request):
+            return None
+        return self._process_request(request)
+
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        """Process the view conditionally."""
+        if not self._should_process_view(request, view_func, view_args, 
+                                         view_kwargs):
+            return None
+        return self.process_view(request, view_func, view_args, view_kwargs)
+        
     def process_response(self, request, response):
+        """Process the response conditionally."""
         if not self._should_process_response(request, response):
             return response
         return self._process_response(request, response)
         
     def _should_use(self):
-        return True
+        return False
+        
+    def _should_process_request(self, request):
+        return False
     
+    def _should_process_view(self, request, view_func, view_args, view_kwargs):
+        return False
+        
     def _should_process_response(self, request, response):
-        return True
+        return False
                 
-    def _process_response(self, request, response):
+    def _process_request(self, request):
         raise NotImplementedError
         
-
-class HTMLValidationMiddleware(PoliteMiddleware):
-    def _should_use(self):
-        return settings.CORE_VALIDATE_RESPONSE
-        
-    def _should_process_response(self, request, response):
-        return (type(response) == HttpResponse and
-                not request.is_ajax() and
-                'html' in response['Content-Type'] and
-                'disable-validation' not in request.GET and
-                not request.path.startswith('/admin/') and
-                request.META['REMOTE_ADDR'] in settings.INTERNAL_IPS)
+    def _process_view(self, request, view_func, view_args, view_kwargs):
+        raise NotImplementedError
         
     def _process_response(self, request, response):
-        import tidy
-        
-        parsed = tidy.parseString(response.content, 
-                                  settings.CORE_VALIDATE_RESPONSE_OPTIONS)
-        if not parsed.errors:
-            return response
-
-        lines = []
-        error_dict = dict(map(lambda e: (e.line, e.message), parsed.errors))
-        for i, line in enumerate(response.content.split('\n')):
-            lines.append((line, error_dict.get(i + 1, False)))
-
-        response.content = str(parsed)
-        render_into_response(response, 'core/validator_head.html', 
-                             target='head', position='last')
-        return render_into_response(response, 'core/validator.html', 
-                                    {'parsed': parsed, 'lines': lines})
+        raise NotImplementedError
